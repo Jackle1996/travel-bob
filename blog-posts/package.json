@@ -1,0 +1,35 @@
+{
+  "name": "blog-posts",
+  "version": "1.0.0",
+  "description": "Bobs blog posts as a service.",
+  "main": "src/app.ts",
+  "scripts": {
+    "clean": "rimraf build",
+    "prebuild": "npm run clean",
+    "build": "tsc",
+    "prestart": "npm run build",
+    "start": "node ./build/app.js",
+    "test": "jest",
+    "predev": "npm run clean",
+    "dev": "concurrently \"npm run tsc-watch\" \"npm run nodemon\"",
+    "prenodemon": "wait-on ./build/app.js",
+    "nodemon": "nodemon --delay 1500ms \"./build/app.js\"",
+    "tsc-watch": "tsc -w",
+    "lint": "tsc --noEmit && eslint \"*/**/*.{js,ts}\" --quiet --fix"
+  },
+  "author": "Jackle1996 & eddex",
+  "dependencies": {},
+  "devDependencies": {
+    "@types/jest": "^24.0.16",
+    "@typescript-eslint/eslint-plugin": "^1.12.0",
+    "@typescript-eslint/parser": "^1.12.0",
+    "concurrently": "^3.1.0",
+    "jest": "^24.8.0",
+    "nodemon": "^1.11.0",
+    "rimraf": "^2.5.4",
+    "ts-jest": "^24.0.2",
+    "eslint": "^5.0.0",
+    "typescript": "^3.5.2",
+    "wait-on": "^3.3.0"
+  }
+}
