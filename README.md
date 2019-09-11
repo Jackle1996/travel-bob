@@ -25,4 +25,4 @@ protoc.exe [OPTIONS]
 protoc --proto_path="../travel-bob/protos" --js_out="../travel-bob/protos" "../travel-bob/protos/blogposts.proto"
 
 ##### Full Command for Javascript&Typescript
-protoc --plugin=protoc-gen-ts="D:\Studium\WEBLAB\travel-bob\protos\node_modules\.bin\protoc-gen-ts.cmd" --proto_path="../travel-bob/protos" --js_out="../travel-bob/protos" --ts_out="../travel-bob/frontend/src/app/grpc_generated" "../travel-bob/protos/blogposts.proto"
+protoc --plugin=protoc-gen-ts="D:\Studium\WEBLAB\travel-bob\protos\node_modules\.bin\protoc-gen-ts.cmd" --proto_path="../travel-bob/protos" --js_out="../travel-bob/protos" --ts_out="../travel-bob/protos" "../travel-bob/protos/blogposts.proto"
