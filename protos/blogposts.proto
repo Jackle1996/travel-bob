@@ -1,3 +1,7 @@
+syntax = "proto3";
+
+package travelbob.blogs;
+
 service Blogs {
   // Obtains all blogs.
   rpc GetAllBlogs(AllBlogsRequest) returns (AllBlogsReply) {}
