@@ -5,10 +5,8 @@ package travelbob.blogs;
 service Blogs {
   // Obtains all blogs.
   rpc GetAllBlogs(AllBlogsRequest) returns (AllBlogsReply) {}
-  // Obtains a blog by it's id.
-  rpc GetBlog(BlogRequest) returns (BlogReply) {}
   // Obtains a blogpost by it's id.
-  rpc GetBlogpost(BlogpostRequest) returns (BlogpostReply) {}
+  rpc GetBlogposts(BlogpostsRequest) returns (BlogpostsReply) {}
 }
 
 message AllBlogsRequest {
@@ -18,12 +16,12 @@ message AllBlogsReply {
   repeated Blog blogs = 1;
 }
 
-message BlogRequest {
-  int32 id = 1;
+message BlogpostsRequest {
+  int32 blogId = 1;
 }
 
-message BlogReply {
-  Blog blog = 1;
+message BlogpostsReply {
+  repeated Blogpost blogposts = 1;
 }
 
 message Blog {
@@ -33,18 +31,10 @@ message Blog {
   string author = 4;
 }
 
-message BlogpostRequest {
-  int32 id = 1;
-}
-
-message BlogpostReply {
-  Blogpost blogpost = 1;
-}
-
 message Blogpost {
   int32 id = 1;
   string headerImageUrl = 2;
   string title = 3;
   string text = 4;
-  string author = 5;
+  int32 blogId = 5;
 }
