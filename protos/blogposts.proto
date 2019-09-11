@@ -1,10 +1,13 @@
 service Blogs {
   // Obtains all blogs.
-  rpc GetAllBlogs() returns (AllBlogsReply) {}
+  rpc GetAllBlogs(AllBlogsRequest) returns (AllBlogsReply) {}
   // Obtains a blog by it's id.
   rpc GetBlog(BlogRequest) returns (BlogReply) {}
   // Obtains a blogpost by it's id.
   rpc GetBlogpost(BlogpostRequest) returns (BlogpostReply) {}
+}
+
+message AllBlogsRequest {
 }
 
 message AllBlogsReply {
