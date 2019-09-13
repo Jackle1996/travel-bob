@@ -27,8 +27,12 @@ message BlogpostsReply {
 message Blog {
   int32 id = 1;
   string blogImageUrl = 2;
-  string name = 3;
+  string description = 3;
   string author = 4;
+  string title = 5;
+  string destination = 6;
+  TravelDate startDate = 7;
+  TravelDate endDate = 8;
 }
 
 message Blogpost {
@@ -37,4 +41,12 @@ message Blogpost {
   string title = 3;
   string text = 4;
   int32 blogId = 5;
+  TravelDate travelDate = 6;
+  string location = 7;
+}
+
+message TravelDate {
+  int32 year = 1;
+  int32 month = 2;
+  int32 day = 3;
 }

@@ -3,6 +3,11 @@
     max-width: 400px;
     margin: 2%;
 }
+
+.blog-card img {
+    width: 400px;
+    height: 400px;
+}
   
 .blog-header-image {
     background-image: url('https://material.angular.io/assets/img/examples/shiba1.jpg');
@@ -12,3 +17,4 @@
 mat-card-title {
     font-size: 25pt;
 }
+

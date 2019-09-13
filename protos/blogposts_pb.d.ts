@@ -90,11 +90,27 @@ export class Blog extends jspb.Message {
   getBlogimageurl(): string;
   setBlogimageurl(value: string): void;
 
-  getName(): string;
-  setName(value: string): void;
+  getDescription(): string;
+  setDescription(value: string): void;
 
   getAuthor(): string;
   setAuthor(value: string): void;
+
+  getTitle(): string;
+  setTitle(value: string): void;
+
+  getDestination(): string;
+  setDestination(value: string): void;
+
+  hasStartdate(): boolean;
+  clearStartdate(): void;
+  getStartdate(): TravelDate | undefined;
+  setStartdate(value?: TravelDate): void;
+
+  hasEnddate(): boolean;
+  clearEnddate(): void;
+  getEnddate(): TravelDate | undefined;
+  setEnddate(value?: TravelDate): void;
 
   serializeBinary(): Uint8Array;
   toObject(includeInstance?: boolean): Blog.AsObject;
@@ -110,8 +126,12 @@ export namespace Blog {
   export type AsObject = {
     id: number,
     blogimageurl: string,
-    name: string,
+    description: string,
     author: string,
+    title: string,
+    destination: string,
+    startdate?: TravelDate.AsObject,
+    enddate?: TravelDate.AsObject,
   }
 }
 
@@ -131,6 +151,14 @@ export class Blogpost extends jspb.Message {
   getBlogid(): number;
   setBlogid(value: number): void;
 
+  hasTraveldate(): boolean;
+  clearTraveldate(): void;
+  getTraveldate(): TravelDate | undefined;
+  setTraveldate(value?: TravelDate): void;
+
+  getLocation(): string;
+  setLocation(value: string): void;
+
   serializeBinary(): Uint8Array;
   toObject(includeInstance?: boolean): Blogpost.AsObject;
   static toObject(includeInstance: boolean, msg: Blogpost): Blogpost.AsObject;
@@ -148,6 +176,36 @@ export namespace Blogpost {
     title: string,
     text: string,
     blogid: number,
+    traveldate?: TravelDate.AsObject,
+    location: string,
+  }
+}
+
+export class TravelDate extends jspb.Message {
+  getYear(): number;
+  setYear(value: number): void;
+
+  getMonth(): number;
+  setMonth(value: number): void;
+
+  getDay(): number;
+  setDay(value: number): void;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): TravelDate.AsObject;
+  static toObject(includeInstance: boolean, msg: TravelDate): TravelDate.AsObject;
+  static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+  static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+  static serializeBinaryToWriter(message: TravelDate, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): TravelDate;
+  static deserializeBinaryFromReader(message: TravelDate, reader: jspb.BinaryReader): TravelDate;
+}
+
+export namespace TravelDate {
+  export type AsObject = {
+    year: number,
+    month: number,
+    day: number,
   }
 }
 

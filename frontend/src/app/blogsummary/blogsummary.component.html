@@ -2,14 +2,12 @@
     <mat-card class="blog-card" >
         <mat-card-header>
             <div mat-card-avatar class="blog-header-image"></div>
-            <mat-card-title>{{blog.getName()}}'s Blog</mat-card-title>
-            <mat-card-subtitle>{{blog.getAuthor()}}</mat-card-subtitle>
+            <mat-card-title>{{blog.getAuthor()}}'s Blog</mat-card-title>
+            <mat-card-subtitle>Travel to {{blog.getDestination()}}</mat-card-subtitle>
         </mat-card-header>
         <img mat-card-image src="{{blog.getBlogimageurl()}}" alt="Blog main image">
         <mat-card-content>
-            <p>
-            This is {{blog.getName()}}'s' Blog. Let's dive in! 
-            </p>
+            <p>{{blog.getDescription()}}</p>
         </mat-card-content>
         <mat-card-actions>
             <button mat-button>VIEW</button>
