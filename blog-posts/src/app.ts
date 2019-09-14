@@ -1,4 +1,4 @@
-import DbAccess from "./db_access";
+import { DbAccess } from "./db_access";
 
 class App {
     logNumber(a: number): void {
@@ -6,7 +6,9 @@ class App {
     }
 
     testCreateBlog(): void {
-        new DbAccess().Connect();
+        let db = new DbAccess();
+        db.Connect();
+        db.Test();
     }
 }
 

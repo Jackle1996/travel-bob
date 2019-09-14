@@ -1,40 +1,58 @@
-import * as mongoose from "mongoose";
-import { EnvProvider } from "./env_provider";
-import { IBlog, Blog } from "./models/Blog";
+import * as mongoose from 'mongoose';
+import { EnvProvider } from './env_provider';
+import { IBlog, Blog } from './models/Blog';
 
-class DbAccess {
+export class DbAccess {
 
+    /*
+     * Connect to the MongoDb instance.
+     * The connection has to be opened before any other method is called.
+     */
     Connect(): void {
 
-        console.log("connect");
+        console.log('Connecting to db..');
         let connectionUri = `mongodb+srv://${EnvProvider.DbUser}:${EnvProvider.DbPassword}@travelbobcluster-on2qn.azure.mongodb.net/test?retryWrites=true&w=majority`;
         mongoose.connect(
             connectionUri,
             { useNewUrlParser: true });
+    }
 
+    /*
+     * Disconnect from the MongoDB.
+     * This method should be called when the app is shut down.
+     */
+    Disconnect(): void {
+        mongoose.disconnect((error?: any) => {
+            if (error) {
+                console.error('Could not disconnect from db:', error);
+            } else {
+                console.log('Disconnected from db.')
+            }
+        });
+    }
+
+    /*
+     * Example usage of the Blog mongoose model.
+     * Creates a new Blog and saves it in the db.
+     */
+    Test(): void {
         var db = mongoose.connection;
         db.on('error', console.error.bind(console, 'connection error:'));
         db.once('open', () => {
-            console.log("connected to the db!");
-            let b = new Blog();
-            b.id = 123;
-            b.blogImageUrl = "https://nowhere.com";
-            b.name = "TestBlog";
-            b.author = "not Bob";
-            b.save((err: any, product: IBlog) => {
+            console.log('Connected to the db!');
+            let blog = new Blog();
+            blog.id = 123;
+            blog.blogImageUrl = 'https://nowhere.com';
+            blog.name = 'TestBlog';
+            blog.author = 'not Bob';
+            blog.save((err: any, blog: IBlog) => {
                 if (err) {
                     console.error(err);
                     return;
                 }
-                console.log(`Blog ${product.name} saved successfully.`);
+                console.log(`Blog ${blog.name} saved successfully.`);
                 db.close();
             });
         });
     }
-
-    Test(): void {
-
-    }
 }
-
-export default DbAccess;
