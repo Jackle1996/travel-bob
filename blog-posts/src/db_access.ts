@@ -24,14 +24,8 @@ export class DbAccess {
      * Disconnect from the MongoDB.
      * This method should be called when the app is shut down.
      */
-    Disconnect(): void {
-        mongoose.disconnect((error?: any) => {
-            if (error) {
-                console.error('Could not disconnect from db:', error);
-            } else {
-                console.log('Disconnected from db.')
-            }
-        });
+    async Disconnect(): Promise<void> {
+        await mongoose.disconnect();
     }
 
     /*

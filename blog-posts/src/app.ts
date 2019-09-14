@@ -14,6 +14,8 @@ class App {
 
         let posts = await dba.GetAllBlogposts(blogs[0].id);
         console.log('posts: ', posts);
+
+        await dba.Disconnect();
     }
 }
 
