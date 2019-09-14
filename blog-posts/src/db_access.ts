@@ -1,16 +1,15 @@
-import { Mongoose } from "mongoose";
+import * as mongoose from "mongoose";
 import { EnvProvider } from "./env_provider";
 import { IBlog, Blog } from "./models/Blog";
-
-const mongoose = new Mongoose();
 
 class DbAccess {
 
     Connect(): void {
 
         console.log("connect");
+        let connectionUri = `mongodb+srv://${EnvProvider.DbUser}:${EnvProvider.DbPassword}@travelbobcluster-on2qn.azure.mongodb.net/test?retryWrites=true&w=majority`;
         mongoose.connect(
-            `mongodb+srv://${EnvProvider.DbUser}:${EnvProvider.DbPassword}@travelbobcluster-on2qn.azure.mongodb.net/test?retryWrites=true&w=majority`,
+            connectionUri,
             { useNewUrlParser: true });
 
         var db = mongoose.connection;
@@ -28,6 +27,7 @@ class DbAccess {
                     return;
                 }
                 console.log(`Blog ${product.name} saved successfully.`);
+                db.close();
             });
         });
     }
