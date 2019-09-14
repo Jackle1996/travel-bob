@@ -2,6 +2,9 @@ import * as mongoose from 'mongoose';
 import { EnvProvider } from './env_provider';
 import { IBlog, Blog } from './models/Blog';
 
+/*
+ * Provides functionallity to access the database.
+ */
 export class DbAccess {
 
     /*
@@ -11,10 +14,9 @@ export class DbAccess {
     Connect(): void {
 
         console.log('Connecting to db..');
-        let connectionUri = `mongodb+srv://${EnvProvider.DbUser}:${EnvProvider.DbPassword}@travelbobcluster-on2qn.azure.mongodb.net/test?retryWrites=true&w=majority`;
-        mongoose.connect(
-            connectionUri,
-            { useNewUrlParser: true });
+        let dbName = 'blog-microservice';
+        let connectionUri = `mongodb+srv://${EnvProvider.DbUser}:${EnvProvider.DbPassword}@travelbobcluster-on2qn.azure.mongodb.net/${dbName}?retryWrites=true&w=majority`;
+        mongoose.connect(connectionUri, { useNewUrlParser: true });
     }
 
     /*
@@ -48,9 +50,9 @@ export class DbAccess {
             blog.save((err: any, blog: IBlog) => {
                 if (err) {
                     console.error(err);
-                    return;
+                } else {
+                    console.log(`Blog ${blog.name} saved successfully.`);
                 }
-                console.log(`Blog ${blog.name} saved successfully.`);
                 db.close();
             });
         });
