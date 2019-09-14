@@ -1,6 +1,7 @@
 import * as mongoose from 'mongoose';
 import { EnvProvider } from './env_provider';
 import { IBlog, Blog } from './models/Blog';
+import { IBlogpost, Blogpost } from "./models/Blogpost";
 
 /*
  * Provides functionallity to access the database.
@@ -37,7 +38,7 @@ export class DbAccess {
      * Example usage of the Blog mongoose model.
      * Creates a new Blog and saves it in the db.
      */
-    Test(): void {
+    CreateBlogTest(): void {
         var db = mongoose.connection;
         db.on('error', console.error.bind(console, 'connection error:'));
         db.once('open', () => {
@@ -53,8 +54,22 @@ export class DbAccess {
                 } else {
                     console.log(`Blog ${blog.name} saved successfully.`);
                 }
-                db.close();
+                mongoose.connection.close();
             });
         });
+    }
+
+    /*
+     * Get all blogs from the db.
+     */
+    async GetAllBlogs(): Promise<IBlog[]> {
+        return await Blog.find().exec();
+    }
+
+    /*
+     * Get all blogposts that belong to the specified blog.
+     */
+    async GetAllBlogposts(blogId: Number): Promise<IBlogpost[]> {
+        return await Blogpost.find({ blogId: blogId }).exec();
     }
 }

@@ -5,10 +5,15 @@ class App {
         console.log(a);
     }
 
-    testCreateBlog(): void {
-        let db = new DbAccess();
-        db.Connect();
-        db.Test();
+    async testCreateBlog(): Promise<void> {
+        let dba = new DbAccess();
+        dba.Connect();
+        dba.CreateBlogTest();
+        let blogs = await dba.GetAllBlogs();
+        console.log('blogposts:', blogs)
+
+        let posts = await dba.GetAllBlogposts(blogs[0].id);
+        console.log('posts: ', posts);
     }
 }
 
