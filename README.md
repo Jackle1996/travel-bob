@@ -2,6 +2,26 @@
 
 Bob is a traveler of time and space who uses this travel blog to tell the world about his epic quests and journeys to foreign planets, galaxies and dimensions.
 
+## start microservices
+To avoid hardcoding the DB credentials they must be set as environment variables.
+
+PowerShell:
+```
+PS > $env:DB_USER="username"
+PS > $env:DB_PASS="password"
+PS > npm run start
+```
+
+Bash:
+```
+$ DB_USER=user DB_PASS=password npm run start
+```
+
+### Setup and usage
+
+Requirement: `npm install --save @types/node`
+
+Usage (TS): `process.env['DB_USER']`
 
 ## Generate Javascript & Typescript files based on Protobuf API (GRPC)
 use node module [ts-protoc-gen](https://www.npmjs.com/package/ts-protoc-gen) and protoc.exe [OPTIONS]
