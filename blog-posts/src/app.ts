@@ -1,13 +1,15 @@
-import { EnvProvider } from "./env_provider";
-
-const connection = `mongodb+srv://${EnvProvider.DbUser}:${EnvProvider.DbPassword}@travelbobcluster-on2qn.azure.mongodb.net/test?retryWrites=true&w=majority`;
-console.log(connection);
+import DbAccess from "./db_access";
 
 class App {
-    logNumber(a: number) {
+    logNumber(a: number): void {
         console.log(a);
+    }
+
+    testCreateBlog(): void {
+        new DbAccess().Connect();
     }
 }
 
 let app = new App();
 app.logNumber(9999999999999999);
+app.testCreateBlog();
