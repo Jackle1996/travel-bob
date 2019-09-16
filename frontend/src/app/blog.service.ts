@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Blog, TravelDate } from '../../../protos/blogposts_pb';
+import { Blog, TravelDate, Timestamp } from '../../../protos/blogposts_pb';
 
 @Injectable({
   providedIn: 'root'
@@ -12,15 +12,11 @@ export class BlogService {
     const blogs: Blog[] = [];
 
 
-    let startDate: TravelDate = new TravelDate();
-    let endDate: TravelDate = new TravelDate();
+    const startDate: Timestamp = new Timestamp();
+    const endDate: Timestamp = new Timestamp();
 
-    startDate.setDay(2);
-    startDate.setMonth(4);
-    startDate.setYear(2000);
-    endDate.setDay(2);
-    endDate.setMonth(4);
-    endDate.setYear(2000);
+    startDate.setSeconds(1567347502);
+    endDate.setSeconds(1568643502);
 
 
     const blog1 = new Blog();

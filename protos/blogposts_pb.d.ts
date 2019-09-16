@@ -104,13 +104,13 @@ export class Blog extends jspb.Message {
 
   hasStartdate(): boolean;
   clearStartdate(): void;
-  getStartdate(): TravelDate | undefined;
-  setStartdate(value?: TravelDate): void;
+  getStartdate(): Timestamp | undefined;
+  setStartdate(value?: Timestamp): void;
 
   hasEnddate(): boolean;
   clearEnddate(): void;
-  getEnddate(): TravelDate | undefined;
-  setEnddate(value?: TravelDate): void;
+  getEnddate(): Timestamp | undefined;
+  setEnddate(value?: Timestamp): void;
 
   serializeBinary(): Uint8Array;
   toObject(includeInstance?: boolean): Blog.AsObject;
@@ -130,8 +130,8 @@ export namespace Blog {
     author: string,
     title: string,
     destination: string,
-    startdate?: TravelDate.AsObject,
-    enddate?: TravelDate.AsObject,
+    startdate?: Timestamp.AsObject,
+    enddate?: Timestamp.AsObject,
   }
 }
 
@@ -153,8 +153,8 @@ export class Blogpost extends jspb.Message {
 
   hasTraveldate(): boolean;
   clearTraveldate(): void;
-  getTraveldate(): TravelDate | undefined;
-  setTraveldate(value?: TravelDate): void;
+  getTraveldate(): Timestamp | undefined;
+  setTraveldate(value?: Timestamp): void;
 
   getLocation(): string;
   setLocation(value: string): void;
@@ -176,36 +176,28 @@ export namespace Blogpost {
     title: string,
     text: string,
     blogid: number,
-    traveldate?: TravelDate.AsObject,
+    traveldate?: Timestamp.AsObject,
     location: string,
   }
 }
 
-export class TravelDate extends jspb.Message {
-  getYear(): number;
-  setYear(value: number): void;
-
-  getMonth(): number;
-  setMonth(value: number): void;
-
-  getDay(): number;
-  setDay(value: number): void;
+export class Timestamp extends jspb.Message {
+  getSeconds(): number;
+  setSeconds(value: number): void;
 
   serializeBinary(): Uint8Array;
-  toObject(includeInstance?: boolean): TravelDate.AsObject;
-  static toObject(includeInstance: boolean, msg: TravelDate): TravelDate.AsObject;
+  toObject(includeInstance?: boolean): Timestamp.AsObject;
+  static toObject(includeInstance: boolean, msg: Timestamp): Timestamp.AsObject;
   static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
   static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
-  static serializeBinaryToWriter(message: TravelDate, writer: jspb.BinaryWriter): void;
-  static deserializeBinary(bytes: Uint8Array): TravelDate;
-  static deserializeBinaryFromReader(message: TravelDate, reader: jspb.BinaryReader): TravelDate;
+  static serializeBinaryToWriter(message: Timestamp, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): Timestamp;
+  static deserializeBinaryFromReader(message: Timestamp, reader: jspb.BinaryReader): Timestamp;
 }
 
-export namespace TravelDate {
+export namespace Timestamp {
   export type AsObject = {
-    year: number,
-    month: number,
-    day: number,
+    seconds: number,
   }
 }
 
