@@ -44,7 +44,12 @@ use node module [ts-protoc-gen](https://www.npmjs.com/package/ts-protoc-gen) and
 **!!! Due to a bug [issue #15](https://github.com/improbable-eng/ts-protoc-gen/issues/15) the path to the plugin has to be an absolute path!!!**
 
 ##### Full Command for Javascript only
+```
 protoc --proto_path="../travel-bob/protos" --js_out="../travel-bob/protos" "../travel-bob/protos/blogposts.proto"
+```
 
 ##### Full Command for Javascript&Typescript
-protoc --plugin=protoc-gen-ts="C:\Work\Studium\travel-bob\protos\node_modules\.bin\protoc-gen-ts.cmd" --proto_path="../travel-bob/protos" --js_out="import_style=commonjs,binary:../travel-bob/protos" --ts_out="../travel-bob/protos" "../travel-bob/protos/blogposts.proto"
+```shell
+cd /travel-bob/
+./protos/node_modules/.bin/protoc-gen-grpc-ts.cmd --ts_out="service=true:./protos"  --proto_path="./protos"  "./protos/blogposts.proto"
+``` 
