@@ -37,7 +37,7 @@ export class DbAccess {
         db.on('error', console.error.bind(console, 'connection error:'));
         db.once('open', () => {
             console.log('Connected to the db!');
-            let blog = new Blog();
+            let blog: IBlog = new Blog();
             blog.id = 123;
             blog.blogImageUrl = 'https://nowhere.com';
             blog.name = 'TestBlog';
