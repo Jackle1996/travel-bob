@@ -20,6 +20,7 @@
   "author": "Jackle1996 & eddex",
   "dependencies": {
     "@types/node": "^12.7.5",
+    "grpc": "^1.23.3",
     "mongoose": "^5.7.1"
   },
   "devDependencies": {

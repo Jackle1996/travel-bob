@@ -1,4 +1,7 @@
 import { DbAccess } from "./db_access";
+import { Server, ServerCredentials } from "grpc";
+import { IBlog } from "./models/Blog";
+import { IBlogpost } from "./models/Blogpost";
 
 class App {
     logNumber(a: number): void {
@@ -9,10 +12,10 @@ class App {
         let dba = new DbAccess();
         dba.Connect();
         dba.CreateBlogTest();
-        let blogs = await dba.GetAllBlogs();
-        console.log('blogposts:', blogs)
+        let blogs: IBlog[] = await dba.GetAllBlogs();
+        console.log('blog:', blogs)
 
-        let posts = await dba.GetAllBlogposts(blogs[0].id);
+        let posts: IBlogpost[] = await dba.GetAllBlogposts(blogs[0].id);
         console.log('posts: ', posts);
 
         await dba.Disconnect();
