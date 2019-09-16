@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Blog, TravelDate, Timestamp } from '../../../protos/blogposts_pb';
+import { Blog, Timestamp } from '../../../protos/blogposts_pb';
 
 @Injectable({
   providedIn: 'root'
