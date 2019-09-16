@@ -7,7 +7,7 @@ import { BlogService } from '../blog.service';
   styleUrls: ['./blogsummary.component.css']
 })
 export class BlogsummaryComponent implements OnInit {
-  constructor(private blogService: BlogService) {
+  constructor(public blogService: BlogService) {
   }
 
   ngOnInit() {
