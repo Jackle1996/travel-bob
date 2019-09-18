@@ -23,33 +23,56 @@ Requirement: `npm install --save @types/node`
 
 Usage (TS): `process.env['DB_USER']`
 
+-----------------------------
 ## Generate Javascript & Typescript files based on Protobuf API (GRPC)
-use node module [ts-protoc-gen](https://www.npmjs.com/package/ts-protoc-gen) and protoc.exe [OPTIONS]
-[Get protoc releases here](https://github.com/protocolbuffers/protobuf/releases)
+### Setup
+1. Download protoc.exe [Get protoc releases here](https://github.com/protocolbuffers/protobuf/releases)
+2. Download protoc-gen-grpc-web.exe [Get protoc-gen-grpc releases here](https://github.com/grpc/grpc-web/releases)
+3. Make sure that protoc-gen-grpc-web.exe does not have any version info in its name. if it does, remove the version info by renaming the .exe file:
+    - :heavy_check_mark: protoc-gen-grpc-web.exe
+    - :x: protoc-gen-grpc-web-1.0.6-windows-x86_64.exe
+4. Add protoc.exe and protoc-gen-grpc-web.exe to your PATH environment variable
 
-### Params for generating Javascript 
-| params        | description  | 
-| ----------------- |------------- | 
-| --proto_path="DIR" | directory where the protobuf file is | 
-| --js_out="DIR" | directory where the generated javascript files will be placed | 
-| --js_out="**import_style=commonjs,binary:** DIR" | allows your generated typscript module to be imported as you would expect !!! | 
-| "protoFile | has no key=, but you need to tell protoc the file you want to use for code generation |
+### Generate Code
+5. Navigate to folder ../travel-bob/ (project root folder)
+6. Execute command: 
 
-### Additional params for generating typscript 
-| params        | description  
-| ----------------- |------------- 
-| --plugin="plugin" | a plugin which can be loaded by protoc.exe (like protoc-gen-ts.cmd) |
-| --ts_out="DIR" | directory where the generated typescript files will be placed |
-
-**!!! Due to a bug [issue #15](https://github.com/improbable-eng/ts-protoc-gen/issues/15) the path to the plugin has to be an absolute path!!!**
-
-##### Full Command for Javascript only
-```
-protoc --proto_path="../travel-bob/protos" --js_out="../travel-bob/protos" "../travel-bob/protos/blogposts.proto"
+```bash 
+protoc --proto_path=./protos --js_out=import_style=commonjs:./protos --grpc-web_out=import_style=typescript,mode=grpcwebtext:./protos "./protos/blogposts.proto"
 ```
 
-##### Full Command for Javascript&Typescript
-```shell
-cd /travel-bob/
-./protos/node_modules/.bin/protoc-gen-grpc-ts.cmd --ts_out="service=true:./protos"  --proto_path="./protos"  "./protos/blogposts.proto"
-``` 
+-----------------------------
+
+## Usage Grpc Client
+### Import
+```ts
+// import requests, replys and custom data types
+import { Blog, Timestamp, AllBlogsRequest, AllBlogsReply } from '../../../protos/blogposts_pb';
+// import client stub
+import { BlogsClient } from '../../../protos/BlogpostsServiceClientPb';
+```
+
+### Create callbacks
+```ts
+getAllBlogsCallback(err: Error | null, response: AllBlogsReply) {
+    this.blogs = response.getBlogsList();
+}
+```
+
+### Create client
+```ts
+constructor() {
+    const grpcClient: BlogsClient = new BlogsClient('127.0.0.1:53001');
+    grpcClient.getAllBlogs(new AllBlogsRequest(), null, this.getAllBlogsCallback);
+}
+```
+
+-----------------------------
+
+## Usage Server
+TODO
+
+
+
+
+-----------------------------
