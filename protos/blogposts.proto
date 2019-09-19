@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package travelbob.blogs;
 
-service Blogs {
+service BlogsAPI {
   // Obtains all blogs.
   rpc GetAllBlogs(AllBlogsRequest) returns (AllBlogsReply) {}
   // Obtains a blogpost by it's id.

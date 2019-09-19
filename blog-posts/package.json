@@ -19,6 +19,8 @@
   },
   "author": "Jackle1996 & eddex",
   "dependencies": {
+    "@grpc/grpc-js": "^0.5.3",
+    "@grpc/proto-loader": "^0.5.2",
     "@types/node": "^12.7.5",
     "grpc": "^1.23.3",
     "mongoose": "^5.7.1"
