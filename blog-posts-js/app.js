@@ -7,7 +7,7 @@ console.log(envProvider.DbUser);
 let server = grpcHelper.getServer();
 server.bindAsync(
     '0.0.0.0:50051',
-    grpc.ServerCredentials.createInsecure(),
+    grpc.ServerCredentials.createInsecure(), // no SSL
     (err, port) => {
         err ? console.error(err)
             : server.start();

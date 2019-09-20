@@ -10,7 +10,8 @@
   "license": "MIT",
   "dependencies": {
     "@grpc/grpc-js": "^0.5.3",
-    "@grpc/proto-loader": "^0.5.2"
+    "@grpc/proto-loader": "^0.5.2",
+    "mongoose": "^5.7.1"
   },
   "devDependencies": {}
 }
