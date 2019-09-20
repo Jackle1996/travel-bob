@@ -1,4 +1,6 @@
-var grpc = require('@grpc/grpc-js');
+const PROTO_PATH = '../protos/blogposts.proto';
+const grpc = require('@grpc/grpc-js');
+const protoLoader = require('@grpc/proto-loader');
 
 /**
  * @param {!Object} call
@@ -13,39 +15,65 @@ function copyMetadata(call) {
     return response_metadata;
 }
 
+var packageDefinition = protoLoader.loadSync(
+    PROTO_PATH,
+    {
+        keepCase: true,
+        longs: String,
+        enums: String,
+        defaults: true,
+        oneofs: true
+    });
+var protoDescriptor = grpc.loadPackageDefinition(packageDefinition);
+var travelbobBlogs = protoDescriptor.travelbob.blogs;
+
+/**
+ * @param {!Object} call
+ * @param {function():?} callback
+ */
+function doGetAllBlogs (call, callback) {
+
+    let a = {
+        id: 1,
+        blogImageUrl: 'http://2',
+        title: 'haaa3',
+        description: 'yolo!',
+        author: 'me',
+        destination: 'HOE',
+        startDate: {seconds: 123456},
+        endDate: {seconds: 123457}
+    };
+
+    callback(null, {
+        blogs: [a]
+    }, copyMetadata(call));
+}
+
+/**
+ * @param {!Object} call
+ * @param {function():?} callback
+ */
+function doGetBlogposts (call, callback) {
+    let blogId = call.request.blogId;
+    console.log(`GetBlogpostsRequest received for blogId ${blogId}.`);
+    callback(null, {
+        blogposts: []
+    }, copyMetadata(call));
+}
+
 module.exports = {
 
     /**
-     * @param {!Object} call
-     * @param {function():?} callback
+     * Get a new server with the handler functions in this file bound to the
+     * methods it serves.
+     * @return {!Server} The new server object
      */
-    doGetAllBlogs: (call, callback) => {
-
-        let a = {
-            id: 1,
-            blogImageUrl: 'http://2',
-            title: 'haaa3',
-            description: 'yolo!',
-            author: 'me',
-            destination: 'HOE',
-            startDate: {seconds: 123456},
-            endDate: {seconds: 123457}
-        }
-
-        callback(null, {
-            blogs: [a]
-        }, copyMetadata(call));
-    },
-
-    /**
-     * @param {!Object} call
-     * @param {function():?} callback
-     */
-    doGetBlogposts: (call, callback) => {
-        let blogId = call.request.blogId;
-        console.log(`GetBlogpostsRequest received for blogId ${blogId}.`);
-        callback(null, {
-            blogposts: []
-        }, copyMetadata(call));
+    getServer: () => {
+        const server = new grpc.Server();
+        server.addService(travelbobBlogs.BlogsAPI.service, {
+            GetAllBlogs: doGetAllBlogs,
+            GetBlogposts: doGetBlogposts
+        });
+        return server;
     }
 };
