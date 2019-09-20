@@ -1,5 +1,84 @@
-var GrpcServer = require('./grpc_server');
+let PROTO_PATH = '../protos/blogposts.proto';
+var grpc = require('@grpc/grpc-js');
+var protoLoader = require('@grpc/proto-loader');
 
-var server = new GrpcServer();
-server.getServer()
+var packageDefinition = protoLoader.loadSync(
+    PROTO_PATH,
+    {
+        keepCase: true,
+        longs: String,
+        enums: String,
+        defaults: true,
+        oneofs: true
+    });
+var protoDescriptor = grpc.loadPackageDefinition(packageDefinition);
+var travelbobBlogs = protoDescriptor.travelbob.blogs;
 
+/**
+ * @param {!Object} call
+ * @return {!Object} metadata
+ */
+function copyMetadata(call) {
+    var metadata = call.metadata.getMap();
+    var response_metadata = new grpc.Metadata();
+    for (var key in metadata) {
+        response_metadata.set(key, metadata[key]);
+    }
+    return response_metadata;
+}
+
+/**
+ * @param {!Object} call
+ * @param {function():?} callback
+ */
+function doGetAllBlogs(call, callback) {
+
+    let a = {
+        id: 1,
+        blogImageUrl: 'http://2',
+        title: 'haaa3',
+        description: 'yolo!',
+        author: 'me',
+        destination: 'HOE',
+        startDate: {seconds: 123456},
+        endDate: {seconds: 123457}
+      }
+
+    callback(null, {
+        blogs: [a,a,a]
+    }, copyMetadata(call));
+}
+
+/**
+ * @param {!Object} call
+ * @param {function():?} callback
+ */
+function doGetBlogposts(call, callback) {
+    let blogId = call.request.blogId;
+    callback(null, {
+        blogposts: []
+    }, copyMetadata(call));
+}
+
+/**
+ * Get a new server with the handler functions in this file bound to the
+ * methods it serves.
+ * @return {!Server} The new server object
+ */
+function getServer() {
+    var server = new grpc.Server();
+    server.addService(travelbobBlogs.BlogsAPI.service, {
+        GetAllBlogs: doGetAllBlogs,
+        GetBlogposts: doGetBlogposts,
+    });
+    return server;
+}
+
+var server = getServer();
+server.bindAsync(
+    '0.0.0.0:50051',
+    grpc.ServerCredentials.createInsecure(), (err, port) => {
+        err ? console.error(err)
+            : server.start();
+    });
+console.log('server started.');
