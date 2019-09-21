@@ -15,7 +15,7 @@ import {
   BlogpostsReply,
   BlogpostsRequest} from './blogposts_pb';
 
-export class BlogsClient {
+export class BlogsAPIClient {
   client_: grpcWeb.AbstractClientBase;
   hostname_: string;
   credentials_: null | { [index: string]: string; };
@@ -49,7 +49,7 @@ export class BlogsClient {
                response: AllBlogsReply) => void) {
     return this.client_.rpcCall(
       this.hostname_ +
-        '/travelbob.blogs.Blogs/GetAllBlogs',
+        '/travelbob.blogs.BlogsAPI/GetAllBlogs',
       request,
       metadata || {},
       this.methodInfoGetAllBlogs,
@@ -71,7 +71,7 @@ export class BlogsClient {
                response: BlogpostsReply) => void) {
     return this.client_.rpcCall(
       this.hostname_ +
-        '/travelbob.blogs.Blogs/GetBlogposts',
+        '/travelbob.blogs.BlogsAPI/GetBlogposts',
       request,
       metadata || {},
       this.methodInfoGetBlogposts,

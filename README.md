@@ -40,6 +40,10 @@ Usage (TS): `process.env['DB_USER']`
 ```bash 
 protoc --proto_path=./protos --js_out=import_style=commonjs:./protos --grpc-web_out=import_style=typescript,mode=grpcwebtext:./protos "./protos/blogposts.proto"
 ```
+or (should do exactly the same)
+```bash
+protoc -I=./protos ./protos/blogposts.proto --js_out=import_style=commonjs:./protos --grpc-web_out=import_style=typescript,mode=grpcwebtext:./protos
+```
 
 -----------------------------
 
