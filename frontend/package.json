@@ -23,6 +23,7 @@
     "@angular/router": "~8.2.4",
     "google-protobuf": "^3.10.0-rc.1",
     "grpc": "^1.23.3",
+    "grpc-web": "^1.0.6",
     "rxjs": "~6.4.0",
     "tslib": "^1.10.0",
     "zone.js": "~0.9.1"

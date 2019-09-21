@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Blog, Timestamp, AllBlogsRequest, AllBlogsReply, BlogpostsRequest, BlogpostsReply } from '../../../protos/blogposts_pb';
-import { BlogsClient } from '../../../protos/BlogpostsServiceClientPb';
+import { BlogsAPIClient } from '../../../protos/BlogpostsServiceClientPb';
+import { Error } from 'grpc-web';
 
 @Injectable({
   providedIn: 'root'
@@ -9,13 +10,16 @@ export class BlogService  {
   blogs: Blog[];
 
   constructor() {
-    const grpcClient: BlogsClient = new BlogsClient('127.0.0.1:53001');
+    const grpcClient: BlogsAPIClient = new BlogsAPIClient('localhost:8080');
     // TODO: use this, when node server is implemented
-    // grpcClient.getAllBlogs(new AllBlogsRequest(), null, this.getAllBlogsCallback);
+    console.log('getAllBlogs..');
+    grpcClient.getAllBlogs(new AllBlogsRequest(), {}, this.getAllBlogsCallback);
   }
 
   getAllBlogsCallback(err: Error | null, response: AllBlogsReply) {
+    if (err) console.log(err);
     this.blogs = response.getBlogsList();
+    console.log(this.blogs);
   }
 
   getAllBlogsDummy(): Blog[] {
