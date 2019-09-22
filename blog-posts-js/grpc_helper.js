@@ -36,11 +36,11 @@ function doGetAllBlogs (call, callback) {
     console.log('doGetAllBlogs');
     let a = {
         id: 1,
-        blogImageUrl: 'http://2',
+        blogImageUrl: 'http://2.com',
         title: 'haaa3',
         description: 'yolo!',
         author: 'me',
-        destination: 'HOE',
+        destination: 'HOME',
         startDate: {seconds: 123456},
         endDate: {seconds: 123457}
     };
