@@ -10,16 +10,14 @@ export class BlogService  {
   blogs: Blog[];
 
   constructor() {
-    const grpcClient: BlogsAPIClient = new BlogsAPIClient('localhost:8080');
+    const grpcClient: BlogsAPIClient = new BlogsAPIClient('http://localhost:8080', null, null);
     // TODO: use this, when node server is implemented
     console.log('getAllBlogs..');
-    grpcClient.getAllBlogs(new AllBlogsRequest(), {}, this.getAllBlogsCallback);
-  }
-
-  getAllBlogsCallback(err: Error | null, response: AllBlogsReply) {
-    if (err) console.log(err);
-    this.blogs = response.getBlogsList();
-    console.log(this.blogs);
+    grpcClient.getAllBlogs(new AllBlogsRequest(), {}, (err: Error | null, response: AllBlogsReply) => {
+      if (err) { console.log(err); }
+      this.blogs = response.getBlogsList();
+      console.log(this.blogs);
+    });
   }
 
   getAllBlogsDummy(): Blog[] {
