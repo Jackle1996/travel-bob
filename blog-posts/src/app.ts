@@ -1,8 +1,8 @@
 import { DbAccess } from "./db_access";
-import { ServerCredentials } from "grpc";
+import { ServerCredentials, Server } from "grpc";
 import { IBlog } from "./models/Blog";
 import { IBlogpost } from "./models/Blogpost";
-import { GrpcServer } from './grpc_server';
+import { BlogsAPI, BlogsAPIService } from './grpc_server';
 
 class App {
     logNumber(a: number): void {
@@ -23,13 +23,14 @@ class App {
     }
 
     CreateGrpcServer() {
-        let server = GrpcServer.getServer();
-        server.bindAsync(
-            '0.0.0.0:9090', ServerCredentials.createInsecure(), (err, port) => {
-                err
-                    ? console.error(err)
-                    : server.start();
-            });
+        const server: Server = new Server();
+        server.addService(BlogsAPIService, new BlogsAPI());
+
+        const serverPort = '0.0.0.0:9090';
+        server.bind(serverPort, ServerCredentials.createInsecure());
+        server.start();
+
+        console.log(`gRPC server started at ${serverPort}.`)
     }
 }
 

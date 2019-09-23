@@ -1,56 +1,46 @@
-let PROTO_PATH = '../../protos/blogposts.proto';
-var grpc = require('@grpc/grpc-js');
-var protoLoader = require('@grpc/proto-loader');
+import { Server, ServerUnaryCall, sendUnaryData, handleUnaryCall } from "grpc";
 
-var packageDefinition = protoLoader.loadSync(
-    PROTO_PATH,
-    {
-        keepCase: true,
-        longs: String,
-        enums: String,
-        defaults: true,
-        oneofs: true
-    });
-var protoDescriptor = grpc.loadPackageDefinition(packageDefinition);
-var travelbobBlogs = protoDescriptor.travelbob.blogs;
+import { IBlogsAPIServer, BlogsAPIService } from "../../api/grpc-ts/blogposts_grpc_pb";
+import { AllBlogsRequest, AllBlogsReply, BlogpostsRequest, BlogpostsReply, Blog, Blogpost, Timestamp } from "../../api/grpc-ts/blogposts_pb";
 
-class GrpcServer {
+class BlogsAPI implements IBlogsAPIServer {
 
-    constructor() { }
-
-    /**
-     * @param {!Object} call
-     * @param {function():?} callback
+    /*
+     * Returns a list of all blogs in the database.
      */
-    doGetAllBlogs = function (call, callback) {
-        callback(null, {
-            blogs: []
-        }, copyMetadata(call));
-    };
+    public getAllBlogs(call: ServerUnaryCall<AllBlogsRequest>, callback: sendUnaryData<AllBlogsReply>): void {
 
-    /**
-     * @param {!Object} call
-     * @param {function():?} callback
-     */
-    doGetBlogposts = function (call, callback) {
-        let blogId = call.request.blogId;
-        callback(null, {
-            blogposts: []
-        }, copyMetadata(call));
-    };
+        console.log('doGetAllBlogs');
+        let fakeBlog: Blog = new Blog();
+        fakeBlog.setId(1);
+        fakeBlog.setBlogimageurl('https://test.ch/1.jpg');
+        fakeBlog.setTitle('This is a fake blog!');
+        fakeBlog.setDescription('This blog is veri gud, you can trust me.')
+        fakeBlog.setAuthor('me');
+        fakeBlog.setDestination('HOME');
+        let startDate: Timestamp = new Timestamp();
+        startDate.setSeconds(1234567);
+        fakeBlog.setStartdate(startDate);
+        let endDate: Timestamp = new Timestamp();
+        endDate.setSeconds(1234568);
+        fakeBlog.setEnddate(endDate);
 
-    /**
-     * Get a new server with the handler functions in this file bound to the
-     * methods it serves.
-     * @return {!Server} The new server object
+        let reply: AllBlogsReply = new AllBlogsReply();
+        let blogList: Blog[] = [fakeBlog];
+        reply.setBlogsList(blogList);
+
+        callback(null, reply);
+    }
+
+    /*
+     * Returns a list of all blogposts in the database that belong to the provided blog.
      */
-    getServer = function () {
-        var server = new grpc.Server();
-        server.addService(travelbobBlogs.BlogsAPI.service, {
-            GetAllBlogs: doGetAllBlogs,
-            GetBlogposts: doGetBlogposts,
-        });
-        return server;
-    };
+    public getBlogposts(call: ServerUnaryCall<BlogpostsRequest>, callback: sendUnaryData<BlogpostsReply>): void {
+
+    }
 }
-module.exports = GrpcServer;
+
+export {
+    BlogsAPI,
+    BlogsAPIService
+}
