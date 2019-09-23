@@ -33,7 +33,7 @@ Usage (TS): `process.env['DB_USER']`
     - :x: protoc-gen-grpc-web-1.0.6-windows-x86_64.exe
 4. Add protoc.exe and protoc-gen-grpc-web.exe to your PATH environment variable
 
-### Generate Code
+### Generate gRPC-Web Code for Frontend
 5. Navigate to folder ../travel-bob/ (project root folder)
 6. Execute command: 
 
@@ -42,7 +42,18 @@ protoc --proto_path=./protos --js_out=import_style=commonjs:./protos --grpc-web_
 ```
 or (should do exactly the same)
 ```bash
-protoc -I=./protos ./protos/blogposts.proto --js_out=import_style=commonjs:./protos --grpc-web_out=import_style=typescript,mode=grpcwebtext:./protos
+protoc -I="./protos" ./protos/blogposts.proto --js_out=import_style=commonjs:./api/grpc-web-ts --grpc-web_out=import_style=typescript,mode=grpcwebtext:./api/grpc-web-ts
+```
+
+### Generate gRPC code for backend services
+5. Navigate to folder ../travel-bob/ (project root folder)
+6. Execute: 
+
+```bash
+npm i
+npm i -g grpc-tools
+
+grpc_tools_node_protoc -I="./protos" ./protos/blogposts.proto --plugin=protoc-gen-ts=$($(Get-Location).ToString())/node_modules/.bin/protoc-gen-ts.cmd --grpc_out=./api/grpc-ts --js_out=import_style=commonjs:./api/grpc-ts --ts_out=./api/grpc-ts
 ```
 
 -----------------------------
