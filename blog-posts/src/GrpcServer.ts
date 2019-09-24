@@ -1,6 +1,6 @@
 import { Server, ServerUnaryCall, sendUnaryData, ServiceError } from "grpc";
 
-import { DbAccess } from "./db_access";
+import { DbAccess } from "./DatabaseAccess";
 import { IBlog } from "./models/Blog";
 import { IBlogpost } from "./models/Blogpost";
 

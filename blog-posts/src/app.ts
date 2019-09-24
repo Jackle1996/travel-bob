@@ -1,5 +1,5 @@
 import { ServerCredentials, Server } from "grpc";
-import { BlogsAPI, BlogsAPIService } from './grpc_server';
+import { BlogsAPI, BlogsAPIService } from './GrpcServer';
 
 class App {
     logNumber(a: number): void {

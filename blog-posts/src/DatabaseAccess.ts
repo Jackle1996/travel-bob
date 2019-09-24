@@ -1,5 +1,5 @@
 import * as mongoose from 'mongoose';
-import { EnvProvider } from './env_provider';
+import { EnvProvider } from './EnvProvider';
 import { IBlog, Blog } from './models/Blog';
 import { IBlogpost, Blogpost } from "./models/Blogpost";
 
