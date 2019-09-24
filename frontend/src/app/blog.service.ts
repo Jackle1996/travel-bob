@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { Blog, Timestamp, AllBlogsRequest, AllBlogsReply, BlogpostsRequest, BlogpostsReply } from '../../../protos/blogposts_pb';
-import { BlogsAPIClient } from '../../../protos/BlogpostsServiceClientPb';
+import { Blog, Timestamp, AllBlogsRequest, AllBlogsReply, BlogpostsRequest, BlogpostsReply } from '../../../api/grpc-web-ts/blogposts_pb';
+import { BlogsAPIClient } from '../../../api/grpc-web-ts/BlogpostsServiceClientPb';
 import { Error } from 'grpc-web';
 
 @Injectable({
