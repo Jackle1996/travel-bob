@@ -17,7 +17,7 @@ export class DbAccess {
         console.log('Connecting to db..');
         let dbName = 'blog-microservice';
         let connectionUri = `mongodb+srv://${EnvProvider.DbUser}:${EnvProvider.DbPassword}@travelbobcluster-on2qn.azure.mongodb.net/${dbName}?retryWrites=true&w=majority`;
-        mongoose.connect(connectionUri, { useNewUrlParser: true });
+        mongoose.connect(connectionUri, { useNewUrlParser: true, useUnifiedTopology: true });
     }
 
     /*

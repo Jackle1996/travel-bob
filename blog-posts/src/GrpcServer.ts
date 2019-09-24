@@ -17,14 +17,18 @@ import {
 class BlogsAPI implements IBlogsAPIServer {
 
     /*
+     * Initializes a new instance of the BlogsAPI.
+     */
+    constructor(private dbAccess: DbAccess) { }
+
+    /*
      * Returns a list of all blogs in the database.
      */
     public async getAllBlogs(call: ServerUnaryCall<AllBlogsRequest>, callback: sendUnaryData<AllBlogsReply>): Promise<void> {
 
         console.log('BlogsAPI.doGetAllBlogs()');
-        let dba = new DbAccess();
-        dba.Connect();
-        let blogsFromDb: IBlog[] = await dba.GetAllBlogs();
+
+        let blogsFromDb: IBlog[] = await this.dbAccess.GetAllBlogs();
 
         let fakeBlog: Blog = new Blog();
         fakeBlog.setId(1);
@@ -45,8 +49,6 @@ class BlogsAPI implements IBlogsAPIServer {
         reply.setBlogsList(blogList);
 
         callback(null, reply);
-
-        await dba.Disconnect();
     }
 
     /*
@@ -55,11 +57,9 @@ class BlogsAPI implements IBlogsAPIServer {
     public async getBlogposts(call: ServerUnaryCall<BlogpostsRequest>, callback: sendUnaryData<BlogpostsReply>): Promise<void> {
 
         console.log('BlogsAPI.getBlogposts()');
-        let dba = new DbAccess();
-        dba.Connect();
 
         let blogId = call.request.getBlogid();
-        let postsFromDb: IBlogpost[] = await dba.GetAllBlogposts(blogId);
+        let postsFromDb: IBlogpost[] = await this.dbAccess.GetAllBlogposts(blogId);
         console.log(`Found ${postsFromDb.length} posts for blog ${blogId}.`);
 
         let postsForResponse: Blogpost[] = new Array<Blogpost>();
@@ -79,8 +79,6 @@ class BlogsAPI implements IBlogsAPIServer {
         reply.setBlogpostsList(postsForResponse);
 
         callback(null, reply);
-
-        await dba.Disconnect();
     }
 
     /**
