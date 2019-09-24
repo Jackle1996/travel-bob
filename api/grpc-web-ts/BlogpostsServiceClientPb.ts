@@ -13,7 +13,11 @@ import {
   AllBlogsReply,
   AllBlogsRequest,
   BlogpostsReply,
-  BlogpostsRequest} from './blogposts_pb';
+  BlogpostsRequest,
+  CreateBlogReply,
+  CreateBlogRequest,
+  CreateBlogpostReply,
+  CreateBlogpostRequest} from './blogposts_pb';
 
 export class BlogsAPIClient {
   client_: grpcWeb.AbstractClientBase;
@@ -75,6 +79,50 @@ export class BlogsAPIClient {
       request,
       metadata || {},
       this.methodInfoGetBlogposts,
+      callback);
+  }
+
+  methodInfoCreateBlog = new grpcWeb.AbstractClientBase.MethodInfo(
+    CreateBlogReply,
+    (request: CreateBlogRequest) => {
+      return request.serializeBinary();
+    },
+    CreateBlogReply.deserializeBinary
+  );
+
+  createBlog(
+    request: CreateBlogRequest,
+    metadata: grpcWeb.Metadata | null,
+    callback: (err: grpcWeb.Error,
+               response: CreateBlogReply) => void) {
+    return this.client_.rpcCall(
+      this.hostname_ +
+        '/travelbob.blogs.BlogsAPI/CreateBlog',
+      request,
+      metadata || {},
+      this.methodInfoCreateBlog,
+      callback);
+  }
+
+  methodInfoCreateBlogpost = new grpcWeb.AbstractClientBase.MethodInfo(
+    CreateBlogpostReply,
+    (request: CreateBlogpostRequest) => {
+      return request.serializeBinary();
+    },
+    CreateBlogpostReply.deserializeBinary
+  );
+
+  createBlogpost(
+    request: CreateBlogpostRequest,
+    metadata: grpcWeb.Metadata | null,
+    callback: (err: grpcWeb.Error,
+               response: CreateBlogpostReply) => void) {
+    return this.client_.rpcCall(
+      this.hostname_ +
+        '/travelbob.blogs.BlogsAPI/CreateBlogpost',
+      request,
+      metadata || {},
+      this.methodInfoCreateBlogpost,
       callback);
   }
 
