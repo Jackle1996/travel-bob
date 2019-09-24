@@ -72,6 +72,74 @@ export namespace BlogpostsReply {
   }
 }
 
+export class CreateBlogRequest extends jspb.Message {
+  getBlog(): Blog | undefined;
+  setBlog(value?: Blog): void;
+  hasBlog(): boolean;
+  clearBlog(): void;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): CreateBlogRequest.AsObject;
+  static toObject(includeInstance: boolean, msg: CreateBlogRequest): CreateBlogRequest.AsObject;
+  static serializeBinaryToWriter(message: CreateBlogRequest, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): CreateBlogRequest;
+  static deserializeBinaryFromReader(message: CreateBlogRequest, reader: jspb.BinaryReader): CreateBlogRequest;
+}
+
+export namespace CreateBlogRequest {
+  export type AsObject = {
+    blog?: Blog.AsObject,
+  }
+}
+
+export class CreateBlogReply extends jspb.Message {
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): CreateBlogReply.AsObject;
+  static toObject(includeInstance: boolean, msg: CreateBlogReply): CreateBlogReply.AsObject;
+  static serializeBinaryToWriter(message: CreateBlogReply, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): CreateBlogReply;
+  static deserializeBinaryFromReader(message: CreateBlogReply, reader: jspb.BinaryReader): CreateBlogReply;
+}
+
+export namespace CreateBlogReply {
+  export type AsObject = {
+  }
+}
+
+export class CreateBlogpostRequest extends jspb.Message {
+  getBlogpost(): Blogpost | undefined;
+  setBlogpost(value?: Blogpost): void;
+  hasBlogpost(): boolean;
+  clearBlogpost(): void;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): CreateBlogpostRequest.AsObject;
+  static toObject(includeInstance: boolean, msg: CreateBlogpostRequest): CreateBlogpostRequest.AsObject;
+  static serializeBinaryToWriter(message: CreateBlogpostRequest, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): CreateBlogpostRequest;
+  static deserializeBinaryFromReader(message: CreateBlogpostRequest, reader: jspb.BinaryReader): CreateBlogpostRequest;
+}
+
+export namespace CreateBlogpostRequest {
+  export type AsObject = {
+    blogpost?: Blogpost.AsObject,
+  }
+}
+
+export class CreateBlogpostReply extends jspb.Message {
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): CreateBlogpostReply.AsObject;
+  static toObject(includeInstance: boolean, msg: CreateBlogpostReply): CreateBlogpostReply.AsObject;
+  static serializeBinaryToWriter(message: CreateBlogpostReply, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): CreateBlogpostReply;
+  static deserializeBinaryFromReader(message: CreateBlogpostReply, reader: jspb.BinaryReader): CreateBlogpostReply;
+}
+
+export namespace CreateBlogpostReply {
+  export type AsObject = {
+  }
+}
+
 export class Blog extends jspb.Message {
   getId(): number;
   setId(value: number): void;

@@ -7,6 +7,10 @@ service BlogsAPI {
   rpc GetAllBlogs(AllBlogsRequest) returns (AllBlogsReply) {}
   // Obtains a blogpost by it's id.
   rpc GetBlogposts(BlogpostsRequest) returns (BlogpostsReply) {}
+  // Create a new blog
+  rpc CreateBlog (CreateBlogRequest) returns (CreateBlogReply);
+  // Create a new blogpost
+  rpc CreateBlogpost (CreateBlogpostRequest) returns (CreateBlogpostReply);
 }
 
 message AllBlogsRequest {
@@ -22,6 +26,20 @@ message BlogpostsRequest {
 
 message BlogpostsReply {
   repeated Blogpost blogposts = 1;
+}
+
+message CreateBlogRequest {
+  Blog blog = 1;
+}
+
+message CreateBlogReply {
+}
+
+message CreateBlogpostRequest {
+  Blogpost blogpost = 1;
+}
+
+message CreateBlogpostReply {
 }
 
 message Blog {
