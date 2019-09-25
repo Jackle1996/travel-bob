@@ -1,27 +1,39 @@
 import { ServerCredentials, Server } from "grpc";
 import { BlogsAPI, BlogsAPIService } from './GrpcServer';
-import { DbAccess } from "./DatabaseAccess";
+import { DatabaseAccess } from "./DatabaseAccess";
+
+const DBA = new DatabaseAccess();
 
 class App {
-    logNumber(a: number): void {
-        console.log(a);
-    }
 
-    StartGrpcServer() {
+    public async StartServer(): Promise<void> {
+
+        let connected = await DBA.Connect();
+        if (!connected) {
+            console.log('[App] DB connection could not be established. Shutting down.')
+            return;
+        }
+
         const server: Server = new Server();
-        let dba = new DbAccess();
-        dba.Connect();
-        server.addService(BlogsAPIService, new BlogsAPI(dba));
+        server.addService(BlogsAPIService, new BlogsAPI(DBA));
 
         const serverPort = '0.0.0.0:9090';
         server.bind(serverPort, ServerCredentials.createInsecure());
         server.start();
 
-        console.log(`gRPC server started at ${serverPort}.`)
-        // TODO: would be whise to call dba.Disconnect() when the server is shut down.
+        console.log(`[App] gRPC server started at ${serverPort}.`);
     }
 }
 
+/*
+ * Listend to CTRL+C to disconnect from the DB when the aplication is closed.
+ */
+process.on('SIGINT', async () => {
+    console.log("[App] Caught interrupt signal.");
+    await DBA.Disconnect()
+    process.exit();
+});
+
 let app = new App();
-app.logNumber(9999999999999999);
-app.StartGrpcServer();
+console.log(9999999999999999);
+app.StartServer();

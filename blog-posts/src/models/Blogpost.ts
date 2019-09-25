@@ -3,13 +3,13 @@ import { Document, Schema, model } from "mongoose";
 /*
  * The interface defines the document type. Used in the code.
  */
-export interface IBlogpost extends Document {
+export interface IDbBlogpost extends Document {
     id: number,
     title: string,
     text: string,
     blogId: number,
     headerImageUrl?: string,
-    travelDate: number,
+    travelDateUnixTimestamp: number,
     location: string
 }
 
@@ -31,4 +31,4 @@ export const BlogpostSchema = new Schema({
 /*
  * The mongoose model for a Blogpost.
  */
-export const Blogpost = model<IBlogpost>('Blogpost', BlogpostSchema);
+export const DbBlogpost = model<IDbBlogpost>('Blogpost', BlogpostSchema);

@@ -3,11 +3,15 @@ import { Document, Schema, model } from "mongoose";
 /*
  * The interface defines the document type. Used in the code.
  */
-export interface IBlog extends Document {
-    id: Number,
-    name: String,
-    blogImageUrl?: String,
-    author: String
+export interface IDbBlog extends Document {
+    id: number,
+    blogImageUrl?: string,
+    description: string,
+    author: string,
+    title: string,
+    destination: string,
+    startUnixTimestamp: number,
+    endUnixTimestamp: number,
 }
 
 /*
@@ -16,13 +20,17 @@ export interface IBlog extends Document {
  *  Otherwise en exception is thrown.
  */
 export const BlogSchema = new Schema({
-    id: {type:Number, required: true},
-    name: {type:String, required: true},
-    blogImageUrl: {type:String, required: false},
-    author: {type:String, required: true},
+    id: { type: Number, required: true },
+    blogImageUrl: { type: String, required: false },
+    description: { type: String, required: true },
+    author: { type: String, required: true },
+    title: { type: String, required: true },
+    destination: { type: String, required: true },
+    startUnixTimestamp: { type: Number, required: true },
+    endUnixTimestamp: { type: Number, required: true },
 });
 
 /*
  * The mongoose model for a Blog.
  */
-export const Blog = model<IBlog>('Blog', BlogSchema);
+export const DbBlog = model<IDbBlog>('Blog', BlogSchema);

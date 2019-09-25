@@ -1,8 +1,8 @@
-import { Server, ServerUnaryCall, sendUnaryData, ServiceError } from "grpc";
+import { ServerUnaryCall, sendUnaryData } from "grpc";
 
-import { DbAccess } from "./DatabaseAccess";
-import { IBlog } from "./models/Blog";
-import { IBlogpost } from "./models/Blogpost";
+import { DatabaseAccess } from "./DatabaseAccess";
+import { IDbBlog } from "./models/Blog";
+import { IDbBlogpost } from "./models/Blogpost";
 
 import { IBlogsAPIServer, BlogsAPIService } from "../../api/grpc-ts/blogposts_grpc_pb";
 import {
@@ -19,16 +19,16 @@ class BlogsAPI implements IBlogsAPIServer {
     /*
      * Initializes a new instance of the BlogsAPI.
      */
-    constructor(private dbAccess: DbAccess) { }
+    constructor(private databaseAccess: DatabaseAccess) { }
 
     /*
      * Returns a list of all blogs in the database.
      */
     public async getAllBlogs(call: ServerUnaryCall<AllBlogsRequest>, callback: sendUnaryData<AllBlogsReply>): Promise<void> {
 
-        console.log('BlogsAPI.doGetAllBlogs()');
+        console.log('[GrpcServer] BlogsAPI.doGetAllBlogs()');
 
-        let blogsFromDb: IBlog[] = await this.dbAccess.GetAllBlogs();
+        let blogsFromDb: IDbBlog[] = await this.databaseAccess.GetAllBlogs();
 
         let fakeBlog: Blog = new Blog();
         fakeBlog.setId(1);
@@ -56,11 +56,11 @@ class BlogsAPI implements IBlogsAPIServer {
      */
     public async getBlogposts(call: ServerUnaryCall<BlogpostsRequest>, callback: sendUnaryData<BlogpostsReply>): Promise<void> {
 
-        console.log('BlogsAPI.getBlogposts()');
+        console.log('[GrpcServer] BlogsAPI.getBlogposts()');
 
         let blogId = call.request.getBlogid();
-        let postsFromDb: IBlogpost[] = await this.dbAccess.GetAllBlogposts(blogId);
-        console.log(`Found ${postsFromDb.length} posts for blog ${blogId}.`);
+        let postsFromDb: IDbBlogpost[] = await this.databaseAccess.GetAllBlogposts(blogId);
+        console.log(`[GrpcServer] Found ${postsFromDb.length} posts for blog ${blogId}.`);
 
         let postsForResponse: Blogpost[] = new Array<Blogpost>();
         postsFromDb.forEach(postFromDb => {
@@ -72,7 +72,7 @@ class BlogsAPI implements IBlogsAPIServer {
             post.setText(postFromDb.text);
             post.setTitle(postFromDb.title);
             let travelDate = new Timestamp();
-            travelDate.setSeconds(postFromDb.travelDate);
+            travelDate.setSeconds(postFromDb.travelDateUnixTimestamp);
             post.setTraveldate(travelDate);
         });
         let reply: BlogpostsReply = new BlogpostsReply();
@@ -84,11 +84,13 @@ class BlogsAPI implements IBlogsAPIServer {
     /**
      * Create a new Blog.
      */
-    public createBlog(call: ServerUnaryCall<CreateBlogRequest>, callback: sendUnaryData<CreateBlogReply>) {
+    public async createBlog(call: ServerUnaryCall<CreateBlogRequest>, callback: sendUnaryData<CreateBlogReply>) {
 
-        console.log('BlogsAPI.createBlog()');
+        console.log('[GrpcServer] BlogsAPI.createBlog()');
 
-        callback(new Error('Not implemented yet.'), new CreateBlogReply());
+        this.databaseAccess.CreateNewBlog(call.request.getBlog());
+
+        callback(null, new CreateBlogReply());
     }
 
     /**
@@ -96,9 +98,9 @@ class BlogsAPI implements IBlogsAPIServer {
      */
     public createBlogpost(call: ServerUnaryCall<CreateBlogpostRequest>, callback: sendUnaryData<CreateBlogpostReply>) {
 
-        console.log('BlogsAPI.createBlogpost()');
+        console.log('[GrpcServer] BlogsAPI.createBlogpost()');
 
-        callback(new Error('Not implemented yet.'), new CreateBlogpostReply());
+        callback(new Error('[GrpcServer] Not implemented yet.'), new CreateBlogpostReply());
     }
 }
 

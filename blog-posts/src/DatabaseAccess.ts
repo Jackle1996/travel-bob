@@ -1,69 +1,93 @@
 import * as mongoose from 'mongoose';
 import { EnvProvider } from './EnvProvider';
-import { IBlog, Blog } from './models/Blog';
-import { IBlogpost, Blogpost } from "./models/Blogpost";
+import { IDbBlog, DbBlog } from './models/Blog';
+import { IDbBlogpost, DbBlogpost } from "./models/Blogpost";
+
+import {
+    Blog, Blogpost,
+    Timestamp
+} from "../../api/grpc-ts/blogposts_pb";
 
 /*
  * Provides functionallity to access the database.
  */
-export class DbAccess {
+export class DatabaseAccess {
 
     /*
      * Connect to the MongoDb instance.
      * The connection has to be opened before any other method is called.
      */
-    Connect(): void {
+    public async Connect(): Promise<Boolean> {
 
-        console.log('Connecting to db..');
+        console.log('[DatabaseAccess] Connecting to db..');
+
+        let connected = false;
         let dbName = 'blog-microservice';
         let connectionUri = `mongodb+srv://${EnvProvider.DbUser}:${EnvProvider.DbPassword}@travelbobcluster-on2qn.azure.mongodb.net/${dbName}?retryWrites=true&w=majority`;
-        mongoose.connect(connectionUri, { useNewUrlParser: true, useUnifiedTopology: true });
+
+        await mongoose.connect(connectionUri, { useNewUrlParser: true, useUnifiedTopology: true }, (err: Error) => {
+
+            err ? console.error('[DatabaseAccess] Error while connecting to mongoDb: ' + err, err)
+                : console.log(`[DatabaseAccess] Connected to db "${dbName}" with user "${EnvProvider.DbUser}".`);
+            connected = !err;
+        }).catch(err =>
+            console.error(`[DatabaseAccess] Mongoose Error: `, err));
+
+        mongoose.connection.on('error', err => {
+            console.error('[DatabaseAccess] Mongoose connection error: ', err);
+        });
+
+        return connected;
     }
 
     /*
      * Disconnect from the MongoDB.
      * This method should be called when the app is shut down.
      */
-    async Disconnect(): Promise<void> {
-        await mongoose.disconnect();
+    public Disconnect(): void {
+
+        console.log('[DatabaseAccess] Disconnecting..');
+        mongoose.disconnect((err) => {
+            err ? console.error(`[DatabaseAccess] Error while disconnecting: `, err)
+                : console.log('[DatabaseAccess] Disconnected.');
+        });
     }
 
-    /*
-     * Example usage of the Blog mongoose model.
-     * Creates a new Blog and saves it in the db.
-     */
-    CreateBlogTest(): void {
-        var db = mongoose.connection;
-        db.on('error', console.error.bind(console, 'connection error:'));
-        db.once('open', () => {
-            console.log('Connected to the db!');
-            let blog: IBlog = new Blog();
-            blog.id = 123;
-            blog.blogImageUrl = 'https://nowhere.com';
-            blog.name = 'TestBlog';
-            blog.author = 'not Bob';
-            blog.save((err: any, blog: IBlog) => {
-                if (err) {
-                    console.error(err);
-                } else {
-                    console.log(`Blog ${blog.name} saved successfully.`);
-                }
-                mongoose.connection.close();
-            });
+    public CreateNewBlog(newBlog: Blog): void {
+
+        console.log(`[DatabaseAccess] Creating new blog "${newBlog.getTitle()}".`);
+
+        const blog: IDbBlog = new DbBlog();
+
+        blog.id = newBlog.getId();
+        blog.blogImageUrl = newBlog.getBlogimageurl();
+        blog.description = newBlog.getDescription();
+        blog.author = newBlog.getAuthor();
+        blog.title = newBlog.getTitle();
+        blog.destination = newBlog.getDestination();
+        blog.startUnixTimestamp = newBlog.getStartdate().getSeconds();
+        blog.endUnixTimestamp = newBlog.getEnddate().getSeconds();
+
+        blog.save((err: any, blog: IDbBlog) => {
+            if (err) {
+                console.error(`[DatabaseAccess] Error while saving new blog: `, err);
+            } else {
+                console.log(`[DatabaseAccess] Blog ${blog.id}: "${blog.title}" saved successfully.`);
+            }
         });
     }
 
     /*
      * Get all blogs from the db.
      */
-    async GetAllBlogs(): Promise<IBlog[]> {
-        return await Blog.find().exec();
+    public async GetAllBlogs(): Promise<IDbBlog[]> {
+        return await DbBlog.find().exec();
     }
 
     /*
      * Get all blogposts that belong to the specified blog.
      */
-    async GetAllBlogposts(blogId: Number): Promise<IBlogpost[]> {
-        return await Blogpost.find({ blogId: blogId }).exec();
+    public async GetAllBlogposts(blogId: Number): Promise<IDbBlogpost[]> {
+        return await DbBlogpost.find({ blogId: blogId }).exec();
     }
 }
