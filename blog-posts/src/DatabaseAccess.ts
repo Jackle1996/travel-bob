@@ -53,22 +53,14 @@ export class DatabaseAccess {
         });
     }
 
-    public CreateNewBlog(newBlog: Blog): void {
+    /*
+     * Save new blog to database.
+     */
+    public CreateNewBlog(newBlog: IDbBlog): void {
 
-        console.log(`[DatabaseAccess] Creating new blog "${newBlog.getTitle()}".`);
+        console.log(`[DatabaseAccess] Creating new blog "${newBlog.title}".`);
 
-        const blog: IDbBlog = new DbBlog();
-
-        blog.id = newBlog.getId();
-        blog.blogImageUrl = newBlog.getBlogimageurl();
-        blog.description = newBlog.getDescription();
-        blog.author = newBlog.getAuthor();
-        blog.title = newBlog.getTitle();
-        blog.destination = newBlog.getDestination();
-        blog.startUnixTimestamp = newBlog.getStartdate().getSeconds();
-        blog.endUnixTimestamp = newBlog.getEnddate().getSeconds();
-
-        blog.save((err: any, blog: IDbBlog) => {
+        newBlog.save((err: any, blog: IDbBlog) => {
             if (err) {
                 console.error(`[DatabaseAccess] Error while saving new blog: `, err);
             } else {
@@ -78,7 +70,23 @@ export class DatabaseAccess {
     }
 
     /*
-     * Get all blogs from the db.
+     * Save new blogpost to database.
+     */
+    public CreateNewBlogpost(newBlogpost: IDbBlogpost): void {
+
+        console.log(`[DatabaseAccess] Creating new blog "${newBlogpost.title}".`);
+
+        newBlogpost.save((err: any, blogpost: IDbBlogpost) => {
+            if (err) {
+                console.error(`[DatabaseAccess] Error while saving new blogpost: `, err);
+            } else {
+                console.log(`[DatabaseAccess] Blogpost ${blogpost.id}: "${blogpost.title}" saved successfully.`);
+            }
+        });
+    }
+
+    /*
+     * Get all blogs from the database.
      */
     public async GetAllBlogs(): Promise<IDbBlog[]> {
         return await DbBlog.find().exec();

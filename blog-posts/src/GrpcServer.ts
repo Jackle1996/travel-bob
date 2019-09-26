@@ -1,9 +1,10 @@
-import { ServerUnaryCall, sendUnaryData } from "grpc";
-
 import { DatabaseAccess } from "./DatabaseAccess";
 import { IDbBlog } from "./models/Blog";
 import { IDbBlogpost } from "./models/Blogpost";
 
+import { DbGrpcMapper } from "./DbToGrpcMapper";
+
+import { ServerUnaryCall, sendUnaryData } from "grpc";
 import { IBlogsAPIServer, BlogsAPIService } from "../../api/grpc-ts/blogposts_grpc_pb";
 import {
     AllBlogsRequest, AllBlogsReply,
@@ -19,7 +20,9 @@ class BlogsAPI implements IBlogsAPIServer {
     /*
      * Initializes a new instance of the BlogsAPI.
      */
-    constructor(private databaseAccess: DatabaseAccess) { }
+    constructor(
+        private databaseAccess: DatabaseAccess,
+        private dbToGrpcMapper: DbGrpcMapper) { }
 
     /*
      * Returns a list of all blogs in the database.
@@ -29,28 +32,9 @@ class BlogsAPI implements IBlogsAPIServer {
         console.log('[GrpcServer] BlogsAPI.doGetAllBlogs()');
 
         let blogsFromDb: IDbBlog[] = await this.databaseAccess.GetAllBlogs();
-        console.log(`[GrpcServer] Found ${blogsFromDb.length} blogs in database.`);
+        console.log(`[GrpcServer] Got ${blogsFromDb.length} blogs from database.`);
 
-        let blogsForResponse: Blog[] = new Array<Blog>();
-        blogsFromDb.forEach(blogFromDb => {
-
-            let blog: Blog = new Blog();
-
-            blog.setId(blogFromDb.id);
-            blog.setBlogimageurl(blogFromDb.blogImageUrl);
-            blog.setDescription(blogFromDb.description);
-            blog.setAuthor(blogFromDb.author);
-            blog.setTitle(blogFromDb.title);
-            blog.setDestination(blogFromDb.destination);
-            let startDate: Timestamp = new Timestamp();
-            startDate.setSeconds(blogFromDb.startUnixTimestamp);
-            blog.setStartdate(startDate);
-            let endDate: Timestamp = new Timestamp();
-            endDate.setSeconds(blogFromDb.endUnixTimestamp);
-            blog.setStartdate(endDate);
-
-            blogsForResponse.push(blog);
-        });
+        let blogsForResponse: Blog[] = this.dbToGrpcMapper.Convert(blogsFromDb);
 
         let reply: AllBlogsReply = new AllBlogsReply();
         reply.setBlogsList(blogsForResponse);
@@ -67,25 +51,10 @@ class BlogsAPI implements IBlogsAPIServer {
 
         let blogId = call.request.getBlogid();
         let postsFromDb: IDbBlogpost[] = await this.databaseAccess.GetAllBlogposts(blogId);
-        console.log(`[GrpcServer] Found ${postsFromDb.length} posts for blog ${blogId} in database.`);
+        console.log(`[GrpcServer] Got ${postsFromDb.length} posts for blog ${blogId} from database.`);
 
-        let postsForResponse: Blogpost[] = new Array<Blogpost>();
-        postsFromDb.forEach(postFromDb => {
+        let postsForResponse: Blogpost[] = this.dbToGrpcMapper.Convert(postsFromDb);
 
-            let post: Blogpost = new Blogpost();
-
-            post.setBlogid(postFromDb.blogId);
-            post.setHeaderimageurl(postFromDb.headerImageUrl);
-            post.setId(postFromDb.id);
-            post.setLocation(postFromDb.location);
-            post.setText(postFromDb.text);
-            post.setTitle(postFromDb.title);
-            let travelDate = new Timestamp();
-            travelDate.setSeconds(postFromDb.travelDateUnixTimestamp);
-            post.setTraveldate(travelDate);
-
-            postsForResponse.push(post);
-        });
         let reply: BlogpostsReply = new BlogpostsReply();
         reply.setBlogpostsList(postsForResponse);
 
@@ -99,7 +68,8 @@ class BlogsAPI implements IBlogsAPIServer {
 
         console.log('[GrpcServer] BlogsAPI.createBlog()');
 
-        this.databaseAccess.CreateNewBlog(call.request.getBlog());
+        const dbBlog: IDbBlog = this.dbToGrpcMapper.Convert(call.request.getBlog());
+        this.databaseAccess.CreateNewBlog(dbBlog);
 
         callback(null, new CreateBlogReply());
     }
@@ -110,6 +80,9 @@ class BlogsAPI implements IBlogsAPIServer {
     public createBlogpost(call: ServerUnaryCall<CreateBlogpostRequest>, callback: sendUnaryData<CreateBlogpostReply>) {
 
         console.log('[GrpcServer] BlogsAPI.createBlogpost()');
+
+        const dbBlogpost: IDbBlogpost = this.dbToGrpcMapper.Convert(call.request.getBlogpost());
+        this.databaseAccess.CreateNewBlogpost(dbBlogpost);
 
         callback(new Error('[GrpcServer] Not implemented yet.'), new CreateBlogpostReply());
     }
