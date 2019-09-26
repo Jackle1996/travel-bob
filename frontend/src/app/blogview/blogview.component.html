@@ -1,1 +1,18 @@
-<p>blogview works!</p>
+<div *ngFor='let post of getAllBlogposts()' class="floatingDiv">
+    <mat-card>
+        <mat-card-header>
+            <mat-card-title>{{post.getTitle()}}'</mat-card-title>
+            <mat-card-subtitle>{{post.getTraveldate()}}, {{post.getLocation()}}</mat-card-subtitle>
+        </mat-card-header>
+        <img mat-card-image src="{{post.getHeaderimageurl()}}" alt="post Header image">
+        <mat-card-content>
+            <p>{{post.getText()}}</p>
+        </mat-card-content>
+        <mat-card-actions>
+            <button mat-raised-button color="accent">
+                Write Comment
+                <mat-icon mat-fab role="img"  aria-hidden="true" >comment</mat-icon>
+            </button>
+        </mat-card-actions>
+    </mat-card>
+</div>
