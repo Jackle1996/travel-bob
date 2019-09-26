@@ -973,7 +973,7 @@ proto.travelbob.blogs.CreateBlogReply.prototype.toObject = function(opt_includeI
  */
 proto.travelbob.blogs.CreateBlogReply.toObject = function(includeInstance, msg) {
   var f, obj = {
-
+    blogid: jspb.Message.getFieldWithDefault(msg, 1, 0)
   };
 
   if (includeInstance) {
@@ -1010,6 +1010,10 @@ proto.travelbob.blogs.CreateBlogReply.deserializeBinaryFromReader = function(msg
     }
     var field = reader.getFieldNumber();
     switch (field) {
+    case 1:
+      var value = /** @type {number} */ (reader.readInt32());
+      msg.setBlogid(value);
+      break;
     default:
       reader.skipField();
       break;
@@ -1039,6 +1043,28 @@ proto.travelbob.blogs.CreateBlogReply.prototype.serializeBinary = function() {
  */
 proto.travelbob.blogs.CreateBlogReply.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
+  f = message.getBlogid();
+  if (f !== 0) {
+    writer.writeInt32(
+      1,
+      f
+    );
+  }
+};
+
+
+/**
+ * optional int32 blogId = 1;
+ * @return {number}
+ */
+proto.travelbob.blogs.CreateBlogReply.prototype.getBlogid = function() {
+  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 1, 0));
+};
+
+
+/** @param {number} value */
+proto.travelbob.blogs.CreateBlogReply.prototype.setBlogid = function(value) {
+  jspb.Message.setProto3IntField(this, 1, value);
 };
 
 
@@ -1221,7 +1247,7 @@ proto.travelbob.blogs.CreateBlogpostReply.prototype.toObject = function(opt_incl
  */
 proto.travelbob.blogs.CreateBlogpostReply.toObject = function(includeInstance, msg) {
   var f, obj = {
-
+    blogpostid: jspb.Message.getFieldWithDefault(msg, 1, 0)
   };
 
   if (includeInstance) {
@@ -1258,6 +1284,10 @@ proto.travelbob.blogs.CreateBlogpostReply.deserializeBinaryFromReader = function
     }
     var field = reader.getFieldNumber();
     switch (field) {
+    case 1:
+      var value = /** @type {number} */ (reader.readInt32());
+      msg.setBlogpostid(value);
+      break;
     default:
       reader.skipField();
       break;
@@ -1287,6 +1317,28 @@ proto.travelbob.blogs.CreateBlogpostReply.prototype.serializeBinary = function()
  */
 proto.travelbob.blogs.CreateBlogpostReply.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
+  f = message.getBlogpostid();
+  if (f !== 0) {
+    writer.writeInt32(
+      1,
+      f
+    );
+  }
+};
+
+
+/**
+ * optional int32 blogpostId = 1;
+ * @return {number}
+ */
+proto.travelbob.blogs.CreateBlogpostReply.prototype.getBlogpostid = function() {
+  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 1, 0));
+};
+
+
+/** @param {number} value */
+proto.travelbob.blogs.CreateBlogpostReply.prototype.setBlogpostid = function(value) {
+  jspb.Message.setProto3IntField(this, 1, value);
 };
 
 

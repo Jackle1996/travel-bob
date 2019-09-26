@@ -114,6 +114,9 @@ export namespace CreateBlogRequest {
 }
 
 export class CreateBlogReply extends jspb.Message { 
+    getBlogid(): number;
+    setBlogid(value: number): void;
+
 
     serializeBinary(): Uint8Array;
     toObject(includeInstance?: boolean): CreateBlogReply.AsObject;
@@ -127,6 +130,7 @@ export class CreateBlogReply extends jspb.Message {
 
 export namespace CreateBlogReply {
     export type AsObject = {
+        blogid: number,
     }
 }
 
@@ -155,6 +159,9 @@ export namespace CreateBlogpostRequest {
 }
 
 export class CreateBlogpostReply extends jspb.Message { 
+    getBlogpostid(): number;
+    setBlogpostid(value: number): void;
+
 
     serializeBinary(): Uint8Array;
     toObject(includeInstance?: boolean): CreateBlogpostReply.AsObject;
@@ -168,6 +175,7 @@ export class CreateBlogpostReply extends jspb.Message {
 
 export namespace CreateBlogpostReply {
     export type AsObject = {
+        blogpostid: number,
     }
 }
 

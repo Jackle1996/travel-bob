@@ -33,6 +33,7 @@ message CreateBlogRequest {
 }
 
 message CreateBlogReply {
+  int32 blogId = 1;
 }
 
 message CreateBlogpostRequest {
@@ -40,6 +41,7 @@ message CreateBlogpostRequest {
 }
 
 message CreateBlogpostReply {
+  int32 blogpostId = 1;
 }
 
 message Blog {
