@@ -24,7 +24,7 @@ export const BlogpostSchema = new Schema({
     text: { type: String, required: true },
     blogId: { type: Number, required: true },
     headerImageUrl: { type: String, required: false },
-    travelDate: { type: Number, required: true },
+    travelDateUnixTimestamp: { type: Number, required: true },
     location: { type: String, required: true },
 });
 

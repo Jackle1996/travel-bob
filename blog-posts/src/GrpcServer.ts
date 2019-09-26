@@ -84,7 +84,7 @@ class BlogsAPI implements IBlogsAPIServer {
         const dbBlogpost: IDbBlogpost = this.dbToGrpcMapper.Convert(call.request.getBlogpost());
         this.databaseAccess.CreateNewBlogpost(dbBlogpost);
 
-        callback(new Error('[GrpcServer] Not implemented yet.'), new CreateBlogpostReply());
+        callback(null, new CreateBlogpostReply());
     }
 }
 
