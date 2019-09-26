@@ -1,5 +1,5 @@
 <div *ngFor='let blog of blogService.getAllBlogsDummy()' class="floatingDiv">
-    <mat-card class="blog-card" >
+    <mat-card>
         <mat-card-header>
             <div mat-card-avatar class="blog-header-image"></div>
             <mat-card-title>{{blog.getAuthor()}}'s Blog</mat-card-title>
@@ -10,7 +10,10 @@
             <p>{{blog.getDescription()}}</p>
         </mat-card-content>
         <mat-card-actions>
-            <button mat-button>VIEW</button>
+            <button mat-raised-button color="primary">
+                View Blog
+                <mat-icon mat-fab role="img"  aria-hidden="true" >pageview</mat-icon>
+            </button>
         </mat-card-actions>
     </mat-card>
 </div>

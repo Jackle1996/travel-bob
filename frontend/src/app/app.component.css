@@ -1,6 +1,6 @@
 @import '@angular/material/prebuilt-themes/deeppurple-amber.css';
 @import "https://fonts.googleapis.com/icon?family=Material+Icons";
 
-.example-spacer {
+.spacer {
     flex: 1 1 auto;
 }
