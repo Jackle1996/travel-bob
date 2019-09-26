@@ -74,7 +74,7 @@ message UpdateBlogReply {
 }
 
 message UpdateBlogpostRequest {
-  Blogpost blogposts = 1;
+  Blogpost blogpost = 1;
 }
 
 message UpdateBlogpostReply {

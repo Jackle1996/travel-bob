@@ -298,10 +298,10 @@ export namespace UpdateBlogReply {
 
 export class UpdateBlogpostRequest extends jspb.Message { 
 
-    hasBlogposts(): boolean;
-    clearBlogposts(): void;
-    getBlogposts(): Blogpost | undefined;
-    setBlogposts(value?: Blogpost): void;
+    hasBlogpost(): boolean;
+    clearBlogpost(): void;
+    getBlogpost(): Blogpost | undefined;
+    setBlogpost(value?: Blogpost): void;
 
 
     serializeBinary(): Uint8Array;
@@ -316,7 +316,7 @@ export class UpdateBlogpostRequest extends jspb.Message {
 
 export namespace UpdateBlogpostRequest {
     export type AsObject = {
-        blogposts?: Blogpost.AsObject,
+        blogpost?: Blogpost.AsObject,
     }
 }
 
