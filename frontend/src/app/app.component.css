@@ -4,3 +4,7 @@
 .spacer {
     flex: 1 1 auto;
 }
+
+span {
+    font-weight: bold;
+}
