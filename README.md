@@ -9,12 +9,12 @@ PowerShell:
 ```
 PS > $env:DB_USER="username"
 PS > $env:DB_PASS="password"
-PS > npm run start
+PS > npm start
 ```
 
 Bash:
 ```
-$ DB_USER=user DB_PASS=password npm run start
+$ DB_USER=user DB_PASS=password npm start
 ```
 
 ### Setup and usage
