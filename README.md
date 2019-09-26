@@ -17,6 +17,16 @@ Bash:
 $ DB_USER=user DB_PASS=password npm start
 ```
 
+### Setup and run Envoy proxy
+
+1. install [Docker](https://www.docker.com/products/docker-desktop)
+2. `cd ./envoy`
+3. `docker build -t travelbob/envoy -f .\envoy.Dockerfile .`
+4. `docker run -d -p 8080:8080 travelbob/envoy`
+
+gRPC uses some features of HTTP/2 that are not yet supported by modern browsers, that's why we need the envoy proxy.
+The envoy proxy translates the HTTP/1.1 calls from grpc-web to HTTP/2 grpc calls.
+
 ### Setup and usage
 
 Requirement: `npm install --save @types/node`

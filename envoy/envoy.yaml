@@ -5,7 +5,7 @@ admin:
 
 static_resources:
   listeners:
-  - name: listener_0
+  - name: travelbob_listener
     address:
       socket_address: { address: 0.0.0.0, port_value: 8080 }
     filter_chains:
@@ -20,9 +20,17 @@ static_resources:
             - name: local_service
               domains: ["*"]
               routes:
-              - match: { prefix: "/" }
+              - match: { prefix: "/travelbob.blogs.BlogsAPI" }
                 route:
                   cluster: blog_service
+                  max_grpc_timeout: 0s
+              - match: { prefix: "/travelbob.comments.CommentsAPI" }
+                route:
+                  cluster: comments_service
+                  max_grpc_timeout: 0s
+              - match: { prefix: "/travelbob.users.UsersAPI" }
+                route:
+                  cluster: user_management_service
                   max_grpc_timeout: 0s
               cors:
                 allow_origin:
@@ -43,3 +51,17 @@ static_resources:
     lb_policy: round_robin
     # win/mac hosts: Use address: host.docker.internal instead of address: localhost in the line below
     hosts: [{ socket_address: { address: host.docker.internal, port_value: 9090 }}]
+  - name: comments_service
+    connect_timeout: 0.25s
+    type: logical_dns
+    http2_protocol_options: {}
+    lb_policy: round_robin
+    # win/mac hosts: Use address: host.docker.internal instead of address: localhost in the line below
+    hosts: [{ socket_address: { address: host.docker.internal, port_value: 9091 }}]
+  - name: user_management_service
+    connect_timeout: 0.25s
+    type: logical_dns
+    http2_protocol_options: {}
+    lb_policy: round_robin
+    # win/mac hosts: Use address: host.docker.internal instead of address: localhost in the line below
+    hosts: [{ socket_address: { address: host.docker.internal, port_value: 9092 }}]
