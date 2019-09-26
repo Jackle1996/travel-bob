@@ -29,24 +29,31 @@ class BlogsAPI implements IBlogsAPIServer {
         console.log('[GrpcServer] BlogsAPI.doGetAllBlogs()');
 
         let blogsFromDb: IDbBlog[] = await this.databaseAccess.GetAllBlogs();
+        console.log(`[GrpcServer] Found ${blogsFromDb.length} blogs in database.`);
 
-        let fakeBlog: Blog = new Blog();
-        fakeBlog.setId(1);
-        fakeBlog.setBlogimageurl('https://test.ch/1.jpg');
-        fakeBlog.setTitle('This is a fake blog!');
-        fakeBlog.setDescription('This blog is veri gud, you can trust me.')
-        fakeBlog.setAuthor('me');
-        fakeBlog.setDestination('HOME');
-        let startDate: Timestamp = new Timestamp();
-        startDate.setSeconds(1234567);
-        fakeBlog.setStartdate(startDate);
-        let endDate: Timestamp = new Timestamp();
-        endDate.setSeconds(1234568);
-        fakeBlog.setEnddate(endDate);
+        let blogsForResponse: Blog[] = new Array<Blog>();
+        blogsFromDb.forEach(blogFromDb => {
+
+            let blog: Blog = new Blog();
+
+            blog.setId(blogFromDb.id);
+            blog.setBlogimageurl(blogFromDb.blogImageUrl);
+            blog.setDescription(blogFromDb.description);
+            blog.setAuthor(blogFromDb.author);
+            blog.setTitle(blogFromDb.title);
+            blog.setDestination(blogFromDb.destination);
+            let startDate: Timestamp = new Timestamp();
+            startDate.setSeconds(blogFromDb.startUnixTimestamp);
+            blog.setStartdate(startDate);
+            let endDate: Timestamp = new Timestamp();
+            endDate.setSeconds(blogFromDb.endUnixTimestamp);
+            blog.setStartdate(endDate);
+
+            blogsForResponse.push(blog);
+        });
 
         let reply: AllBlogsReply = new AllBlogsReply();
-        let blogList: Blog[] = [fakeBlog];
-        reply.setBlogsList(blogList);
+        reply.setBlogsList(blogsForResponse);
 
         callback(null, reply);
     }
@@ -60,11 +67,13 @@ class BlogsAPI implements IBlogsAPIServer {
 
         let blogId = call.request.getBlogid();
         let postsFromDb: IDbBlogpost[] = await this.databaseAccess.GetAllBlogposts(blogId);
-        console.log(`[GrpcServer] Found ${postsFromDb.length} posts for blog ${blogId}.`);
+        console.log(`[GrpcServer] Found ${postsFromDb.length} posts for blog ${blogId} in database.`);
 
         let postsForResponse: Blogpost[] = new Array<Blogpost>();
         postsFromDb.forEach(postFromDb => {
+
             let post: Blogpost = new Blogpost();
+
             post.setBlogid(postFromDb.blogId);
             post.setHeaderimageurl(postFromDb.headerImageUrl);
             post.setId(postFromDb.id);
@@ -74,6 +83,8 @@ class BlogsAPI implements IBlogsAPIServer {
             let travelDate = new Timestamp();
             travelDate.setSeconds(postFromDb.travelDateUnixTimestamp);
             post.setTraveldate(travelDate);
+
+            postsForResponse.push(post);
         });
         let reply: BlogpostsReply = new BlogpostsReply();
         reply.setBlogpostsList(postsForResponse);
