@@ -11,12 +11,11 @@ import {
     BlogpostsRequest, BlogpostsReply,
     CreateBlogRequest, CreateBlogReply,
     CreateBlogpostRequest, CreateBlogpostReply,
-    Blog, Blogpost,
-    Timestamp
+    DeleteBlogRequest, DeleteBlogReply,
+    Blog, Blogpost
 } from "../../api/grpc-ts/blogposts_pb";
 
 class BlogsAPI implements IBlogsAPIServer {
-    deleteBlog: import("grpc").handleUnaryCall<import("../../api/grpc-ts/blogposts_pb").DeleteBlogRequest, import("../../api/grpc-ts/blogposts_pb").DeleteBlogReply>;
 
     /*
      * Initializes a new instance of the BlogsAPI.
@@ -90,6 +89,20 @@ class BlogsAPI implements IBlogsAPIServer {
         const reply: CreateBlogpostReply = new CreateBlogpostReply();
         reply.setBlogpostid(postId);
         callback(null, reply);
+    }
+
+    /**
+     * Delete a blog and al its blogposts.
+     */
+    public async deleteBlog(call: ServerUnaryCall<DeleteBlogRequest>, callback: sendUnaryData<DeleteBlogReply>): Promise<void> {
+
+        console.log('[GrpcServer] BlogsAPI.deleteBlog()');
+
+        const blogId: number = call.request.getBlogid()
+        const ok: boolean = await this.databaseAccess.DeleteBlog(blogId);
+
+        const err: Error = ok ? null : new Error(`Could not delete blog with id ${blogId}.`);
+        callback(err, new DeleteBlogReply());
     }
 }
 

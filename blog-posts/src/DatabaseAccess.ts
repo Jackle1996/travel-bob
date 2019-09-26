@@ -3,11 +3,6 @@ import { EnvProvider } from './EnvProvider';
 import { IDbBlog, DbBlog } from './models/Blog';
 import { IDbBlogpost, DbBlogpost } from "./models/Blogpost";
 
-import {
-    Blog, Blogpost,
-    Timestamp
-} from "../../api/grpc-ts/blogposts_pb";
-
 /*
  * Provides functionallity to access the database.
  */
@@ -105,6 +100,21 @@ export class DatabaseAccess {
      */
     public async GetAllBlogposts(blogId: Number): Promise<IDbBlogpost[]> {
         return await DbBlogpost.find({ blogId: blogId }).exec();
+    }
+
+    /**
+     * Delete a blog and all its blogposts from the database.
+     */
+    public async DeleteBlog(blogId: number): Promise<boolean> {
+        const blogDeleteResult = await DbBlog.deleteOne({ id: blogId }).exec();
+        const ok = blogDeleteResult.deletedCount === 1;
+        if (ok) {
+            const postsDeleteResult = await DbBlogpost.deleteMany({ blogId: blogId }).exec();
+            console.log(`[DatabaseAccess] Deleted blog ${blogId} and its ${postsDeleteResult.deletedCount} blogposts.`)
+        } else {
+            console.error(`[DatabaseAccess] Could not delete blog ${blogId}. Result from db: `, blogDeleteResult);
+        }
+        return ok;
     }
 
     /**
