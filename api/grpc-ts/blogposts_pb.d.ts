@@ -217,6 +217,44 @@ export namespace DeleteBlogReply {
     }
 }
 
+export class DeleteBlogpostRequest extends jspb.Message { 
+    getBlogpostid(): number;
+    setBlogpostid(value: number): void;
+
+
+    serializeBinary(): Uint8Array;
+    toObject(includeInstance?: boolean): DeleteBlogpostRequest.AsObject;
+    static toObject(includeInstance: boolean, msg: DeleteBlogpostRequest): DeleteBlogpostRequest.AsObject;
+    static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+    static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+    static serializeBinaryToWriter(message: DeleteBlogpostRequest, writer: jspb.BinaryWriter): void;
+    static deserializeBinary(bytes: Uint8Array): DeleteBlogpostRequest;
+    static deserializeBinaryFromReader(message: DeleteBlogpostRequest, reader: jspb.BinaryReader): DeleteBlogpostRequest;
+}
+
+export namespace DeleteBlogpostRequest {
+    export type AsObject = {
+        blogpostid: number,
+    }
+}
+
+export class DeleteBlogpostReply extends jspb.Message { 
+
+    serializeBinary(): Uint8Array;
+    toObject(includeInstance?: boolean): DeleteBlogpostReply.AsObject;
+    static toObject(includeInstance: boolean, msg: DeleteBlogpostReply): DeleteBlogpostReply.AsObject;
+    static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+    static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+    static serializeBinaryToWriter(message: DeleteBlogpostReply, writer: jspb.BinaryWriter): void;
+    static deserializeBinary(bytes: Uint8Array): DeleteBlogpostReply;
+    static deserializeBinaryFromReader(message: DeleteBlogpostReply, reader: jspb.BinaryReader): DeleteBlogpostReply;
+}
+
+export namespace DeleteBlogpostReply {
+    export type AsObject = {
+    }
+}
+
 export class Blog extends jspb.Message { 
     getId(): number;
     setId(value: number): void;

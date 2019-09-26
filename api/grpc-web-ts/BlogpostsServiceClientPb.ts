@@ -19,7 +19,9 @@ import {
   CreateBlogpostReply,
   CreateBlogpostRequest,
   DeleteBlogReply,
-  DeleteBlogRequest} from './blogposts_pb';
+  DeleteBlogRequest,
+  DeleteBlogpostReply,
+  DeleteBlogpostRequest} from './blogposts_pb';
 
 export class BlogsAPIClient {
   client_: grpcWeb.AbstractClientBase;
@@ -147,6 +149,28 @@ export class BlogsAPIClient {
       request,
       metadata || {},
       this.methodInfoDeleteBlog,
+      callback);
+  }
+
+  methodInfoDeleteBlogpost = new grpcWeb.AbstractClientBase.MethodInfo(
+    DeleteBlogpostReply,
+    (request: DeleteBlogpostRequest) => {
+      return request.serializeBinary();
+    },
+    DeleteBlogpostReply.deserializeBinary
+  );
+
+  deleteBlogpost(
+    request: DeleteBlogpostRequest,
+    metadata: grpcWeb.Metadata | null,
+    callback: (err: grpcWeb.Error,
+               response: DeleteBlogpostReply) => void) {
+    return this.client_.rpcCall(
+      this.hostname_ +
+        '/travelbob.blogs.BlogsAPI/DeleteBlogpost',
+      request,
+      metadata || {},
+      this.methodInfoDeleteBlogpost,
       callback);
   }
 

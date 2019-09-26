@@ -16,6 +16,7 @@ import {
 } from "../../api/grpc-ts/blogposts_pb";
 
 class BlogsAPI implements IBlogsAPIServer {
+    deleteBlogpost: import("grpc").handleUnaryCall<import("../../api/grpc-ts/blogposts_pb").DeleteBlogpostRequest, import("../../api/grpc-ts/blogposts_pb").DeleteBlogpostReply>;
 
     /*
      * Initializes a new instance of the BlogsAPI.

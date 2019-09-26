@@ -13,6 +13,8 @@ service BlogsAPI {
   rpc CreateBlogpost (CreateBlogpostRequest) returns (CreateBlogpostReply);
   // Delete a blog and its blogposts
   rpc DeleteBlog(DeleteBlogRequest) returns (DeleteBlogReply);
+  // Delete a blogpost
+  rpc DeleteBlogpost(DeleteBlogpostRequest) returns (DeleteBlogpostReply);
 }
 
 message AllBlogsRequest {
@@ -51,6 +53,13 @@ message DeleteBlogRequest {
 }
 
 message DeleteBlogReply {
+}
+
+message DeleteBlogpostRequest {
+  int32 blogpostId = 1;
+}
+
+message DeleteBlogpostReply {
 }
 
 message Blog {
