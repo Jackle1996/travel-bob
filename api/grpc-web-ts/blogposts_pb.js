@@ -2254,7 +2254,7 @@ proto.travelbob.blogs.UpdateBlogpostRequest.prototype.toObject = function(opt_in
  */
 proto.travelbob.blogs.UpdateBlogpostRequest.toObject = function(includeInstance, msg) {
   var f, obj = {
-    blog: (f = msg.getBlog()) && proto.travelbob.blogs.Blogpost.toObject(includeInstance, f)
+    blogposts: (f = msg.getBlogposts()) && proto.travelbob.blogs.Blogpost.toObject(includeInstance, f)
   };
 
   if (includeInstance) {
@@ -2294,7 +2294,7 @@ proto.travelbob.blogs.UpdateBlogpostRequest.deserializeBinaryFromReader = functi
     case 1:
       var value = new proto.travelbob.blogs.Blogpost;
       reader.readMessage(value,proto.travelbob.blogs.Blogpost.deserializeBinaryFromReader);
-      msg.setBlog(value);
+      msg.setBlogposts(value);
       break;
     default:
       reader.skipField();
@@ -2325,7 +2325,7 @@ proto.travelbob.blogs.UpdateBlogpostRequest.prototype.serializeBinary = function
  */
 proto.travelbob.blogs.UpdateBlogpostRequest.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
-  f = message.getBlog();
+  f = message.getBlogposts();
   if (f != null) {
     writer.writeMessage(
       1,
@@ -2337,17 +2337,17 @@ proto.travelbob.blogs.UpdateBlogpostRequest.serializeBinaryToWriter = function(m
 
 
 /**
- * optional Blogpost blog = 1;
+ * optional Blogpost blogposts = 1;
  * @return {?proto.travelbob.blogs.Blogpost}
  */
-proto.travelbob.blogs.UpdateBlogpostRequest.prototype.getBlog = function() {
+proto.travelbob.blogs.UpdateBlogpostRequest.prototype.getBlogposts = function() {
   return /** @type{?proto.travelbob.blogs.Blogpost} */ (
     jspb.Message.getWrapperField(this, proto.travelbob.blogs.Blogpost, 1));
 };
 
 
 /** @param {?proto.travelbob.blogs.Blogpost|undefined} value */
-proto.travelbob.blogs.UpdateBlogpostRequest.prototype.setBlog = function(value) {
+proto.travelbob.blogs.UpdateBlogpostRequest.prototype.setBlogposts = function(value) {
   jspb.Message.setWrapperField(this, 1, value);
 };
 
@@ -2355,8 +2355,8 @@ proto.travelbob.blogs.UpdateBlogpostRequest.prototype.setBlog = function(value) 
 /**
  * Clears the message field making it undefined.
  */
-proto.travelbob.blogs.UpdateBlogpostRequest.prototype.clearBlog = function() {
-  this.setBlog(undefined);
+proto.travelbob.blogs.UpdateBlogpostRequest.prototype.clearBlogposts = function() {
+  this.setBlogposts(undefined);
 };
 
 
@@ -2364,7 +2364,7 @@ proto.travelbob.blogs.UpdateBlogpostRequest.prototype.clearBlog = function() {
  * Returns whether this field is set.
  * @return {boolean}
  */
-proto.travelbob.blogs.UpdateBlogpostRequest.prototype.hasBlog = function() {
+proto.travelbob.blogs.UpdateBlogpostRequest.prototype.hasBlogposts = function() {
   return jspb.Message.getField(this, 1) != null;
 };
 
