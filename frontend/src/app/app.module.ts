@@ -13,6 +13,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 
 // flex layout for responsive design
 import { FlexLayoutModule } from '@angular/flex-layout';
+import { AppRoutingModule } from './app-routing/app-routing.module';
 
 
 @NgModule({
@@ -28,7 +29,8 @@ import { FlexLayoutModule } from '@angular/flex-layout';
     MatButtonModule,
     MatIconModule,
     MatToolbarModule,
-    FlexLayoutModule
+    FlexLayoutModule,
+    AppRoutingModule
   ],
   providers: [],
   bootstrap: [AppComponent]
