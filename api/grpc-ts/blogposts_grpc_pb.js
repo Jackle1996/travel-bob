@@ -92,6 +92,28 @@ function deserialize_travelbob_blogs_CreateBlogpostRequest(buffer_arg) {
   return blogposts_pb.CreateBlogpostRequest.deserializeBinary(new Uint8Array(buffer_arg));
 }
 
+function serialize_travelbob_blogs_DeleteBlogReply(arg) {
+  if (!(arg instanceof blogposts_pb.DeleteBlogReply)) {
+    throw new Error('Expected argument of type travelbob.blogs.DeleteBlogReply');
+  }
+  return Buffer.from(arg.serializeBinary());
+}
+
+function deserialize_travelbob_blogs_DeleteBlogReply(buffer_arg) {
+  return blogposts_pb.DeleteBlogReply.deserializeBinary(new Uint8Array(buffer_arg));
+}
+
+function serialize_travelbob_blogs_DeleteBlogRequest(arg) {
+  if (!(arg instanceof blogposts_pb.DeleteBlogRequest)) {
+    throw new Error('Expected argument of type travelbob.blogs.DeleteBlogRequest');
+  }
+  return Buffer.from(arg.serializeBinary());
+}
+
+function deserialize_travelbob_blogs_DeleteBlogRequest(buffer_arg) {
+  return blogposts_pb.DeleteBlogRequest.deserializeBinary(new Uint8Array(buffer_arg));
+}
+
 
 var BlogsAPIService = exports.BlogsAPIService = {
   // Obtains all blogs.
@@ -141,6 +163,18 @@ var BlogsAPIService = exports.BlogsAPIService = {
     requestDeserialize: deserialize_travelbob_blogs_CreateBlogpostRequest,
     responseSerialize: serialize_travelbob_blogs_CreateBlogpostReply,
     responseDeserialize: deserialize_travelbob_blogs_CreateBlogpostReply,
+  },
+  // Delete a blog and its blogposts
+  deleteBlog: {
+    path: '/travelbob.blogs.BlogsAPI/DeleteBlog',
+    requestStream: false,
+    responseStream: false,
+    requestType: blogposts_pb.DeleteBlogRequest,
+    responseType: blogposts_pb.DeleteBlogReply,
+    requestSerialize: serialize_travelbob_blogs_DeleteBlogRequest,
+    requestDeserialize: deserialize_travelbob_blogs_DeleteBlogRequest,
+    responseSerialize: serialize_travelbob_blogs_DeleteBlogReply,
+    responseDeserialize: deserialize_travelbob_blogs_DeleteBlogReply,
   },
 };
 
