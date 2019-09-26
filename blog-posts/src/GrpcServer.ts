@@ -69,22 +69,26 @@ class BlogsAPI implements IBlogsAPIServer {
         console.log('[GrpcServer] BlogsAPI.createBlog()');
 
         const dbBlog: IDbBlog = this.dbToGrpcMapper.Convert(call.request.getBlog());
-        this.databaseAccess.CreateNewBlog(dbBlog);
+        const blogId: number = await this.databaseAccess.CreateNewBlog(dbBlog);
 
-        callback(null, new CreateBlogReply());
+        const reply: CreateBlogReply = new CreateBlogReply();
+        reply.setBlogid(blogId);
+        callback(null, reply);
     }
 
     /**
      * Create a new Blogpost.
      */
-    public createBlogpost(call: ServerUnaryCall<CreateBlogpostRequest>, callback: sendUnaryData<CreateBlogpostReply>) {
+    public async createBlogpost(call: ServerUnaryCall<CreateBlogpostRequest>, callback: sendUnaryData<CreateBlogpostReply>) {
 
         console.log('[GrpcServer] BlogsAPI.createBlogpost()');
 
         const dbBlogpost: IDbBlogpost = this.dbToGrpcMapper.Convert(call.request.getBlogpost());
-        this.databaseAccess.CreateNewBlogpost(dbBlogpost);
+        const postId: number = await this.databaseAccess.CreateNewBlogpost(dbBlogpost);
 
-        callback(null, new CreateBlogpostReply());
+        const reply: CreateBlogpostReply = new CreateBlogpostReply();
+        reply.setBlogpostid(postId);
+        callback(null, reply);
     }
 }
 

@@ -56,9 +56,11 @@ export class DatabaseAccess {
     /*
      * Save new blog to database.
      */
-    public CreateNewBlog(newBlog: IDbBlog): void {
+    public async CreateNewBlog(newBlog: IDbBlog): Promise<number> {
 
         console.log(`[DatabaseAccess] Creating new blog "${newBlog.title}".`);
+
+        newBlog.id = await this.GetUniqueBlogId();
 
         newBlog.save((err: any, blog: IDbBlog) => {
             if (err) {
@@ -67,14 +69,18 @@ export class DatabaseAccess {
                 console.log(`[DatabaseAccess] Blog ${blog.id}: "${blog.title}" saved successfully.`);
             }
         });
+
+        return newBlog.id;
     }
 
     /*
      * Save new blogpost to database.
      */
-    public CreateNewBlogpost(newBlogpost: IDbBlogpost): void {
+    public async CreateNewBlogpost(newBlogpost: IDbBlogpost): Promise<number> {
 
         console.log(`[DatabaseAccess] Creating new blog "${newBlogpost.title}".`);
+
+        newBlogpost.id = await this.GetUniqueBlogpostId();
 
         newBlogpost.save((err: any, blogpost: IDbBlogpost) => {
             if (err) {
@@ -83,6 +89,8 @@ export class DatabaseAccess {
                 console.log(`[DatabaseAccess] Blogpost ${blogpost.id}: "${blogpost.title}" saved successfully.`);
             }
         });
+
+        return newBlogpost.id;
     }
 
     /*
@@ -97,5 +105,21 @@ export class DatabaseAccess {
      */
     public async GetAllBlogposts(blogId: Number): Promise<IDbBlogpost[]> {
         return await DbBlogpost.find({ blogId: blogId }).exec();
+    }
+
+    /**
+     * Get a unique id for a new blog.
+     */
+    private async GetUniqueBlogId(): Promise<number> {
+        const blogWithMaxId = await DbBlog.findOne().sort('-id').exec();
+        return blogWithMaxId.id + 1;
+    }
+
+    /**
+     * Get a unique id for a new blogpost.
+     */
+    private async GetUniqueBlogpostId(): Promise<number> {
+        const postWithMaxId = await DbBlogpost.findOne().sort('-id').exec();
+        return postWithMaxId.id + 1;
     }
 }
