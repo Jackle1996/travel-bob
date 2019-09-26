@@ -15,6 +15,10 @@ service BlogsAPI {
   rpc DeleteBlog(DeleteBlogRequest) returns (DeleteBlogReply);
   // Delete a blogpost
   rpc DeleteBlogpost(DeleteBlogpostRequest) returns (DeleteBlogpostReply);
+  // Update a blog
+  rpc UpdateBlog(UpdateBlogRequest) returns (UpdateBlogReply);
+  // Update a blogpost
+  rpc UpdateBlogpost(UpdateBlogpostRequest) returns (UpdateBlogpostReply);
 }
 
 message AllBlogsRequest {
@@ -60,6 +64,20 @@ message DeleteBlogpostRequest {
 }
 
 message DeleteBlogpostReply {
+}
+
+message UpdateBlogRequest {
+  Blog blog = 1;
+}
+
+message UpdateBlogReply {
+}
+
+message UpdateBlogpostRequest {
+  Blogpost blog = 1;
+}
+
+message UpdateBlogpostReply {
 }
 
 message Blog {

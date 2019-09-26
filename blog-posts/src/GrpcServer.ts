@@ -17,6 +17,8 @@ import {
 } from "../../api/grpc-ts/blogposts_pb";
 
 class BlogsAPI implements IBlogsAPIServer {
+    updateBlog: import("grpc").handleUnaryCall<import("../../api/grpc-ts/blogposts_pb").UpdateBlogRequest, import("../../api/grpc-ts/blogposts_pb").UpdateBlogReply>;
+    updateBlogpost: import("grpc").handleUnaryCall<import("../../api/grpc-ts/blogposts_pb").UpdateBlogpostRequest, import("../../api/grpc-ts/blogposts_pb").UpdateBlogpostReply>;
 
     /*
      * Initializes a new instance of the BlogsAPI.

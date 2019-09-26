@@ -255,6 +255,88 @@ export namespace DeleteBlogpostReply {
     }
 }
 
+export class UpdateBlogRequest extends jspb.Message { 
+
+    hasBlog(): boolean;
+    clearBlog(): void;
+    getBlog(): Blog | undefined;
+    setBlog(value?: Blog): void;
+
+
+    serializeBinary(): Uint8Array;
+    toObject(includeInstance?: boolean): UpdateBlogRequest.AsObject;
+    static toObject(includeInstance: boolean, msg: UpdateBlogRequest): UpdateBlogRequest.AsObject;
+    static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+    static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+    static serializeBinaryToWriter(message: UpdateBlogRequest, writer: jspb.BinaryWriter): void;
+    static deserializeBinary(bytes: Uint8Array): UpdateBlogRequest;
+    static deserializeBinaryFromReader(message: UpdateBlogRequest, reader: jspb.BinaryReader): UpdateBlogRequest;
+}
+
+export namespace UpdateBlogRequest {
+    export type AsObject = {
+        blog?: Blog.AsObject,
+    }
+}
+
+export class UpdateBlogReply extends jspb.Message { 
+
+    serializeBinary(): Uint8Array;
+    toObject(includeInstance?: boolean): UpdateBlogReply.AsObject;
+    static toObject(includeInstance: boolean, msg: UpdateBlogReply): UpdateBlogReply.AsObject;
+    static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+    static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+    static serializeBinaryToWriter(message: UpdateBlogReply, writer: jspb.BinaryWriter): void;
+    static deserializeBinary(bytes: Uint8Array): UpdateBlogReply;
+    static deserializeBinaryFromReader(message: UpdateBlogReply, reader: jspb.BinaryReader): UpdateBlogReply;
+}
+
+export namespace UpdateBlogReply {
+    export type AsObject = {
+    }
+}
+
+export class UpdateBlogpostRequest extends jspb.Message { 
+
+    hasBlog(): boolean;
+    clearBlog(): void;
+    getBlog(): Blogpost | undefined;
+    setBlog(value?: Blogpost): void;
+
+
+    serializeBinary(): Uint8Array;
+    toObject(includeInstance?: boolean): UpdateBlogpostRequest.AsObject;
+    static toObject(includeInstance: boolean, msg: UpdateBlogpostRequest): UpdateBlogpostRequest.AsObject;
+    static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+    static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+    static serializeBinaryToWriter(message: UpdateBlogpostRequest, writer: jspb.BinaryWriter): void;
+    static deserializeBinary(bytes: Uint8Array): UpdateBlogpostRequest;
+    static deserializeBinaryFromReader(message: UpdateBlogpostRequest, reader: jspb.BinaryReader): UpdateBlogpostRequest;
+}
+
+export namespace UpdateBlogpostRequest {
+    export type AsObject = {
+        blog?: Blogpost.AsObject,
+    }
+}
+
+export class UpdateBlogpostReply extends jspb.Message { 
+
+    serializeBinary(): Uint8Array;
+    toObject(includeInstance?: boolean): UpdateBlogpostReply.AsObject;
+    static toObject(includeInstance: boolean, msg: UpdateBlogpostReply): UpdateBlogpostReply.AsObject;
+    static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+    static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+    static serializeBinaryToWriter(message: UpdateBlogpostReply, writer: jspb.BinaryWriter): void;
+    static deserializeBinary(bytes: Uint8Array): UpdateBlogpostReply;
+    static deserializeBinaryFromReader(message: UpdateBlogpostReply, reader: jspb.BinaryReader): UpdateBlogpostReply;
+}
+
+export namespace UpdateBlogpostReply {
+    export type AsObject = {
+    }
+}
+
 export class Blog extends jspb.Message { 
     getId(): number;
     setId(value: number): void;

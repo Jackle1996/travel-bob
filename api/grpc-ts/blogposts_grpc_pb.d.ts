@@ -13,6 +13,8 @@ interface IBlogsAPIService extends grpc.ServiceDefinition<grpc.UntypedServiceImp
     createBlogpost: IBlogsAPIService_ICreateBlogpost;
     deleteBlog: IBlogsAPIService_IDeleteBlog;
     deleteBlogpost: IBlogsAPIService_IDeleteBlogpost;
+    updateBlog: IBlogsAPIService_IUpdateBlog;
+    updateBlogpost: IBlogsAPIService_IUpdateBlogpost;
 }
 
 interface IBlogsAPIService_IGetAllBlogs extends grpc.MethodDefinition<blogposts_pb.AllBlogsRequest, blogposts_pb.AllBlogsReply> {
@@ -69,6 +71,24 @@ interface IBlogsAPIService_IDeleteBlogpost extends grpc.MethodDefinition<blogpos
     responseSerialize: grpc.serialize<blogposts_pb.DeleteBlogpostReply>;
     responseDeserialize: grpc.deserialize<blogposts_pb.DeleteBlogpostReply>;
 }
+interface IBlogsAPIService_IUpdateBlog extends grpc.MethodDefinition<blogposts_pb.UpdateBlogRequest, blogposts_pb.UpdateBlogReply> {
+    path: string; // "/travelbob.blogs.BlogsAPI/UpdateBlog"
+    requestStream: boolean; // false
+    responseStream: boolean; // false
+    requestSerialize: grpc.serialize<blogposts_pb.UpdateBlogRequest>;
+    requestDeserialize: grpc.deserialize<blogposts_pb.UpdateBlogRequest>;
+    responseSerialize: grpc.serialize<blogposts_pb.UpdateBlogReply>;
+    responseDeserialize: grpc.deserialize<blogposts_pb.UpdateBlogReply>;
+}
+interface IBlogsAPIService_IUpdateBlogpost extends grpc.MethodDefinition<blogposts_pb.UpdateBlogpostRequest, blogposts_pb.UpdateBlogpostReply> {
+    path: string; // "/travelbob.blogs.BlogsAPI/UpdateBlogpost"
+    requestStream: boolean; // false
+    responseStream: boolean; // false
+    requestSerialize: grpc.serialize<blogposts_pb.UpdateBlogpostRequest>;
+    requestDeserialize: grpc.deserialize<blogposts_pb.UpdateBlogpostRequest>;
+    responseSerialize: grpc.serialize<blogposts_pb.UpdateBlogpostReply>;
+    responseDeserialize: grpc.deserialize<blogposts_pb.UpdateBlogpostReply>;
+}
 
 export const BlogsAPIService: IBlogsAPIService;
 
@@ -79,6 +99,8 @@ export interface IBlogsAPIServer {
     createBlogpost: grpc.handleUnaryCall<blogposts_pb.CreateBlogpostRequest, blogposts_pb.CreateBlogpostReply>;
     deleteBlog: grpc.handleUnaryCall<blogposts_pb.DeleteBlogRequest, blogposts_pb.DeleteBlogReply>;
     deleteBlogpost: grpc.handleUnaryCall<blogposts_pb.DeleteBlogpostRequest, blogposts_pb.DeleteBlogpostReply>;
+    updateBlog: grpc.handleUnaryCall<blogposts_pb.UpdateBlogRequest, blogposts_pb.UpdateBlogReply>;
+    updateBlogpost: grpc.handleUnaryCall<blogposts_pb.UpdateBlogpostRequest, blogposts_pb.UpdateBlogpostReply>;
 }
 
 export interface IBlogsAPIClient {
@@ -100,6 +122,12 @@ export interface IBlogsAPIClient {
     deleteBlogpost(request: blogposts_pb.DeleteBlogpostRequest, callback: (error: grpc.ServiceError | null, response: blogposts_pb.DeleteBlogpostReply) => void): grpc.ClientUnaryCall;
     deleteBlogpost(request: blogposts_pb.DeleteBlogpostRequest, metadata: grpc.Metadata, callback: (error: grpc.ServiceError | null, response: blogposts_pb.DeleteBlogpostReply) => void): grpc.ClientUnaryCall;
     deleteBlogpost(request: blogposts_pb.DeleteBlogpostRequest, metadata: grpc.Metadata, options: Partial<grpc.CallOptions>, callback: (error: grpc.ServiceError | null, response: blogposts_pb.DeleteBlogpostReply) => void): grpc.ClientUnaryCall;
+    updateBlog(request: blogposts_pb.UpdateBlogRequest, callback: (error: grpc.ServiceError | null, response: blogposts_pb.UpdateBlogReply) => void): grpc.ClientUnaryCall;
+    updateBlog(request: blogposts_pb.UpdateBlogRequest, metadata: grpc.Metadata, callback: (error: grpc.ServiceError | null, response: blogposts_pb.UpdateBlogReply) => void): grpc.ClientUnaryCall;
+    updateBlog(request: blogposts_pb.UpdateBlogRequest, metadata: grpc.Metadata, options: Partial<grpc.CallOptions>, callback: (error: grpc.ServiceError | null, response: blogposts_pb.UpdateBlogReply) => void): grpc.ClientUnaryCall;
+    updateBlogpost(request: blogposts_pb.UpdateBlogpostRequest, callback: (error: grpc.ServiceError | null, response: blogposts_pb.UpdateBlogpostReply) => void): grpc.ClientUnaryCall;
+    updateBlogpost(request: blogposts_pb.UpdateBlogpostRequest, metadata: grpc.Metadata, callback: (error: grpc.ServiceError | null, response: blogposts_pb.UpdateBlogpostReply) => void): grpc.ClientUnaryCall;
+    updateBlogpost(request: blogposts_pb.UpdateBlogpostRequest, metadata: grpc.Metadata, options: Partial<grpc.CallOptions>, callback: (error: grpc.ServiceError | null, response: blogposts_pb.UpdateBlogpostReply) => void): grpc.ClientUnaryCall;
 }
 
 export class BlogsAPIClient extends grpc.Client implements IBlogsAPIClient {
@@ -122,4 +150,10 @@ export class BlogsAPIClient extends grpc.Client implements IBlogsAPIClient {
     public deleteBlogpost(request: blogposts_pb.DeleteBlogpostRequest, callback: (error: grpc.ServiceError | null, response: blogposts_pb.DeleteBlogpostReply) => void): grpc.ClientUnaryCall;
     public deleteBlogpost(request: blogposts_pb.DeleteBlogpostRequest, metadata: grpc.Metadata, callback: (error: grpc.ServiceError | null, response: blogposts_pb.DeleteBlogpostReply) => void): grpc.ClientUnaryCall;
     public deleteBlogpost(request: blogposts_pb.DeleteBlogpostRequest, metadata: grpc.Metadata, options: Partial<grpc.CallOptions>, callback: (error: grpc.ServiceError | null, response: blogposts_pb.DeleteBlogpostReply) => void): grpc.ClientUnaryCall;
+    public updateBlog(request: blogposts_pb.UpdateBlogRequest, callback: (error: grpc.ServiceError | null, response: blogposts_pb.UpdateBlogReply) => void): grpc.ClientUnaryCall;
+    public updateBlog(request: blogposts_pb.UpdateBlogRequest, metadata: grpc.Metadata, callback: (error: grpc.ServiceError | null, response: blogposts_pb.UpdateBlogReply) => void): grpc.ClientUnaryCall;
+    public updateBlog(request: blogposts_pb.UpdateBlogRequest, metadata: grpc.Metadata, options: Partial<grpc.CallOptions>, callback: (error: grpc.ServiceError | null, response: blogposts_pb.UpdateBlogReply) => void): grpc.ClientUnaryCall;
+    public updateBlogpost(request: blogposts_pb.UpdateBlogpostRequest, callback: (error: grpc.ServiceError | null, response: blogposts_pb.UpdateBlogpostReply) => void): grpc.ClientUnaryCall;
+    public updateBlogpost(request: blogposts_pb.UpdateBlogpostRequest, metadata: grpc.Metadata, callback: (error: grpc.ServiceError | null, response: blogposts_pb.UpdateBlogpostReply) => void): grpc.ClientUnaryCall;
+    public updateBlogpost(request: blogposts_pb.UpdateBlogpostRequest, metadata: grpc.Metadata, options: Partial<grpc.CallOptions>, callback: (error: grpc.ServiceError | null, response: blogposts_pb.UpdateBlogpostReply) => void): grpc.ClientUnaryCall;
 }

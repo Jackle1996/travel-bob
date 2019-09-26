@@ -21,7 +21,11 @@ import {
   DeleteBlogReply,
   DeleteBlogRequest,
   DeleteBlogpostReply,
-  DeleteBlogpostRequest} from './blogposts_pb';
+  DeleteBlogpostRequest,
+  UpdateBlogReply,
+  UpdateBlogRequest,
+  UpdateBlogpostReply,
+  UpdateBlogpostRequest} from './blogposts_pb';
 
 export class BlogsAPIClient {
   client_: grpcWeb.AbstractClientBase;
@@ -171,6 +175,50 @@ export class BlogsAPIClient {
       request,
       metadata || {},
       this.methodInfoDeleteBlogpost,
+      callback);
+  }
+
+  methodInfoUpdateBlog = new grpcWeb.AbstractClientBase.MethodInfo(
+    UpdateBlogReply,
+    (request: UpdateBlogRequest) => {
+      return request.serializeBinary();
+    },
+    UpdateBlogReply.deserializeBinary
+  );
+
+  updateBlog(
+    request: UpdateBlogRequest,
+    metadata: grpcWeb.Metadata | null,
+    callback: (err: grpcWeb.Error,
+               response: UpdateBlogReply) => void) {
+    return this.client_.rpcCall(
+      this.hostname_ +
+        '/travelbob.blogs.BlogsAPI/UpdateBlog',
+      request,
+      metadata || {},
+      this.methodInfoUpdateBlog,
+      callback);
+  }
+
+  methodInfoUpdateBlogpost = new grpcWeb.AbstractClientBase.MethodInfo(
+    UpdateBlogpostReply,
+    (request: UpdateBlogpostRequest) => {
+      return request.serializeBinary();
+    },
+    UpdateBlogpostReply.deserializeBinary
+  );
+
+  updateBlogpost(
+    request: UpdateBlogpostRequest,
+    metadata: grpcWeb.Metadata | null,
+    callback: (err: grpcWeb.Error,
+               response: UpdateBlogpostReply) => void) {
+    return this.client_.rpcCall(
+      this.hostname_ +
+        '/travelbob.blogs.BlogsAPI/UpdateBlogpost',
+      request,
+      metadata || {},
+      this.methodInfoUpdateBlogpost,
       callback);
   }
 

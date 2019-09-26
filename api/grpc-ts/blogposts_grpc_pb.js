@@ -136,6 +136,50 @@ function deserialize_travelbob_blogs_DeleteBlogpostRequest(buffer_arg) {
   return blogposts_pb.DeleteBlogpostRequest.deserializeBinary(new Uint8Array(buffer_arg));
 }
 
+function serialize_travelbob_blogs_UpdateBlogReply(arg) {
+  if (!(arg instanceof blogposts_pb.UpdateBlogReply)) {
+    throw new Error('Expected argument of type travelbob.blogs.UpdateBlogReply');
+  }
+  return Buffer.from(arg.serializeBinary());
+}
+
+function deserialize_travelbob_blogs_UpdateBlogReply(buffer_arg) {
+  return blogposts_pb.UpdateBlogReply.deserializeBinary(new Uint8Array(buffer_arg));
+}
+
+function serialize_travelbob_blogs_UpdateBlogRequest(arg) {
+  if (!(arg instanceof blogposts_pb.UpdateBlogRequest)) {
+    throw new Error('Expected argument of type travelbob.blogs.UpdateBlogRequest');
+  }
+  return Buffer.from(arg.serializeBinary());
+}
+
+function deserialize_travelbob_blogs_UpdateBlogRequest(buffer_arg) {
+  return blogposts_pb.UpdateBlogRequest.deserializeBinary(new Uint8Array(buffer_arg));
+}
+
+function serialize_travelbob_blogs_UpdateBlogpostReply(arg) {
+  if (!(arg instanceof blogposts_pb.UpdateBlogpostReply)) {
+    throw new Error('Expected argument of type travelbob.blogs.UpdateBlogpostReply');
+  }
+  return Buffer.from(arg.serializeBinary());
+}
+
+function deserialize_travelbob_blogs_UpdateBlogpostReply(buffer_arg) {
+  return blogposts_pb.UpdateBlogpostReply.deserializeBinary(new Uint8Array(buffer_arg));
+}
+
+function serialize_travelbob_blogs_UpdateBlogpostRequest(arg) {
+  if (!(arg instanceof blogposts_pb.UpdateBlogpostRequest)) {
+    throw new Error('Expected argument of type travelbob.blogs.UpdateBlogpostRequest');
+  }
+  return Buffer.from(arg.serializeBinary());
+}
+
+function deserialize_travelbob_blogs_UpdateBlogpostRequest(buffer_arg) {
+  return blogposts_pb.UpdateBlogpostRequest.deserializeBinary(new Uint8Array(buffer_arg));
+}
+
 
 var BlogsAPIService = exports.BlogsAPIService = {
   // Obtains all blogs.
@@ -209,6 +253,30 @@ var BlogsAPIService = exports.BlogsAPIService = {
     requestDeserialize: deserialize_travelbob_blogs_DeleteBlogpostRequest,
     responseSerialize: serialize_travelbob_blogs_DeleteBlogpostReply,
     responseDeserialize: deserialize_travelbob_blogs_DeleteBlogpostReply,
+  },
+  // Update a blog
+  updateBlog: {
+    path: '/travelbob.blogs.BlogsAPI/UpdateBlog',
+    requestStream: false,
+    responseStream: false,
+    requestType: blogposts_pb.UpdateBlogRequest,
+    responseType: blogposts_pb.UpdateBlogReply,
+    requestSerialize: serialize_travelbob_blogs_UpdateBlogRequest,
+    requestDeserialize: deserialize_travelbob_blogs_UpdateBlogRequest,
+    responseSerialize: serialize_travelbob_blogs_UpdateBlogReply,
+    responseDeserialize: deserialize_travelbob_blogs_UpdateBlogReply,
+  },
+  // Update a blogpost
+  updateBlogpost: {
+    path: '/travelbob.blogs.BlogsAPI/UpdateBlogpost',
+    requestStream: false,
+    responseStream: false,
+    requestType: blogposts_pb.UpdateBlogpostRequest,
+    responseType: blogposts_pb.UpdateBlogpostReply,
+    requestSerialize: serialize_travelbob_blogs_UpdateBlogpostRequest,
+    requestDeserialize: deserialize_travelbob_blogs_UpdateBlogpostRequest,
+    responseSerialize: serialize_travelbob_blogs_UpdateBlogpostReply,
+    responseDeserialize: deserialize_travelbob_blogs_UpdateBlogpostReply,
   },
 };
 
