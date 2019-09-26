@@ -126,7 +126,48 @@ export class DatabaseAccess {
         if (ok) {
             console.log(`[DatabaseAccess] Deleted blogpost ${blogpostId}.`)
         } else {
-            console.error(`[DatabaseAccess] Could not delete blog ${blogpostId}. Result from db: `, blogpostDeleteResult);
+            console.error(`[DatabaseAccess] Could not delete blog ${blogpostId}. Result from db:`, blogpostDeleteResult);
+        }
+        return ok;
+    }
+
+    public async UpdateBlog(blog: IDbBlog): Promise<boolean> {
+
+        const result = await DbBlog.replaceOne({ id: blog.id }, {
+            id: blog.id,
+            blogImageUrl: blog.blogImageUrl,
+            description: blog.description,
+            author: blog.author,
+            title: blog.title,
+            destination: blog.destination,
+            startUnixTimestamp: blog.startUnixTimestamp,
+            endUnixTimestamp: blog.endUnixTimestamp,
+        });
+        const ok: boolean = result.nModified === 1;
+        if (ok) {
+            console.log(`[DatabaseAccess] Updated blog ${blog.id}.`)
+        } else {
+            console.error(`[DatabaseAccess] Could not update blog ${blog.id}. Result from db:`, result)
+        }
+        return ok;
+    }
+
+    public async UpdateBlogpost(blogpost: IDbBlogpost): Promise<boolean> {
+
+        const result = await DbBlogpost.replaceOne({ id: blogpost.id }, {
+            id: blogpost.id,
+            title: blogpost.title,
+            text: blogpost.text,
+            blogId: blogpost.blogId,
+            headerImageUrl: blogpost.headerImageUrl,
+            travelDateUnixTimestamp: blogpost.travelDateUnixTimestamp,
+            location: blogpost.location
+        });
+        const ok: boolean = result.nModified === 1;
+        if (ok) {
+            console.log(`[DatabaseAccess] Updated blogpost ${blogpost.id}.`)
+        } else {
+            console.error(`[DatabaseAccess] Could not update blogpost ${blogpost.id}. Result from db:`, result)
         }
         return ok;
     }

@@ -13,12 +13,12 @@ import {
     CreateBlogpostRequest, CreateBlogpostReply,
     DeleteBlogRequest, DeleteBlogReply,
     DeleteBlogpostRequest, DeleteBlogpostReply,
+    UpdateBlogRequest, UpdateBlogReply,
+    UpdateBlogpostRequest, UpdateBlogpostReply,
     Blog, Blogpost
 } from "../../api/grpc-ts/blogposts_pb";
 
 class BlogsAPI implements IBlogsAPIServer {
-    updateBlog: import("grpc").handleUnaryCall<import("../../api/grpc-ts/blogposts_pb").UpdateBlogRequest, import("../../api/grpc-ts/blogposts_pb").UpdateBlogReply>;
-    updateBlogpost: import("grpc").handleUnaryCall<import("../../api/grpc-ts/blogposts_pb").UpdateBlogpostRequest, import("../../api/grpc-ts/blogposts_pb").UpdateBlogpostReply>;
 
     /*
      * Initializes a new instance of the BlogsAPI.
@@ -121,6 +121,32 @@ class BlogsAPI implements IBlogsAPIServer {
 
         callback(err, new DeleteBlogpostReply());
     }
+
+    public async updateBlog(call: ServerUnaryCall<UpdateBlogRequest>, callback: sendUnaryData<UpdateBlogReply>) {
+
+        console.log('[GrpcServer] BlogsAPI.updateBlog()');
+
+        const blog: Blog = call.request.getBlog();
+        const dbBlog = this.dbToGrpcMapper.Convert(blog);
+        const ok: boolean = await this.databaseAccess.UpdateBlog(dbBlog);
+        const err: Error = ok ? null : new Error(`Could not update blog with id ${dbBlog.id}.`);
+
+        callback(err, new UpdateBlogReply());
+    }
+
+    public async updateBlogpost(call: ServerUnaryCall<UpdateBlogpostRequest>, callback: sendUnaryData<UpdateBlogpostReply>) {
+
+        console.log('[GrpcServer] BlogsAPI.updateBlogpost()');
+
+        const blogpost: Blogpost = call.request.getBlogpost();
+        const dbBlogpost = this.dbToGrpcMapper.Convert(blogpost);
+        const ok: boolean = await this.databaseAccess.UpdateBlogpost(dbBlogpost);
+        const err: Error = ok ? null : new Error(`Could not update blogpost with id ${dbBlogpost.id}.`);
+
+        callback(err, new UpdateBlogpostReply());
+    }
+
+
 }
 
 export {
