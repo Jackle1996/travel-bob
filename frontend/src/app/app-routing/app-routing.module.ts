@@ -5,7 +5,7 @@ import { BlogviewComponent } from '../blogview/blogview.component';
 
 const routes: Routes = [
   { path: '', component: BlogsummaryComponent },
-  { path: 'blogview', component: BlogviewComponent }
+  { path: 'blogview/:id', component: BlogviewComponent }
 ];
 
 @NgModule({
