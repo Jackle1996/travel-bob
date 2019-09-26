@@ -118,6 +118,20 @@ export class DatabaseAccess {
     }
 
     /**
+     * Delete a blogpost from the database.
+     */
+    public async DeleteBlogpost(blogpostId: number) {
+        const blogpostDeleteResult = await DbBlogpost.deleteOne({ id: blogpostId }).exec();
+        const ok = blogpostDeleteResult.deletedCount === 1;
+        if (ok) {
+            console.log(`[DatabaseAccess] Deleted blogpost ${blogpostId}.`)
+        } else {
+            console.error(`[DatabaseAccess] Could not delete blog ${blogpostId}. Result from db: `, blogpostDeleteResult);
+        }
+        return ok;
+    }
+
+    /**
      * Get a unique id for a new blog.
      */
     private async GetUniqueBlogId(): Promise<number> {

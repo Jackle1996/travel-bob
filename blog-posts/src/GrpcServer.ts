@@ -12,11 +12,11 @@ import {
     CreateBlogRequest, CreateBlogReply,
     CreateBlogpostRequest, CreateBlogpostReply,
     DeleteBlogRequest, DeleteBlogReply,
+    DeleteBlogpostRequest, DeleteBlogpostReply,
     Blog, Blogpost
 } from "../../api/grpc-ts/blogposts_pb";
 
 class BlogsAPI implements IBlogsAPIServer {
-    deleteBlogpost: import("grpc").handleUnaryCall<import("../../api/grpc-ts/blogposts_pb").DeleteBlogpostRequest, import("../../api/grpc-ts/blogposts_pb").DeleteBlogpostReply>;
 
     /*
      * Initializes a new instance of the BlogsAPI.
@@ -93,7 +93,7 @@ class BlogsAPI implements IBlogsAPIServer {
     }
 
     /**
-     * Delete a blog and al its blogposts.
+     * Delete a blog and all its blogposts.
      */
     public async deleteBlog(call: ServerUnaryCall<DeleteBlogRequest>, callback: sendUnaryData<DeleteBlogReply>): Promise<void> {
 
@@ -101,9 +101,23 @@ class BlogsAPI implements IBlogsAPIServer {
 
         const blogId: number = call.request.getBlogid()
         const ok: boolean = await this.databaseAccess.DeleteBlog(blogId);
-
         const err: Error = ok ? null : new Error(`Could not delete blog with id ${blogId}.`);
+
         callback(err, new DeleteBlogReply());
+    }
+
+    /**
+     * Delete a blogpost.
+     */
+    public async deleteBlogpost(call: ServerUnaryCall<DeleteBlogpostRequest>, callback: sendUnaryData<DeleteBlogpostReply>) {
+
+        console.log('[GrpcServer] BlogsAPI.deleteBlogpost()');
+
+        const blogpostId: number = call.request.getBlogpostid()
+        const ok: boolean = await this.databaseAccess.DeleteBlogpost(blogpostId);
+        const err: Error = ok ? null : new Error(`Could not delete blogpost with id ${blogpostId}.`);
+
+        callback(err, new DeleteBlogpostReply());
     }
 }
 
