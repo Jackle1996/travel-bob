@@ -1,8 +1,9 @@
 {
-  "name": "blog-posts",
+  "name": "blog-service",
   "version": "1.0.0",
   "description": "Bobs blog posts as a service.",
   "main": "src/app.ts",
+  "license": "MIT",
   "scripts": {
     "clean": "rimraf build",
     "prebuild": "npm run clean",
