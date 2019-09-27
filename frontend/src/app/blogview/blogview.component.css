@@ -1,1 +1,25 @@
 @import '@angular/material/prebuilt-themes/deeppurple-amber.css';
+
+.blog-header-image {
+    background-image: url('https://material.angular.io/assets/img/examples/shiba1.jpg');
+    background-size: cover;
+    max-width: 100%;
+}
+
+mat-card-title {
+    font-size: 25pt;
+}
+
+button.mat-raised-button {
+    width: 100%;
+}
+
+.floatingDiv {
+    max-width: 400px;
+    float: left;
+    margin: 10px;
+}
+
+.floatingDiv * {
+    max-width: 400px;
+}
