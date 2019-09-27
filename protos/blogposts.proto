@@ -99,6 +99,7 @@ message Blogpost {
   int32 blogId = 5;
   Timestamp travelDate = 6;
   string location = 7;
+  string summary = 8;
 }
 
 message Timestamp {

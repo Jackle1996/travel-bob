@@ -2710,7 +2710,8 @@ proto.travelbob.blogs.Blogpost.toObject = function(includeInstance, msg) {
     text: jspb.Message.getFieldWithDefault(msg, 4, ""),
     blogid: jspb.Message.getFieldWithDefault(msg, 5, 0),
     traveldate: (f = msg.getTraveldate()) && proto.travelbob.blogs.Timestamp.toObject(includeInstance, f),
-    location: jspb.Message.getFieldWithDefault(msg, 7, "")
+    location: jspb.Message.getFieldWithDefault(msg, 7, ""),
+    summary: jspb.Message.getFieldWithDefault(msg, 8, "")
   };
 
   if (includeInstance) {
@@ -2775,6 +2776,10 @@ proto.travelbob.blogs.Blogpost.deserializeBinaryFromReader = function(msg, reade
     case 7:
       var value = /** @type {string} */ (reader.readString());
       msg.setLocation(value);
+      break;
+    case 8:
+      var value = /** @type {string} */ (reader.readString());
+      msg.setSummary(value);
       break;
     default:
       reader.skipField();
@@ -2852,6 +2857,13 @@ proto.travelbob.blogs.Blogpost.serializeBinaryToWriter = function(message, write
   if (f.length > 0) {
     writer.writeString(
       7,
+      f
+    );
+  }
+  f = message.getSummary();
+  if (f.length > 0) {
+    writer.writeString(
+      8,
       f
     );
   }
@@ -2975,6 +2987,21 @@ proto.travelbob.blogs.Blogpost.prototype.getLocation = function() {
 /** @param {string} value */
 proto.travelbob.blogs.Blogpost.prototype.setLocation = function(value) {
   jspb.Message.setProto3StringField(this, 7, value);
+};
+
+
+/**
+ * optional string summary = 8;
+ * @return {string}
+ */
+proto.travelbob.blogs.Blogpost.prototype.getSummary = function() {
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 8, ""));
+};
+
+
+/** @param {string} value */
+proto.travelbob.blogs.Blogpost.prototype.setSummary = function(value) {
+  jspb.Message.setProto3StringField(this, 8, value);
 };
 
 

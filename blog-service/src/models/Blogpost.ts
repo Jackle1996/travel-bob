@@ -10,7 +10,8 @@ export interface IDbBlogpost extends Document {
     blogId: number,
     headerImageUrl?: string,
     travelDateUnixTimestamp: number,
-    location: string
+    location: string,
+    summary: string
 }
 
 /*
@@ -26,6 +27,7 @@ export const BlogpostSchema = new Schema({
     headerImageUrl: { type: String, required: false },
     travelDateUnixTimestamp: { type: Number, required: true },
     location: { type: String, required: true },
+    summary: { type: String, required: true },
 });
 
 /*
