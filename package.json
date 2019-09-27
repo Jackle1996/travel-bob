@@ -1,13 +1,13 @@
 {
   "name": "protos",
   "version": "1.0.0",
-  "description": "Protobuf files and nothing else",
+  "description": "Common dependencies of all services. Also used by the generated files in /api/",
   "main": "",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
-  "license": "ISC",
+  "author": "Jackle & eddex",
+  "license": "MIT",
   "dependencies": {
     "google-protobuf": "^3.9.2",
     "grpc": "^1.23.3",

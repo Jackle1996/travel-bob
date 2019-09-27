@@ -30,6 +30,20 @@ Bash:
 2. Set mongoDB credentials as environment variables: `DB_USER=user` and `DB_PASS=password`.
 3. `docker run -d -p 9090:9090 -p 27017:27017 -e DB_USER=$DB_USER -e DB_PASS=$DB_PASS travelbob/blog-service`
 
+### start comment-service
+
+Same as blog-service but expose service on port `9091` instead.
+
+PowerShell:
+1. `docker build -t travelbob/comment-service -f .\comment.Dockerfile --no-cache .`
+2. Set mongoDB credentials as environment variables: `$env:DB_USER="username"` and `$env:DB_PASS="password"`.
+3. `docker run -d -p 9091:9091 -p 27017:27017 -e DB_USER=$env:DB_USER -e DB_PASS=$env:DB_PASS travelbob/comment-service`
+
+Bash:
+1. `docker build -t travelbob/comment-service -f .\comment.Dockerfile --no-cache .`
+2. Set mongoDB credentials as environment variables: `DB_USER=user` and `DB_PASS=password`.
+3. `docker run -d -p 9091:9091 -p 27017:27017 -e DB_USER=$DB_USER -e DB_PASS=$DB_PASS travelbob/comment-service`
+
 -----------------------------
 
 ## Generate Javascript & Typescript files based on Protobuf API (GRPC)

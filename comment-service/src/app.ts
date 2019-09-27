@@ -1,5 +1,5 @@
 import { ServerCredentials, Server } from "grpc";
-import { BlogsAPI, BlogsAPIService } from './GrpcServer';
+import { CommentsAPI, CommentsAPIService } from './GrpcServer';
 import { DatabaseAccess } from "./DatabaseAccess";
 import { DbGrpcMapper } from "./DbToGrpcMapper";
 
@@ -16,9 +16,9 @@ class App {
         }
 
         const server: Server = new Server();
-        server.addService(BlogsAPIService, new BlogsAPI(DBA, new DbGrpcMapper()));
+        server.addService(CommentsAPIService, new CommentsAPI(DBA, new DbGrpcMapper()));
 
-        const serverPort = '0.0.0.0:9090';
+        const serverPort = '0.0.0.0:9091';
         server.bind(serverPort, ServerCredentials.createInsecure());
         server.start();
 
