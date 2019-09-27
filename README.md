@@ -2,49 +2,96 @@
 
 Bob is a traveler of time and space who uses this travel blog to tell the world about his epic quests and journeys to foreign planets, galaxies and dimensions.
 
-## using docker to start services
+## features
+- todo :triangular_flag_on_post:
 
-Prequisites:
-1. install [Docker](https://www.docker.com/products/docker-desktop)
 
-### start envoy proxy
+# Quick start: start the app with docker-compose
+
+**1. Set mongoDB credentials as environment variables**:
+
+For security reasons the database credentials have to be provided via environment variables.
+
+```sh
+# PowerShell:
+$env:DB_USER="username"
+$env:DB_PASS="password"
+
+# Bash:
+export DB_USER=user
+export DB_PASS=password
+```
+
+**2. Run the app**:
+```sh
+# Build docker images:
+docker-compose build --no-cache
+
+# Start microservices, envoy proxy and frontend:
+docker-compose up
+```
+Build the image with the `--no-cache` option to make sure the latest changes are included in the images.
+
+## Alternative: using docker to start services
+
+> If you feel slightly masochistic today.
+
+```sh
+# Build and run envoy proxy.
+# No need to expose port 9090, 9091 or 9092
+#  since the envoy proxy can access those ports via host.docker.internal
+docker build -t travelbob/envoy -f .\envoy.Dockerfile --no-cache .
+docker run -d -p 8080:8080 travelbob/envoy
+```
+```sh
+# Build blog-service
+docker build -t travelbob/blog-service -f .\blog.Dockerfile --no-cache .
+
+# Run usig PowerShell:
+docker run -d -p 9090:9090 -e DB_USER=$env:DB_USER -e DB_PASS=$env:DB_PASS travelbob/blog-service
+
+# Run using Bash
+docker run -d -p 9090:9090 -e DB_USER=$DB_USER -e DB_PASS=$DB_PASS travelbob/blog-service
+```
+```sh
+# Build comment-service
+docker build -t travelbob/comment-service -f .\comment.Dockerfile --no-cache .
+
+# Run usig PowerShell:
+docker run -d -p 9091:9091 -e DB_USER=$env:DB_USER -e DB_PASS=$env:DB_PASS travelbob/comment-service
+
+# Run using Bash
+docker run -d -p 9091:9091 -e DB_USER=$DB_USER -e DB_PASS=$DB_PASS travelbob/comment-service
+```
+
+
+# Technical information
+
+The DB credentials are passed to the services via environment variables for security reasons.
+
+## envoy proxy
 
 gRPC uses some features of HTTP/2 that are not yet supported by modern browsers, that's why we need the envoy proxy.
-The envoy proxy translates the HTTP/1.1 calls from grpc-web to HTTP/2 grpc calls.
+The proxy listens on port `8080` for the frontend to send HTTP/1.1 gRPC calls. Those calls are then translated to HTTP/2 gRPC calls and forwarded to the correct service (as configured in the [envoy.yaml](https://github.com/Jackle1996/travel-bob/blob/master/envoy/envoy.yaml) config file).
 
-Build the image with the `--no-cache` option to make sure the latest version of `envoy.yaml` is used. Expose port `8080` for the frontend to send gRPC calls to the envoy proxy. No need to expose port `9090` since the envoy proxy can access this port via `host.docker.internal`.
-1. `docker build -t travelbob/envoy -f .\envoy.Dockerfile --no-cache .`
-2. `docker run -d -p 8080:8080 travelbob/envoy`
+## databases
 
-### start blog-service
+This project uses a free instance of an [Atlas mongoDB cluster](https://www.mongodb.com/cloud). The connection string (excluding the user credentials) is hardcoded in the `DatabaseAccess.ts` file of each service. Each service has his own database in the cluster.
 
-Build the image with the `--no-cache` option to make sure the latest changes are included in the images. Expose port `9090` for the blog-service to listen on for gRPC requests. Also expose port `27017` to access the Atlas mongoDB cloud. The DB credentials are passed to the docker container as environment variables for security reasons.
+## blog-service
 
-PowerShell:
-1. `docker build -t travelbob/blog-service -f .\blog.Dockerfile --no-cache .`
-2. Set mongoDB credentials as environment variables: `$env:DB_USER="username"` and `$env:DB_PASS="password"`.
-3. `docker run -d -p 9090:9090 -p 27017:27017 -e DB_USER=$env:DB_USER -e DB_PASS=$env:DB_PASS travelbob/blog-service`
+Exposes [blog API](https://github.com/Jackle1996/travel-bob/blob/master/protos/blogposts.proto) on port `9090`.
 
-Bash:
-1. `docker build -t travelbob/blog-service -f .\blog.Dockerfile --no-cache .`
-2. Set mongoDB credentials as environment variables: `DB_USER=user` and `DB_PASS=password`.
-3. `docker run -d -p 9090:9090 -p 27017:27017 -e DB_USER=$DB_USER -e DB_PASS=$DB_PASS travelbob/blog-service`
+## comment-service
 
-### start comment-service
+Exposes [comment API](https://github.com/Jackle1996/travel-bob/blob/master/protos/comments.proto) on port `9091`.
 
-Same as blog-service but expose service on port `9091` instead.
+## user-service
 
-PowerShell:
-1. `docker build -t travelbob/comment-service -f .\comment.Dockerfile --no-cache .`
-2. Set mongoDB credentials as environment variables: `$env:DB_USER="username"` and `$env:DB_PASS="password"`.
-3. `docker run -d -p 9091:9091 -p 27017:27017 -e DB_USER=$env:DB_USER -e DB_PASS=$env:DB_PASS travelbob/comment-service`
+TODO :triangular_flag_on_post:
 
-Bash:
-1. `docker build -t travelbob/comment-service -f .\comment.Dockerfile --no-cache .`
-2. Set mongoDB credentials as environment variables: `DB_USER=user` and `DB_PASS=password`.
-3. `docker run -d -p 9091:9091 -p 27017:27017 -e DB_USER=$DB_USER -e DB_PASS=$DB_PASS travelbob/comment-service`
 
------------------------------
+# Development
 
 ## Generate Javascript & Typescript files based on Protobuf API (GRPC)
 ### Setup
@@ -100,12 +147,6 @@ constructor() {
 }
 ```
 
------------------------------
+## Usage Grpc Server
 
-## Usage Server
-TODO
-
-
-
-
------------------------------
+see [blog-service implementation](https://github.com/Jackle1996/travel-bob/blob/master/blog-service/src/GrpcServer.ts) or [comment-service implementation](https://github.com/Jackle1996/travel-bob/blob/master/comment-service/src/GrpcServer.ts) for examples.
