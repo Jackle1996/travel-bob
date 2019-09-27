@@ -125,6 +125,7 @@ export class DbGrpcMapper {
             const travelDate = new Timestamp();
             travelDate.setSeconds(postFromDb.travelDateUnixTimestamp);
             post.setTraveldate(travelDate);
+            post.setSummary(postFromDb.summary);
 
             postsForResponse.push(post);
         });
@@ -145,6 +146,7 @@ export class DbGrpcMapper {
         post.blogId = grpcBlogpost.getBlogid();
         post.travelDateUnixTimestamp = grpcBlogpost.getTraveldate().getSeconds();
         post.location = grpcBlogpost.getLocation();
+        post.summary = grpcBlogpost.getSummary();
 
         return post;
     }

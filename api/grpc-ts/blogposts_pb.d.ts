@@ -417,6 +417,9 @@ export class Blogpost extends jspb.Message {
     getLocation(): string;
     setLocation(value: string): void;
 
+    getSummary(): string;
+    setSummary(value: string): void;
+
 
     serializeBinary(): Uint8Array;
     toObject(includeInstance?: boolean): Blogpost.AsObject;
@@ -437,6 +440,7 @@ export namespace Blogpost {
         blogid: number,
         traveldate?: Timestamp.AsObject,
         location: string,
+        summary: string,
     }
 }
 
