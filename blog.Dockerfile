@@ -2,7 +2,7 @@ FROM node:alpine
 
 WORKDIR /opt/
 
-COPY ./blog-posts /opt/blog-posts/
+COPY ./blog-service /opt/blog-service/
 COPY ./package.json /opt/
 COPY ./api/ /opt/api/
 
@@ -10,7 +10,7 @@ COPY ./api/ /opt/api/
 RUN npm i
 
 # install blog-service specific dependencies
-WORKDIR /opt/blog-posts/
+WORKDIR /opt/blog-service/
 RUN npm i
 
 ENTRYPOINT [ "npm" ]
