@@ -22,7 +22,7 @@ export class DatabaseAccess {
 
         await mongoose.connect(connectionUri, { useNewUrlParser: true, useUnifiedTopology: true }, (err: Error) => {
 
-            err ? console.error('[DatabaseAccess] Error while connecting to mongoDb: ' + err, err)
+            err ? console.error(`[DatabaseAccess] Error while connecting to mongoDb with user "${EnvProvider.DbUser}": `, err)
                 : console.log(`[DatabaseAccess] Connected to db "${dbName}" with user "${EnvProvider.DbUser}".`);
             connected = !err;
         }).catch(err =>
