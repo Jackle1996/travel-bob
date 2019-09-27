@@ -16,8 +16,8 @@ export class BlogviewComponent implements OnInit {
   constructor(private route: ActivatedRoute, public blogService: BlogService) {
     this.blogPosts = [];
     this.route.paramMap.subscribe(params => {
-       this.blogId = Number(params.get('id'));
-       console.log('blogId=', this.blogId)
+       this.blogId = Number(params.get('blogid'));
+       console.log('blogid=', this.blogId)
     });
     this.blogService.getBlogPosts(this.blogId, (posts: Blogpost[]) => this.assignBlogposts(posts));
   }

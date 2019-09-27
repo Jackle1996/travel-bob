@@ -9,7 +9,7 @@
             <p>{{post.getSummary()}}</p>
         </mat-card-content>
         <mat-card-actions>
-            <button mat-raised-button color="accent">
+            <button mat-raised-button color="accent" routerLink="./post/{{post.getId()}}">
                 Read BlogPost
                 <mat-icon mat-fab role="img"  aria-hidden="true" >remove_red_eye</mat-icon>
             </button>
