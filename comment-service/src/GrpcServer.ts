@@ -29,9 +29,10 @@ class CommentsAPI implements ICommentsAPIServer {
         console.log('[GrpcServer] CommentsAPI.addComment()');
 
         const dbComment: IDbComment = this.dbToGrpcMapper.Convert(call.request.getComment());
-        await this.databaseAccess.CreateNewComment(dbComment);
+        const ok: boolean = await this.databaseAccess.CreateNewComment(dbComment);
 
-        callback(null, new AddCommentReply());
+        const err = ok ? null : new Error('Error: Could not save new comment. Probably some data missing in the request.')
+        callback(err, new AddCommentReply());
     }
 
     /*

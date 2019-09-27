@@ -50,20 +50,24 @@ export class DatabaseAccess {
 
     /*
      * Save new comment to database.
+     * Returns a boolean indicating whether the operation was successful or not.
      */
-    public async CreateNewComment(newComment: IDbComment): Promise<void> {
+    public async CreateNewComment(newComment: IDbComment): Promise<boolean> {
 
         console.log(`[DatabaseAccess] Creating new comment from user "${newComment.author}".`);
 
         newComment.id = await this.GetUniqueCommentId();
 
-        newComment.save((err: any, comment: IDbComment) => {
-            if (err) {
-                console.error(`[DatabaseAccess] Error while saving new comment: `, err);
-            } else {
-                console.log(`[DatabaseAccess] Comment with id "${comment.id}" saved successfully.`);
-            }
+        const dbComment: void | IDbComment = await newComment.save().catch((reason: any) => {
+            console.error(`[DatabaseAccess] Error while saving new comment: `, reason);
         });
+
+        if (isNullOrUndefined(dbComment)) {
+            return false;
+        } else {
+            console.log(`[DatabaseAccess] Comment with id "${(<IDbComment>dbComment).id}" saved successfully.`);
+            return true;
+        }
     }
 
     /**
@@ -77,6 +81,10 @@ export class DatabaseAccess {
         return dbComments;
     }
 
+    /*
+     * Delete a comment.
+     * Returns a boolean indicating whether the operation was successful or not.
+     */
     public async DeleteComment(commentId: number): Promise<boolean> {
 
         const commentDeleteResult = await DbComment.deleteOne({ id: commentId }).exec();
@@ -93,17 +101,17 @@ export class DatabaseAccess {
      * Get a unique id for a new comment.
      */
     private async GetUniqueCommentId(): Promise<number> {
-        const blogWithMaxId: void | IDbComment = await DbComment
-            .findOne()
+
+        const commentWithMaxId: void | IDbComment = await DbComment.findOne()
             .sort('-id')
             .exec()
             .catch((reason: any) => {
                 console.log(`[DatabaseAccess] Can't find any comment in database. Creating initial id.`);
             });
-        if (isNullOrUndefined(blogWithMaxId)) {
+        if (isNullOrUndefined(commentWithMaxId)) {
             return 1;
         } else {
-            return (<IDbComment>blogWithMaxId).id + 1;
+            return (<IDbComment>commentWithMaxId).id + 1;
         }
     }
 }
