@@ -2,38 +2,36 @@
 
 Bob is a traveler of time and space who uses this travel blog to tell the world about his epic quests and journeys to foreign planets, galaxies and dimensions.
 
-## start microservices
-To avoid hardcoding the DB credentials they must be set as environment variables.
+## using docker to start services
 
-PowerShell:
-```
-PS > $env:DB_USER="username"
-PS > $env:DB_PASS="password"
-PS > npm start
-```
-
-Bash:
-```
-$ DB_USER=user DB_PASS=password npm start
-```
-
-### Setup and run Envoy proxy
-
+Prequisites:
 1. install [Docker](https://www.docker.com/products/docker-desktop)
-2. `cd ./envoy`
-3. `docker build -t travelbob/envoy -f .\envoy.Dockerfile .`
-4. `docker run -d -p 8080:8080 travelbob/envoy`
+
+### start envoy proxy
 
 gRPC uses some features of HTTP/2 that are not yet supported by modern browsers, that's why we need the envoy proxy.
 The envoy proxy translates the HTTP/1.1 calls from grpc-web to HTTP/2 grpc calls.
 
-### Setup and usage
+Build the image with the `--no-cache` option to make sure the latest version of `envoy.yaml` is used. Expose port `8080` for the frontend to send gRPC calls to the envoy proxy. No need to expose port `9090` since the envoy proxy can access this port via `host.docker.internal`.
+1. `docker build -t travelbob/envoy -f .\envoy.Dockerfile --no-cache .`
+2. `docker run -d -p 8080:8080 travelbob/envoy`
 
-Requirement: `npm install --save @types/node`
+### start blog-service
 
-Usage (TS): `process.env['DB_USER']`
+Build the image with the `--no-cache` option to make sure the latest changes are included in the images. Expose port `9090` for the blog-service to listen on for gRPC requests. Also expose port `27017` to access the Atlas mongoDB cloud. The DB credentials are passed to the docker container as environment variables for security reasons.
+
+PowerShell:
+1. `docker build -t travelbob/blog-service -f .\blog.Dockerfile --no-cache .`
+2. Set mongoDB credentials as environment variables: `$env:DB_USER="username"` and `$env:DB_PASS="password"`.
+3. `docker run -d -p 9090:9090 -p 27017:27017 -e DB_USER=$env:DB_USER -e DB_PASS=$env:DB_PASS travelbob/blog-service`
+
+Bash:
+1. `docker build -t travelbob/blog-service -f .\blog.Dockerfile --no-cache .`
+2. Set mongoDB credentials as environment variables: `DB_USER=user` and `DB_PASS=password`.
+3. `docker run -d -p 9090:9090 -p 27017:27017 -e DB_USER=$DB_USER -e DB_PASS=$DB_PASS travelbob/blog-service`
 
 -----------------------------
+
 ## Generate Javascript & Typescript files based on Protobuf API (GRPC)
 ### Setup
 1. Download protoc.exe [Get protoc releases here](https://github.com/protocolbuffers/protobuf/releases)
@@ -45,19 +43,15 @@ Usage (TS): `process.env['DB_USER']`
 
 ### Generate gRPC-Web Code for Frontend
 5. Navigate to folder ../travel-bob/ (project root folder)
-6. Execute command: 
+6. Execute command:
 
-```bash 
-protoc --proto_path=./protos --js_out=import_style=commonjs:./protos --grpc-web_out=import_style=typescript,mode=grpcwebtext:./protos "./protos/blogposts.proto"
-```
-or (should do exactly the same)
 ```bash
 protoc -I="./protos" ./protos/blogposts.proto --js_out=import_style=commonjs:./api/grpc-web-ts --grpc-web_out=import_style=typescript,mode=grpcwebtext:./api/grpc-web-ts
 ```
 
 ### Generate gRPC code for backend services
 5. Navigate to folder ../travel-bob/ (project root folder)
-6. Execute: 
+6. Execute:
 
 ```bash
 npm i
