@@ -78,7 +78,7 @@ export class DbGrpcMapper {
             grpcBlog.setStartdate(startDate);
             const endDate: Timestamp = new Timestamp();
             endDate.setSeconds(blogFromDb.endUnixTimestamp);
-            grpcBlog.setStartdate(endDate);
+            grpcBlog.setEnddate(endDate);
 
             grpcBlogs.push(grpcBlog);
         });
