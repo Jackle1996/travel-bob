@@ -43,7 +43,6 @@ export class DbGrpcMapper {
     private ConvertDbCommentsToGrpc(commentsFromDb: IDbComment[]): Comment[] {
 
         const grpcComments: Comment[] = new Array<Comment>();
-        console.log(commentsFromDb);
         if (!isNullOrUndefined(commentsFromDb)) {
 
             commentsFromDb.forEach(commentFromDb => {
