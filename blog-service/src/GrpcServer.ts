@@ -17,6 +17,7 @@ import {
     UpdateBlogpostRequest, UpdateBlogpostReply,
     Blog, Blogpost
 } from "../../api/grpc-ts/blogposts_pb";
+import { isNull } from "util";
 
 class BlogsAPI implements IBlogsAPIServer {
 
@@ -76,7 +77,10 @@ class BlogsAPI implements IBlogsAPIServer {
 
         const reply: CreateBlogReply = new CreateBlogReply();
         reply.setBlogid(blogId);
-        callback(null, reply);
+        const err = isNull(blogId)
+            ? new Error('Error: Could not create blog. Probably some data missing in the request.')
+            : null;
+        callback(err, reply);
     }
 
     /**
@@ -91,7 +95,10 @@ class BlogsAPI implements IBlogsAPIServer {
 
         const reply: CreateBlogpostReply = new CreateBlogpostReply();
         reply.setBlogpostid(postId);
-        callback(null, reply);
+        const err = isNull(postId)
+            ? new Error('Error: Could not create blogpost. Probably some data missing in the request.')
+            : null;
+        callback(err, reply);
     }
 
     /**
