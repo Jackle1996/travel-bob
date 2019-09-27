@@ -6,12 +6,12 @@
         </mat-card-header>
         <img mat-card-image src="{{post.getHeaderimageurl()}}" alt="post Header image">
         <mat-card-content>
-            <p>{{post.getText()}}</p>
+            <p>{{post.getSummary()}}</p>
         </mat-card-content>
         <mat-card-actions>
             <button mat-raised-button color="accent">
-                Write Comment
-                <mat-icon mat-fab role="img"  aria-hidden="true" >comment</mat-icon>
+                Read BlogPost
+                <mat-icon mat-fab role="img"  aria-hidden="true" >remove_red_eye</mat-icon>
             </button>
         </mat-card-actions>
     </mat-card>
