@@ -11,10 +11,16 @@ import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatDialogModule, MatNativeDateModule, MAT_DATE_LOCALE } from '@angular/material';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+
 // flex layout for responsive design
 import { FlexLayoutModule } from '@angular/flex-layout';
 // routing module
 import { AppRoutingModule } from './app-routing/app-routing.module';
+import { BlogformComponent } from './blogform/blogform.component';
 
 
 @NgModule({
@@ -22,7 +28,8 @@ import { AppRoutingModule } from './app-routing/app-routing.module';
     AppComponent,
     BlogviewComponent,
     BlogsummaryComponent,
-    BlogpostviewComponent
+    BlogpostviewComponent,
+    BlogformComponent
   ],
   imports: [
     BrowserModule,
@@ -31,10 +38,19 @@ import { AppRoutingModule } from './app-routing/app-routing.module';
     MatButtonModule,
     MatIconModule,
     MatToolbarModule,
+    MatDialogModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
     FlexLayoutModule,
     AppRoutingModule
   ],
-  providers: [],
-  bootstrap: [AppComponent]
+  providers: [
+    MatDatepickerModule,
+    { provide: MAT_DATE_LOCALE, useValue: 'ch' },
+],
+  bootstrap: [AppComponent],
+  entryComponents: [BlogformComponent]
 })
 export class AppModule { }

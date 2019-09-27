@@ -34,7 +34,7 @@ export class BlogsummaryComponent implements OnInit {
       this.dialogRef.close();
     }
     this.dialogRef = this.dialog.open(BlogformComponent, {
-      width: '500px'
+      width: '80%'
     });
 
     this.dialogRef.afterClosed().subscribe(result => {
