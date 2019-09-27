@@ -20,7 +20,8 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { FlexLayoutModule } from '@angular/flex-layout';
 // routing module
 import { AppRoutingModule } from './app-routing/app-routing.module';
-import { BlogformComponent } from './blogform/blogform.component';
+import { BlogdialogComponent } from './blogdialog/blogdialog.component';
+import { DeletedialogComponent } from './deletedialog/deletedialog.component';
 
 
 @NgModule({
@@ -29,7 +30,8 @@ import { BlogformComponent } from './blogform/blogform.component';
     BlogviewComponent,
     BlogsummaryComponent,
     BlogpostviewComponent,
-    BlogformComponent
+    BlogdialogComponent,
+    DeletedialogComponent
   ],
   imports: [
     BrowserModule,
@@ -51,6 +53,6 @@ import { BlogformComponent } from './blogform/blogform.component';
     { provide: MAT_DATE_LOCALE, useValue: 'ch' },
 ],
   bootstrap: [AppComponent],
-  entryComponents: [BlogformComponent]
+  entryComponents: [BlogdialogComponent]
 })
 export class AppModule { }

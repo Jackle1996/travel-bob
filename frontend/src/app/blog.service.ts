@@ -33,11 +33,11 @@ export class BlogService  {
     }).on('data', data => { callback(data.getBlogpostsList()); });
   }
 
-  createBlog(blogId: number) {
-    const request = new DeleteBlogRequest();
-    request.setBlogid(blogId);
-    this.grpcClient.deleteBlog(request, {}, (err: Error | null, response: DeleteBlogReply) => {
-      if (err) { console.log('DeleteBlogRequest Error:: ', err); }
+  createBlog(blog: Blog) {
+    const request = new CreateBlogRequest();
+    request.setBlog(blog);
+    this.grpcClient.createBlog(request, {}, (err: Error | null, response: CreateBlogReply) => {
+      if (err) { console.log('CreateBlogRequest Error:: ', err); }
       console.log('response', response);
     });
   }

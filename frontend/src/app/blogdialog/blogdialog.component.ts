@@ -3,12 +3,12 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { Blog, Timestamp } from '../../../../api/grpc-web-ts/blogposts_pb';
 
 @Component({
-  selector: 'app-blogform',
-  templateUrl: './blogform.component.html',
-  styleUrls: ['./blogform.component.css']
+  selector: 'app-blogdialog',
+  templateUrl: './blogdialog.component.html',
+  styleUrls: ['./blogdialog.component.css']
 })
 
-export class BlogformComponent implements OnInit {
+export class BlogdialogComponent implements OnInit {
   @ViewChild('blogtitle', null) blogtitle: ElementRef;
   @ViewChild('destination', null) destination: ElementRef;
   @ViewChild('startDate', null) startDate: ElementRef;
@@ -16,7 +16,7 @@ export class BlogformComponent implements OnInit {
   @ViewChild('description', null) description: ElementRef;
 
   private formtitle: string;
-  constructor(private dialogRef: MatDialogRef<BlogformComponent>) {}
+  constructor(private dialogRef: MatDialogRef<BlogdialogComponent>) {}
 
   ngOnInit() {
   }
@@ -57,6 +57,7 @@ export class BlogformComponent implements OnInit {
     blog.setDescription(this.description.nativeElement.value);
     // TODO: determine author per login later
     blog.setAuthor('TODO determine per login later');
+    console.log(blog);
     this.dialogRef.close(blog);
   }
 }
