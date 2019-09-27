@@ -18,8 +18,8 @@ export class BlogService  {
     this.grpcClient.getAllBlogs(new AllBlogsRequest(), {}, (err: Error | null, response: AllBlogsReply) => {
       if (err) { console.log('getAllBlogs Error:: ', err); }
       this.blogs = response.getBlogsList();
+      console.log('blogs=', this.blogs);
     });
-    console.log('blogs=', this.blogs);
   }
 
   getAllBlogs(): Blog[] {
