@@ -1,22 +1,29 @@
-<div *ngFor='let blog of getAllBlogs()' class="floatingDiv">
-    <mat-card>
-        <mat-card-header>
-            <div mat-card-avatar class="blog-header-image"></div>
-            <mat-card-title>{{blog.getTitle()}}</mat-card-title>
-            <mat-card-subtitle>by {{blog.getAuthor()}}.</mat-card-subtitle>
-        </mat-card-header>
-        <img mat-card-image src="{{blog.getBlogimageurl()}}" alt="Blog main image">
-        <mat-card-content>
-            <mat-card-subtitle>{{blog.getStartdate().getSeconds() * 1000 | date}} - {{blog.getEnddate().getSeconds() * 1000 | date}}, 
-                {{blog.getDestination()}}</mat-card-subtitle>
-            <p>{{blog.getDescription()}}</p>
-        </mat-card-content>
-        <mat-card-actions>
-            <button mat-raised-button color="primary" routerLink="./blog/{{blog.getId()}}">
-                View Blog
-                <mat-icon mat-fab role="img"  aria-hidden="true" >pageview</mat-icon>
-            </button>
-        </mat-card-actions>
-    </mat-card>
+<div>
+    <div>
+        <button class="createbutton" mat-raised-button color="accent" (click)="createBlog()">Create new Blog
+            <mat-icon mat-fab role="img"  aria-hidden="true" >add_box</mat-icon>
+        </button> 
+    </div>
+    <div *ngFor='let blog of getAllBlogs()' class="floatingDiv">
+        <mat-card>
+            <mat-card-header>
+                <div mat-card-avatar class="blog-header-image"></div>
+                <mat-card-title>{{blog.getTitle()}}</mat-card-title>
+                <mat-card-subtitle>by {{blog.getAuthor()}}.</mat-card-subtitle>
+            </mat-card-header>
+            <img mat-card-image src="{{blog.getBlogimageurl()}}" alt="Blog main image">
+            <mat-card-content>
+                <mat-card-subtitle>{{blog.getStartdate().getSeconds() * 1000 | date}} - {{blog.getEnddate().getSeconds() * 1000 | date}}, 
+                    {{blog.getDestination()}}</mat-card-subtitle>
+                <p>{{blog.getDescription()}}</p>
+            </mat-card-content>
+            <mat-card-actions>
+                <button mat-raised-button color="primary" routerLink="./blog/{{blog.getId()}}">
+                    View Blog
+                    <mat-icon mat-fab role="img"  aria-hidden="true" >pageview</mat-icon>
+                </button>
+            </mat-card-actions>
+        </mat-card>
+    </div>
 </div>
 

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Blog, AllBlogsRequest, AllBlogsReply } from '../../../api/grpc-web-ts/blogposts_pb';
+import { Blog, AllBlogsRequest, AllBlogsReply, CreateBlogRequest } from '../../../api/grpc-web-ts/blogposts_pb';
 import { Blogpost, Timestamp, BlogpostsRequest, BlogpostsReply } from '../../../api/grpc-web-ts/blogposts_pb';
 import { BlogsAPIClient } from '../../../api/grpc-web-ts/BlogpostsServiceClientPb';
 import { Error } from 'grpc-web';
@@ -27,5 +27,10 @@ export class BlogService  {
     this.grpcClient.getBlogposts(request, {}, (err: Error | null, response: BlogpostsReply) => {
       if (err) { console.log('getBlogposts Error:: ', err); }
     }).on('data', data => { callback(data.getBlogpostsList()); });
+  }
+
+  createBlog(blog: Blog) {
+    const request = new CreateBlogRequest();
+    this.grpcClient.createBlog(request, {}, null);
   }
 }

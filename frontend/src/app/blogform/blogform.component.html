@@ -1,0 +1,30 @@
+<h1 mat-dialog-title>Add file</h1>
+<mat-dialog-content>
+    <form class="form">
+        <mat-form-field>
+            <input matInput placeholder="Blog Title">
+        </mat-form-field>
+        
+        <mat-form-field>
+            <input matInput placeholder="Blog destination">
+        </mat-form-field>
+        <mat-form-field>
+            <input matInput [matDatepicker]="startDate" placeholder="Start date">
+            <mat-datepicker-toggle matSuffix [for]="startDate"></mat-datepicker-toggle>
+            <mat-datepicker #startDate></mat-datepicker>
+        </mat-form-field>
+        <mat-form-field>
+            <input matInput [matDatepicker]="endDate" placeholder="End date">
+            <mat-datepicker-toggle matSuffix [for]="endDate"></mat-datepicker-toggle>
+            <mat-datepicker #endDate></mat-datepicker>
+        </mat-form-field>
+        <input type="file" placeholder="Blog description">
+        <mat-form-field>
+            <textarea wrap="soft" matInput placeholder="Blog description"></textarea>
+        </mat-form-field>
+    </form>
+</mat-dialog-content>
+<mat-dialog-actions>
+    <button mat-button>Save</button>
+    <button mat-dialog-close mat-button>Cancel</button>
+</mat-dialog-actions>
