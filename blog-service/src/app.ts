@@ -31,7 +31,7 @@ class App {
  */
 process.on('SIGINT', async () => {
     console.log("[App] Caught interrupt signal.");
-    await DBA.Disconnect()
+    DBA.Disconnect();
     process.exit();
 });
 

@@ -31,22 +31,22 @@ export class DbGrpcMapper {
 
         if (input instanceof Blog) {
 
-            console.log('[DbGrpcMapper] Convert Blog[] to IDbBlog[]');
+            console.log('[DbGrpcMapper] Convert Blog to IDbBlog.');
             return this.ConvertGrpcBlogToDbBlog(input as Blog);
 
         } else if (input instanceof Blogpost) {
 
-            console.log('[DbGrpcMapper] Convert Blogpost[] to IDbBlogpost[]');
+            console.log('[DbGrpcMapper] Convert Blogpost to IDbBlogpost.');
             return this.ConvertGrpcBlogpostToDbBlogpost(input as Blogpost);
 
         } else if (Array.isArray(input) && input.every(i => isNullOrUndefined(i.blogId))) {
 
-            console.log('[DbGrpcMapper] Convert IDbBlog[] to Blog[]');
+            console.log('[DbGrpcMapper] Convert IDbBlog[] to Blog[].');
             return this.ConvertDbBlogsToGrpc(input as IDbBlog[]);
 
         } else if (Array.isArray(input) && input.every(i => !isNullOrUndefined(i.blogId))) {
 
-            console.log('[DbGrpcMapper] Convert IDbBlogpost[] to Blogpost[]');
+            console.log('[DbGrpcMapper] Convert IDbBlogpost[] to Blogpost[].');
             return this.ConvertDbBlogpostsToGrpcBlogpost(input as IDbBlogpost[]);
 
         } else {
@@ -63,25 +63,29 @@ export class DbGrpcMapper {
     private ConvertDbBlogsToGrpc(blogsFromDb: IDbBlog[]): Blog[] {
 
         const grpcBlogs: Blog[] = new Array<Blog>();
-        blogsFromDb.forEach(blogFromDb => {
 
-            const grpcBlog: Blog = new Blog();
+        if (!isNullOrUndefined(blogsFromDb)) {
 
-            grpcBlog.setId(blogFromDb.id);
-            grpcBlog.setBlogimageurl(blogFromDb.blogImageUrl);
-            grpcBlog.setDescription(blogFromDb.description);
-            grpcBlog.setAuthor(blogFromDb.author);
-            grpcBlog.setTitle(blogFromDb.title);
-            grpcBlog.setDestination(blogFromDb.destination);
-            const startDate: Timestamp = new Timestamp();
-            startDate.setSeconds(blogFromDb.startUnixTimestamp);
-            grpcBlog.setStartdate(startDate);
-            const endDate: Timestamp = new Timestamp();
-            endDate.setSeconds(blogFromDb.endUnixTimestamp);
-            grpcBlog.setEnddate(endDate);
+            blogsFromDb.forEach(blogFromDb => {
 
-            grpcBlogs.push(grpcBlog);
-        });
+                const grpcBlog: Blog = new Blog();
+
+                grpcBlog.setId(blogFromDb.id);
+                grpcBlog.setBlogimageurl(blogFromDb.blogImageUrl);
+                grpcBlog.setDescription(blogFromDb.description);
+                grpcBlog.setAuthor(blogFromDb.author);
+                grpcBlog.setTitle(blogFromDb.title);
+                grpcBlog.setDestination(blogFromDb.destination);
+                const startDate: Timestamp = new Timestamp();
+                startDate.setSeconds(blogFromDb.startUnixTimestamp);
+                grpcBlog.setStartdate(startDate);
+                const endDate: Timestamp = new Timestamp();
+                endDate.setSeconds(blogFromDb.endUnixTimestamp);
+                grpcBlog.setEnddate(endDate);
+
+                grpcBlogs.push(grpcBlog);
+            });
+        }
 
         return grpcBlogs;
     }
@@ -112,23 +116,27 @@ export class DbGrpcMapper {
     private ConvertDbBlogpostsToGrpcBlogpost(blogpostsFromDb: IDbBlogpost[]): Blogpost[] {
 
         const postsForResponse: Blogpost[] = new Array<Blogpost>();
-        blogpostsFromDb.forEach(postFromDb => {
 
-            const post: Blogpost = new Blogpost();
+        if (!isNullOrUndefined(blogpostsFromDb)) {
 
-            post.setBlogid(postFromDb.blogId);
-            post.setHeaderimageurl(postFromDb.headerImageUrl);
-            post.setId(postFromDb.id);
-            post.setLocation(postFromDb.location);
-            post.setText(postFromDb.text);
-            post.setTitle(postFromDb.title);
-            const travelDate = new Timestamp();
-            travelDate.setSeconds(postFromDb.travelDateUnixTimestamp);
-            post.setTraveldate(travelDate);
-            post.setSummary(postFromDb.summary);
+            blogpostsFromDb.forEach(postFromDb => {
 
-            postsForResponse.push(post);
-        });
+                const post: Blogpost = new Blogpost();
+
+                post.setBlogid(postFromDb.blogId);
+                post.setHeaderimageurl(postFromDb.headerImageUrl);
+                post.setId(postFromDb.id);
+                post.setLocation(postFromDb.location);
+                post.setText(postFromDb.text);
+                post.setTitle(postFromDb.title);
+                const travelDate = new Timestamp();
+                travelDate.setSeconds(postFromDb.travelDateUnixTimestamp);
+                post.setTraveldate(travelDate);
+                post.setSummary(postFromDb.summary);
+
+                postsForResponse.push(post);
+            });
+        }
 
         return postsForResponse;
     }
