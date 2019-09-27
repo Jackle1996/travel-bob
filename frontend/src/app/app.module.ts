@@ -14,13 +14,15 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 // flex layout for responsive design
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { AppRoutingModule } from './app-routing/app-routing.module';
+import { BlogpostviewComponent } from './blogpostview/blogpostview.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
     BlogviewComponent,
-    BlogsummaryComponent
+    BlogsummaryComponent,
+    BlogpostviewComponent
   ],
   imports: [
     BrowserModule,
