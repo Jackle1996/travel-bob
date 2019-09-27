@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Blog, AllBlogsRequest, AllBlogsReply, CreateBlogRequest, CreateBlogReply } from '../../../api/grpc-web-ts/blogposts_pb';
+import { Blog, AllBlogsRequest, AllBlogsReply, CreateBlogRequest, CreateBlogReply, DeleteBlogpostReply } from '../../../api/grpc-web-ts/blogposts_pb';
 import { UpdateBlogRequest, UpdateBlogReply } from '../../../api/grpc-web-ts/blogposts_pb';
 import { DeleteBlogRequest, DeleteBlogReply } from '../../../api/grpc-web-ts/blogposts_pb';
 import { Blogpost, Timestamp, BlogpostsRequest, BlogpostsReply } from '../../../api/grpc-web-ts/blogposts_pb';
@@ -51,10 +51,10 @@ export class BlogService  {
     });
   }
 
-  deleteBlog(blog: Blog) {
-    const request = new UpdateBlogRequest();
-    request.setBlog(blog);
-    this.grpcClient.updateBlog(request, {}, (err: Error | null, response: UpdateBlogReply) => {
+  deleteBlog(blogId: number) {
+    const request = new DeleteBlogRequest();
+    request.setBlogid(blogId);
+    this.grpcClient.deleteBlog(request, {}, (err: Error | null, response: DeleteBlogReply) => {
       if (err) { console.log('UpdateBlogRequest Error:: ', err); }
       console.log('response', response);
     });
