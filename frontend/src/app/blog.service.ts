@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
-import { Blog, AllBlogsRequest, AllBlogsReply, CreateBlogRequest } from '../../../api/grpc-web-ts/blogposts_pb';
+import { Blog, AllBlogsRequest, AllBlogsReply, CreateBlogRequest, CreateBlogReply } from '../../../api/grpc-web-ts/blogposts_pb';
+import { UpdateBlogRequest, UpdateBlogReply } from '../../../api/grpc-web-ts/blogposts_pb';
+import { DeleteBlogRequest, DeleteBlogReply } from '../../../api/grpc-web-ts/blogposts_pb';
 import { Blogpost, Timestamp, BlogpostsRequest, BlogpostsReply } from '../../../api/grpc-web-ts/blogposts_pb';
 import { BlogsAPIClient } from '../../../api/grpc-web-ts/BlogpostsServiceClientPb';
 import { Error } from 'grpc-web';
@@ -17,6 +19,7 @@ export class BlogService  {
   getBlogs(callback) {
     this.grpcClient.getAllBlogs(new AllBlogsRequest(), {}, (err: Error | null, response: AllBlogsReply) => {
       if (err) { console.log('getAllBlogs Error:: ', err); }
+      console.log('response', response);
     }).on('data', data => { callback(data.getBlogsList()); });
   }
 
@@ -26,11 +29,34 @@ export class BlogService  {
 
     this.grpcClient.getBlogposts(request, {}, (err: Error | null, response: BlogpostsReply) => {
       if (err) { console.log('getBlogposts Error:: ', err); }
+      console.log('response', response);
     }).on('data', data => { callback(data.getBlogpostsList()); });
   }
 
-  createBlog(blog: Blog) {
-    const request = new CreateBlogRequest();
-    this.grpcClient.createBlog(request, {}, null);
+  createBlog(blogId: number) {
+    const request = new DeleteBlogRequest();
+    request.setBlogid(blogId);
+    this.grpcClient.deleteBlog(request, {}, (err: Error | null, response: DeleteBlogReply) => {
+      if (err) { console.log('DeleteBlogRequest Error:: ', err); }
+      console.log('response', response);
+    });
+  }
+
+  editBlog(blog: Blog) {
+    const request = new UpdateBlogRequest();
+    request.setBlog(blog);
+    this.grpcClient.updateBlog(request, {}, (err: Error | null, response: UpdateBlogReply) => {
+      if (err) { console.log('UpdateBlogRequest Error:: ', err); }
+      console.log('response', response);
+    });
+  }
+
+  deleteBlog(blog: Blog) {
+    const request = new UpdateBlogRequest();
+    request.setBlog(blog);
+    this.grpcClient.updateBlog(request, {}, (err: Error | null, response: UpdateBlogReply) => {
+      if (err) { console.log('UpdateBlogRequest Error:: ', err); }
+      console.log('response', response);
+    });
   }
 }
