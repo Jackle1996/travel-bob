@@ -19,8 +19,6 @@
   },
   "author": "Jackle1996 & eddex",
   "dependencies": {
-    "google-protobuf": "^3.9.2",
-    "grpc": "^1.23.3",
     "mongoose": "^5.7.1"
   },
   "devDependencies": {
