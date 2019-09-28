@@ -38,15 +38,22 @@ Build the image with the `--no-cache` option to make sure the latest changes are
 > If you feel slightly masochistic today.
 
 ```sh
+# Build frontend
+docker build -t travelbob/frontend -f .\docker\frontend.Dockerfile --no-cache .
+
+# Run:
+docker run -d -p 4200:4200 travelbob/frontend
+```
+```sh
 # Build and run envoy proxy.
 # No need to expose port 9090, 9091 or 9092
 #  since the envoy proxy can access those ports via host.docker.internal
-docker build -t travelbob/envoy -f .\envoy.Dockerfile --no-cache .
+docker build -t travelbob/envoy -f .\docker\envoy.Dockerfile --no-cache .
 docker run -d -p 8080:8080 travelbob/envoy
 ```
 ```sh
 # Build blog-service
-docker build -t travelbob/blog-service -f .\blog.Dockerfile --no-cache .
+docker build -t travelbob/blog-service -f .\docker\blog.Dockerfile --no-cache .
 
 # Run usig PowerShell:
 docker run -d -p 9090:9090 -e DB_USER=$env:DB_USER -e DB_PASS=$env:DB_PASS travelbob/blog-service
@@ -56,7 +63,7 @@ docker run -d -p 9090:9090 -e DB_USER=$DB_USER -e DB_PASS=$DB_PASS travelbob/blo
 ```
 ```sh
 # Build comment-service
-docker build -t travelbob/comment-service -f .\comment.Dockerfile --no-cache .
+docker build -t travelbob/comment-service -f .\docker\comment.Dockerfile --no-cache .
 
 # Run usig PowerShell:
 docker run -d -p 9091:9091 -e DB_USER=$env:DB_USER -e DB_PASS=$env:DB_PASS travelbob/comment-service
@@ -66,7 +73,7 @@ docker run -d -p 9091:9091 -e DB_USER=$DB_USER -e DB_PASS=$DB_PASS travelbob/com
 ```
 ```sh
 # Build user-service
-docker build -t travelbob/user-service -f .\user.Dockerfile --no-cache .
+docker build -t travelbob/user-service -f .\docker\user.Dockerfile --no-cache .
 
 # Run usig PowerShell:
 docker run -d -p 9092:9092 -e DB_USER=$env:DB_USER -e DB_PASS=$env:DB_PASS travelbob/user-service

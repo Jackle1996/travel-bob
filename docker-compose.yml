@@ -1,9 +1,21 @@
 version: '3'
 services:
+  frontend:
+    build:
+      context: .
+      dockerfile: ./docker/frontend.Dockerfile
+    ports:
+    - 4200:4200
+  envoy-proxy:
+    build:
+      context: .
+      dockerfile: ./docker/envoy.Dockerfile
+    ports:
+    - 8080:8080
   blog-service:
     build:
       context: .
-      dockerfile: ./blog.Dockerfile
+      dockerfile: ./docker/blog.Dockerfile
     ports:
     - "9090:9090"
     environment:
@@ -12,7 +24,7 @@ services:
   comment-service:
     build:
       context: .
-      dockerfile: ./comment.Dockerfile
+      dockerfile: ./docker/comment.Dockerfile
     ports:
     - "9091:9091"
     environment:
@@ -21,7 +33,7 @@ services:
   user-service:
     build:
       context: .
-      dockerfile: ./user.Dockerfile
+      dockerfile: ./docker/user.Dockerfile
     ports:
     - "9092:9092"
     environment:
