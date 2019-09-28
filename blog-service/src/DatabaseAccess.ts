@@ -77,10 +77,11 @@ export class DatabaseAccess {
      */
     public async CreateNewBlogpost(newBlogpost: IDbBlogpost): Promise<number> {
 
-        console.log(`[DatabaseAccess] Creating new blog "${newBlogpost.title}".`);
+        console.log(`[DatabaseAccess] Creating new blogpost "${newBlogpost.title}".`);
 
         const blogExists: boolean = await this.CheckIfBlogExists(newBlogpost.blogId);
         if (!blogExists) {
+            console.log(`[DatabaseAccess] Error: blog with id ${newBlogpost.blogId} does not exist.`);
             return null;
         }
 
@@ -143,7 +144,7 @@ export class DatabaseAccess {
 
     public async UpdateBlog(blog: IDbBlog): Promise<boolean> {
 
-        const result = await DbBlog.replaceOne({ id: blog.id }, {
+        const result = await DbBlog.updateOne({ id: blog.id }, {
             id: blog.id,
             blogImageUrl: blog.blogImageUrl,
             description: blog.description,
@@ -164,14 +165,15 @@ export class DatabaseAccess {
 
     public async UpdateBlogpost(blogpost: IDbBlogpost): Promise<boolean> {
 
-        const result = await DbBlogpost.replaceOne({ id: blogpost.id }, {
+        const result = await DbBlogpost.updateOne({ id: blogpost.id }, {
             id: blogpost.id,
             title: blogpost.title,
             text: blogpost.text,
             blogId: blogpost.blogId,
             headerImageUrl: blogpost.headerImageUrl,
             travelDateUnixTimestamp: blogpost.travelDateUnixTimestamp,
-            location: blogpost.location
+            location: blogpost.location,
+            summary: blogpost.summary
         });
         const ok: boolean = result.nModified === 1;
         if (ok) {
