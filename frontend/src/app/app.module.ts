@@ -53,6 +53,9 @@ import { DeletedialogComponent } from './deletedialog/deletedialog.component';
     { provide: MAT_DATE_LOCALE, useValue: 'ch' },
 ],
   bootstrap: [AppComponent],
-  entryComponents: [BlogdialogComponent]
+  entryComponents: [
+    BlogdialogComponent,
+    DeletedialogComponent
+  ]
 })
 export class AppModule { }

@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
+import { MatDialogRef } from '@angular/material';
 import { Blog, Timestamp } from '../../../../api/grpc-web-ts/blogposts_pb';
 
 @Component({
