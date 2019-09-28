@@ -17,3 +17,7 @@ mat-card-title {
 .floatingDiv * {
     max-width: 400px;
 }
+
+.createbutton {
+    width: 100%;
+}
