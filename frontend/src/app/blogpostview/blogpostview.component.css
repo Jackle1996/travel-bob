@@ -1,0 +1,11 @@
+.postview {
+    width: 60%;
+}
+
+.commentview {
+    width: 20%;
+}
+
+div {
+    float: left;
+}

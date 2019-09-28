@@ -5,6 +5,7 @@ import { Blogpost } from '../../../../api/grpc-web-ts/blogposts_pb';
 import { MatDialog, MatDialogRef } from '@angular/material';
 import { DeletedialogComponent } from '../deletedialog/deletedialog.component';
 import { BlogpostdialogComponent } from '../blogpostdialog/blogpostdialog.component';
+import { BlogposttransferService } from '../services/blogposttransfer.service';
 
 @Component({
   selector: 'app-blogview',
@@ -18,7 +19,10 @@ export class BlogviewComponent implements OnInit {
   private blogpostDialog: MatDialogRef<BlogpostdialogComponent>;
   private deleteDialog: MatDialogRef<DeletedialogComponent>;
 
-  constructor(private route: ActivatedRoute, private blogpostService: BlogpostService, private dialog: MatDialog) {
+  constructor(private route: ActivatedRoute,
+              private blogpostService: BlogpostService,
+              private dialog: MatDialog,
+              private transfer: BlogposttransferService) {
     this.blogPosts = [];
     this.route.paramMap.subscribe(params => {
        this.blogId = Number(params.get('blogid'));
@@ -40,6 +44,7 @@ export class BlogviewComponent implements OnInit {
 
   private assignBlogposts(blogPosts: Blogpost[]) {
     this.blogPosts = blogPosts;
+    this.transfer.setBlogposts(this.blogPosts);
   }
 
   createDialog() {
