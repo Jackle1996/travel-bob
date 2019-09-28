@@ -47,8 +47,8 @@ export namespace CreateNewUserReply {
 }
 
 export class LogInRequest extends jspb.Message { 
-    getUserName(): string;
-    setUserName(value: string): void;
+    getEmail(): string;
+    setEmail(value: string): void;
 
     getPassword(): string;
     setPassword(value: string): void;
@@ -66,7 +66,7 @@ export class LogInRequest extends jspb.Message {
 
 export namespace LogInRequest {
     export type AsObject = {
-        userName: string,
+        email: string,
         password: string,
     }
 }

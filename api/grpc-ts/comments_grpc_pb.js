@@ -72,7 +72,7 @@ function deserialize_travelbob_comments_GetCommentsRequest(buffer_arg) {
 
 
 var CommentsAPIService = exports.CommentsAPIService = {
-  // Add a new comment to a blog.
+  // Add a new comment to a blogpost.
   addComment: {
     path: '/travelbob.comments.CommentsAPI/AddComment',
     requestStream: false,
@@ -84,7 +84,7 @@ var CommentsAPIService = exports.CommentsAPIService = {
     responseSerialize: serialize_travelbob_comments_AddCommentReply,
     responseDeserialize: deserialize_travelbob_comments_AddCommentReply,
   },
-  // Get all comments for a blog.
+  // Get all comments for a blogpost.
   getComments: {
     path: '/travelbob.comments.CommentsAPI/GetComments',
     requestStream: false,

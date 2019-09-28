@@ -340,7 +340,7 @@ proto.travelbob.users.LogInRequest.prototype.toObject = function(opt_includeInst
  */
 proto.travelbob.users.LogInRequest.toObject = function(includeInstance, msg) {
   var f, obj = {
-    userName: jspb.Message.getFieldWithDefault(msg, 1, ""),
+    email: jspb.Message.getFieldWithDefault(msg, 1, ""),
     password: jspb.Message.getFieldWithDefault(msg, 2, "")
   };
 
@@ -380,7 +380,7 @@ proto.travelbob.users.LogInRequest.deserializeBinaryFromReader = function(msg, r
     switch (field) {
     case 1:
       var value = /** @type {string} */ (reader.readString());
-      msg.setUserName(value);
+      msg.setEmail(value);
       break;
     case 2:
       var value = /** @type {string} */ (reader.readString());
@@ -415,7 +415,7 @@ proto.travelbob.users.LogInRequest.prototype.serializeBinary = function() {
  */
 proto.travelbob.users.LogInRequest.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
-  f = message.getUserName();
+  f = message.getEmail();
   if (f.length > 0) {
     writer.writeString(
       1,
@@ -433,16 +433,16 @@ proto.travelbob.users.LogInRequest.serializeBinaryToWriter = function(message, w
 
 
 /**
- * optional string user_name = 1;
+ * optional string email = 1;
  * @return {string}
  */
-proto.travelbob.users.LogInRequest.prototype.getUserName = function() {
+proto.travelbob.users.LogInRequest.prototype.getEmail = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 1, ""));
 };
 
 
 /** @param {string} value */
-proto.travelbob.users.LogInRequest.prototype.setUserName = function(value) {
+proto.travelbob.users.LogInRequest.prototype.setEmail = function(value) {
   jspb.Message.setProto3StringField(this, 1, value);
 };
 

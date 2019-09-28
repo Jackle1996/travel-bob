@@ -18,7 +18,7 @@ message CreateNewUserRequest {
 message CreateNewUserReply {}
 
 message LogInRequest {
-    string user_name = 1;
+    string email = 1;
     string password = 2;
 }
 
