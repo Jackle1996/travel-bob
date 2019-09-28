@@ -2,11 +2,11 @@
 <mat-dialog-content>
     <form class="form">
         <mat-form-field>
-            <input matInput placeholder="Blog Title" #blogtitle>
+            <input matInput placeholder="Title" #blogtitle>
         </mat-form-field>
         
         <mat-form-field>
-            <input matInput placeholder="Blog destination" #destination>
+            <input matInput placeholder="destination" #destination>
         </mat-form-field>
         <mat-form-field>
             <input matInput [matDatepicker]="startDate" placeholder="Start date" #startDate>
@@ -18,9 +18,9 @@
             <mat-datepicker-toggle matSuffix [for]="endDate"></mat-datepicker-toggle>
             <mat-datepicker #endDate></mat-datepicker>
         </mat-form-field>
-        <input type="file" placeholder="Blog description">
+        <input type="file" placeholder="Image">
         <mat-form-field>
-            <textarea wrap="soft" matInput placeholder="Blog description" #description></textarea>
+            <textarea wrap="soft" matInput placeholder="Description" #description></textarea>
         </mat-form-field>
     </form>
 </mat-dialog-content>

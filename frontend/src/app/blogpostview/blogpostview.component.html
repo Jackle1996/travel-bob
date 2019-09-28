@@ -1,1 +1,20 @@
-<p>blogpostview works!</p>
+<div class=postview>
+    <div *ngIf='post' class="floatingDiv">
+        <mat-card>
+            <mat-card-header>
+                <mat-card-title>{{post.getTitle()}}'</mat-card-title>
+                <mat-card-subtitle>{{post.getTraveldate().getSeconds() * 1000 | date}}, {{post.getLocation()}}</mat-card-subtitle>
+            </mat-card-header>
+            <img mat-card-image src="{{post.getHeaderimageurl()}}" alt="post Header image">
+            <mat-card-content>
+                <p>{{post.getSummary()}}asdas</p>
+            </mat-card-content>
+        </mat-card>
+    </div>
+
+</div>
+<div class="commentview">
+    <p>lame</p>
+    <p>nice</p>
+    <p>cool stuff</p>
+</div>

@@ -22,6 +22,7 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { AppRoutingModule } from './app-routing/app-routing.module';
 import { BlogdialogComponent } from './blogdialog/blogdialog.component';
 import { DeletedialogComponent } from './deletedialog/deletedialog.component';
+import { BlogpostdialogComponent } from './blogpostdialog/blogpostdialog.component';
 
 
 @NgModule({
@@ -31,7 +32,8 @@ import { DeletedialogComponent } from './deletedialog/deletedialog.component';
     BlogsummaryComponent,
     BlogpostviewComponent,
     BlogdialogComponent,
-    DeletedialogComponent
+    DeletedialogComponent,
+    BlogpostdialogComponent
   ],
   imports: [
     BrowserModule,
@@ -55,6 +57,7 @@ import { DeletedialogComponent } from './deletedialog/deletedialog.component';
   bootstrap: [AppComponent],
   entryComponents: [
     BlogdialogComponent,
+    BlogpostdialogComponent,
     DeletedialogComponent
   ]
 })

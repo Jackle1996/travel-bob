@@ -4,6 +4,8 @@ import { BlogpostService } from '../services/blogpost.service';
 import { Blogpost } from '../../../../api/grpc-web-ts/blogposts_pb';
 import { MatDialog, MatDialogRef } from '@angular/material';
 import { DeletedialogComponent } from '../deletedialog/deletedialog.component';
+import { BlogpostdialogComponent } from '../blogpostdialog/blogpostdialog.component';
+import { BlogposttransferService } from '../services/blogposttransfer.service';
 
 @Component({
   selector: 'app-blogview',
@@ -14,21 +16,25 @@ import { DeletedialogComponent } from '../deletedialog/deletedialog.component';
 export class BlogviewComponent implements OnInit {
   private blogId: number;
   private blogPosts: Blogpost[];
+  private blogpostDialog: MatDialogRef<BlogpostdialogComponent>;
   private deleteDialog: MatDialogRef<DeletedialogComponent>;
 
-  constructor(private route: ActivatedRoute, private blogpostService: BlogpostService, private dialog: MatDialog) {
+  constructor(private route: ActivatedRoute,
+              private blogpostService: BlogpostService,
+              private dialog: MatDialog,
+              private transfer: BlogposttransferService) {
     this.blogPosts = [];
     this.route.paramMap.subscribe(params => {
        this.blogId = Number(params.get('blogid'));
        console.log('blogid=', this.blogId)
     });
-    this.updateBlogs();
+    this.updateBlogposts();
   }
 
   ngOnInit() {
   }
 
-  updateBlogs() {
+  updateBlogposts() {
     this.blogpostService.getBlogPosts(this.blogId, (posts: Blogpost[]) => this.assignBlogposts(posts));
   }
 
@@ -38,14 +44,39 @@ export class BlogviewComponent implements OnInit {
 
   private assignBlogposts(blogPosts: Blogpost[]) {
     this.blogPosts = blogPosts;
+    this.transfer.setBlogposts(this.blogPosts);
+  }
+
+  createDialog() {
+    if (this.blogpostDialog) {
+      this.blogpostDialog.close();
+    }
+    this.blogpostDialog = this.dialog.open(BlogpostdialogComponent, {
+      width: '80%',
+    });
   }
 
   createBlogPost() {
-
+    this.createDialog();
+    this.blogpostDialog.componentInstance.setFormTitle('Create Blogpost');
+    this.blogpostDialog.componentInstance.setBlogId(this.blogId);
+    this.blogpostDialog.afterClosed().subscribe(result => {
+      if (result) {
+        this.blogpostService.createBlogPost(result, () => this.updateBlogposts());
+      }
+    });
   }
 
-  editBlogPost() {
-
+  editBlogPost(blogpost: Blogpost) {
+    this.createDialog();
+    this.blogpostDialog.componentInstance.setFormTitle('Edit Blogpost');
+    this.blogpostDialog.componentInstance.setBlogId(this.blogId);
+    this.blogpostDialog.componentInstance.setEditValues(blogpost);
+    this.blogpostDialog.afterClosed().subscribe(result => {
+      if (result) {
+        this.blogpostService.editBlogPost(result, () => this.updateBlogposts());
+      }
+    });
   }
 
   deleteBlogPost(blogId: number) {
@@ -55,7 +86,7 @@ export class BlogviewComponent implements OnInit {
     this.deleteDialog = this.dialog.open(DeletedialogComponent, {});
     this.deleteDialog.afterClosed().subscribe(result => {
       if (result) {
-        this.blogpostService.deleteBlogPost(blogId, () => this.updateBlogs());
+        this.blogpostService.deleteBlogPost(blogId, () => this.updateBlogposts());
       }
     });
   }
