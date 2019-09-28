@@ -1,5 +1,5 @@
 import { Document, Schema, model, HookNextFunction } from "mongoose";
-import { hash, compare } from "bcrypt";
+import { hash, compare } from "bcryptjs";
 import { isNullOrUndefined } from "util";
 
 /*
@@ -47,7 +47,7 @@ UserSchema.pre<IDbUser>('save', function(next) {
  * Can't use arrow function because otherwise
  *  'this' won't work.
  */
-UserSchema.methods.comparePassword = async function(providedPassword: String): Promise<boolean> {
+UserSchema.methods.comparePassword = async function(providedPassword: string): Promise<boolean> {
     let user: IDbUser = this;
     const isMatch: boolean | void = await compare(providedPassword, user.password_hash).catch(reason => {
         console.error(`[UserSchema] Error while comparing passowrd: `, reason);

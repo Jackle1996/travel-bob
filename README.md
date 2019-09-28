@@ -16,7 +16,8 @@ For security reasons the database credentials have to be provided via environmen
 # PowerShell:
 $env:DB_USER="username"
 $env:DB_PASS="password"
-
+```
+```sh
 # Bash:
 export DB_USER=user
 export DB_PASS=password
@@ -62,6 +63,16 @@ docker run -d -p 9091:9091 -e DB_USER=$env:DB_USER -e DB_PASS=$env:DB_PASS trave
 
 # Run using Bash
 docker run -d -p 9091:9091 -e DB_USER=$DB_USER -e DB_PASS=$DB_PASS travelbob/comment-service
+```
+```sh
+# Build user-service
+docker build -t travelbob/user-service -f .\user.Dockerfile --no-cache .
+
+# Run usig PowerShell:
+docker run -d -p 9092:9092 -e DB_USER=$env:DB_USER -e DB_PASS=$env:DB_PASS travelbob/user-service
+
+# Run using Bash
+docker run -d -p 9092:9092 -e DB_USER=$DB_USER -e DB_PASS=$DB_PASS travelbob/user-service
 ```
 
 
