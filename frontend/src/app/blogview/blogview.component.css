@@ -8,7 +8,7 @@ mat-card-title {
     font-size: 25pt;
 }
 
-button.mat-raised-button {
+.createbutton {
     width: 100%;
 }
 

@@ -3,7 +3,6 @@ import { Blog, AllBlogsRequest, AllBlogsReply } from '../../../../api/grpc-web-t
 import { CreateBlogRequest, CreateBlogReply } from '../../../../api/grpc-web-ts/blogposts_pb';
 import { UpdateBlogRequest, UpdateBlogReply } from '../../../../api/grpc-web-ts/blogposts_pb';
 import { DeleteBlogRequest, DeleteBlogReply } from '../../../../api/grpc-web-ts/blogposts_pb';
-import { BlogpostsRequest, BlogpostsReply } from '../../../../api/grpc-web-ts/blogposts_pb';
 import { BlogsAPIClient } from '../../../../api/grpc-web-ts/BlogpostsServiceClientPb';
 import { Error } from 'grpc-web';
 
@@ -22,16 +21,6 @@ export class BlogService  {
       if (err) { console.log('getAllBlogs Error:: ', err); }
       console.log('response', response);
     }).on('data', data => { callback(data.getBlogsList()); });
-  }
-
-  getBlogPosts(blogId: number, callback): void {
-    const request = new BlogpostsRequest();
-    request.setBlogid(blogId);
-
-    this.grpcClient.getBlogposts(request, {}, (err: Error | null, response: BlogpostsReply) => {
-      if (err) { console.log('getBlogposts Error:: ', err); }
-      console.log('response', response);
-    }).on('data', data => { callback(data.getBlogpostsList()); });
   }
 
   createBlog(blog: Blog, callback) {
