@@ -48,9 +48,31 @@ function deserialize_travelbob_users_LogInRequest(buffer_arg) {
   return users_pb.LogInRequest.deserializeBinary(new Uint8Array(buffer_arg));
 }
 
+function serialize_travelbob_users_VerifyTokenReply(arg) {
+  if (!(arg instanceof users_pb.VerifyTokenReply)) {
+    throw new Error('Expected argument of type travelbob.users.VerifyTokenReply');
+  }
+  return Buffer.from(arg.serializeBinary());
+}
+
+function deserialize_travelbob_users_VerifyTokenReply(buffer_arg) {
+  return users_pb.VerifyTokenReply.deserializeBinary(new Uint8Array(buffer_arg));
+}
+
+function serialize_travelbob_users_VerifyTokenRequest(arg) {
+  if (!(arg instanceof users_pb.VerifyTokenRequest)) {
+    throw new Error('Expected argument of type travelbob.users.VerifyTokenRequest');
+  }
+  return Buffer.from(arg.serializeBinary());
+}
+
+function deserialize_travelbob_users_VerifyTokenRequest(buffer_arg) {
+  return users_pb.VerifyTokenRequest.deserializeBinary(new Uint8Array(buffer_arg));
+}
+
 
 var UsersAPIService = exports.UsersAPIService = {
-  // Create user
+  // Create a new user.
   createNewUser: {
     path: '/travelbob.users.UsersAPI/CreateNewUser',
     requestStream: false,
@@ -62,7 +84,7 @@ var UsersAPIService = exports.UsersAPIService = {
     responseSerialize: serialize_travelbob_users_CreateNewUserReply,
     responseDeserialize: deserialize_travelbob_users_CreateNewUserReply,
   },
-  // Log in
+  // Log in.
   logIn: {
     path: '/travelbob.users.UsersAPI/LogIn',
     requestStream: false,
@@ -73,6 +95,18 @@ var UsersAPIService = exports.UsersAPIService = {
     requestDeserialize: deserialize_travelbob_users_LogInRequest,
     responseSerialize: serialize_travelbob_users_LogInReply,
     responseDeserialize: deserialize_travelbob_users_LogInReply,
+  },
+  // Verify that the provided JWT is valid.
+  verifyToken: {
+    path: '/travelbob.users.UsersAPI/VerifyToken',
+    requestStream: false,
+    responseStream: false,
+    requestType: users_pb.VerifyTokenRequest,
+    responseType: users_pb.VerifyTokenReply,
+    requestSerialize: serialize_travelbob_users_VerifyTokenRequest,
+    requestDeserialize: deserialize_travelbob_users_VerifyTokenRequest,
+    responseSerialize: serialize_travelbob_users_VerifyTokenReply,
+    responseDeserialize: deserialize_travelbob_users_VerifyTokenReply,
   },
 };
 

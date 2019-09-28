@@ -3,17 +3,16 @@ syntax = "proto3";
 package travelbob.users;
 
 service UsersAPI {
-    // Create user
+    // Create a new user.
     rpc CreateNewUser(CreateNewUserRequest) returns (CreateNewUserReply);
-    // Log in
+    // Log in.
     rpc LogIn(LogInRequest) returns (LogInReply);
+    // Verify that the provided JWT is valid.
+    rpc VerifyToken(VerifyTokenRequest) returns (VerifyTokenReply);
 }
 
 message CreateNewUserRequest {
-    string user_name = 1;
-    string email = 2;
-    string password = 3;
-    Permissions permissions = 4;
+    User user = 1;
 }
 
 message CreateNewUserReply {}
@@ -27,7 +26,19 @@ message LogInReply {
     string jwt = 1;
 }
 
-message Permissions {
-    bool is_admin = 1;
-    bool is_author = 2;
+message VerifyTokenRequest {
+    string jwt = 1;
+}
+
+message VerifyTokenReply {
+    bool valid = 1;
+}
+
+message User {
+    string user_name = 1;
+    string email = 2;
+    string password = 3;
+    // Bloggers can create blogs & blogposts.
+    // Non bloggers can only write comments.
+    bool is_blogger = 4;
 }

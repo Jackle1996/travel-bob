@@ -13,7 +13,9 @@ import {
   CreateNewUserReply,
   CreateNewUserRequest,
   LogInReply,
-  LogInRequest} from './users_pb';
+  LogInRequest,
+  VerifyTokenReply,
+  VerifyTokenRequest} from './users_pb';
 
 export class UsersAPIClient {
   client_: grpcWeb.AbstractClientBase;
@@ -75,6 +77,28 @@ export class UsersAPIClient {
       request,
       metadata || {},
       this.methodInfoLogIn,
+      callback);
+  }
+
+  methodInfoVerifyToken = new grpcWeb.AbstractClientBase.MethodInfo(
+    VerifyTokenReply,
+    (request: VerifyTokenRequest) => {
+      return request.serializeBinary();
+    },
+    VerifyTokenReply.deserializeBinary
+  );
+
+  verifyToken(
+    request: VerifyTokenRequest,
+    metadata: grpcWeb.Metadata | null,
+    callback: (err: grpcWeb.Error,
+               response: VerifyTokenReply) => void) {
+    return this.client_.rpcCall(
+      this.hostname_ +
+        '/travelbob.users.UsersAPI/VerifyToken',
+      request,
+      metadata || {},
+      this.methodInfoVerifyToken,
       callback);
   }
 

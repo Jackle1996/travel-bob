@@ -1,19 +1,10 @@
 import * as jspb from "google-protobuf"
 
 export class CreateNewUserRequest extends jspb.Message {
-  getUserName(): string;
-  setUserName(value: string): void;
-
-  getEmail(): string;
-  setEmail(value: string): void;
-
-  getPassword(): string;
-  setPassword(value: string): void;
-
-  getPermissions(): Permissions | undefined;
-  setPermissions(value?: Permissions): void;
-  hasPermissions(): boolean;
-  clearPermissions(): void;
+  getUser(): User | undefined;
+  setUser(value?: User): void;
+  hasUser(): boolean;
+  clearUser(): void;
 
   serializeBinary(): Uint8Array;
   toObject(includeInstance?: boolean): CreateNewUserRequest.AsObject;
@@ -25,10 +16,7 @@ export class CreateNewUserRequest extends jspb.Message {
 
 export namespace CreateNewUserRequest {
   export type AsObject = {
-    userName: string,
-    email: string,
-    password: string,
-    permissions?: Permissions.AsObject,
+    user?: User.AsObject,
   }
 }
 
@@ -86,25 +74,69 @@ export namespace LogInReply {
   }
 }
 
-export class Permissions extends jspb.Message {
-  getIsAdmin(): boolean;
-  setIsAdmin(value: boolean): void;
-
-  getIsAuthor(): boolean;
-  setIsAuthor(value: boolean): void;
+export class VerifyTokenRequest extends jspb.Message {
+  getJwt(): string;
+  setJwt(value: string): void;
 
   serializeBinary(): Uint8Array;
-  toObject(includeInstance?: boolean): Permissions.AsObject;
-  static toObject(includeInstance: boolean, msg: Permissions): Permissions.AsObject;
-  static serializeBinaryToWriter(message: Permissions, writer: jspb.BinaryWriter): void;
-  static deserializeBinary(bytes: Uint8Array): Permissions;
-  static deserializeBinaryFromReader(message: Permissions, reader: jspb.BinaryReader): Permissions;
+  toObject(includeInstance?: boolean): VerifyTokenRequest.AsObject;
+  static toObject(includeInstance: boolean, msg: VerifyTokenRequest): VerifyTokenRequest.AsObject;
+  static serializeBinaryToWriter(message: VerifyTokenRequest, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): VerifyTokenRequest;
+  static deserializeBinaryFromReader(message: VerifyTokenRequest, reader: jspb.BinaryReader): VerifyTokenRequest;
 }
 
-export namespace Permissions {
+export namespace VerifyTokenRequest {
   export type AsObject = {
-    isAdmin: boolean,
-    isAuthor: boolean,
+    jwt: string,
+  }
+}
+
+export class VerifyTokenReply extends jspb.Message {
+  getValid(): boolean;
+  setValid(value: boolean): void;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): VerifyTokenReply.AsObject;
+  static toObject(includeInstance: boolean, msg: VerifyTokenReply): VerifyTokenReply.AsObject;
+  static serializeBinaryToWriter(message: VerifyTokenReply, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): VerifyTokenReply;
+  static deserializeBinaryFromReader(message: VerifyTokenReply, reader: jspb.BinaryReader): VerifyTokenReply;
+}
+
+export namespace VerifyTokenReply {
+  export type AsObject = {
+    valid: boolean,
+  }
+}
+
+export class User extends jspb.Message {
+  getUserName(): string;
+  setUserName(value: string): void;
+
+  getEmail(): string;
+  setEmail(value: string): void;
+
+  getPassword(): string;
+  setPassword(value: string): void;
+
+  getIsBlogger(): boolean;
+  setIsBlogger(value: boolean): void;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): User.AsObject;
+  static toObject(includeInstance: boolean, msg: User): User.AsObject;
+  static serializeBinaryToWriter(message: User, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): User;
+  static deserializeBinaryFromReader(message: User, reader: jspb.BinaryReader): User;
+}
+
+export namespace User {
+  export type AsObject = {
+    userName: string,
+    email: string,
+    password: string,
+    isBlogger: boolean,
   }
 }
 
