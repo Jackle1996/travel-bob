@@ -96,7 +96,7 @@ class BlogsAPI implements IBlogsAPIServer {
         const reply: CreateBlogpostReply = new CreateBlogpostReply();
         reply.setBlogpostid(postId);
         const err = isNull(postId)
-            ? new Error('Error: Could not create blogpost. Probably some data missing in the request.')
+            ? new Error('Error: Could not create blogpost. Probably some data missing in the request or invalid blog id.')
             : null;
         callback(err, reply);
     }

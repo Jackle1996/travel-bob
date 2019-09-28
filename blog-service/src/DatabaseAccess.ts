@@ -79,6 +79,11 @@ export class DatabaseAccess {
 
         console.log(`[DatabaseAccess] Creating new blog "${newBlogpost.title}".`);
 
+        const blogExists: boolean = await this.CheckIfBlogExists(newBlogpost.blogId);
+        if (!blogExists) {
+            return null;
+        }
+
         newBlogpost.id = await this.GetUniqueBlogpostId();
 
         const dbBlogpost: void | IDbBlogpost = await newBlogpost.save().catch((reason: any) => {
@@ -209,5 +214,18 @@ export class DatabaseAccess {
         } else {
             return (<IDbBlogpost>postWithMaxId).id + 1;
         }
+    }
+
+    public async CheckIfBlogExists(blogId: Number): Promise<boolean> {
+
+        if (blogId === null || blogId <= 0) {
+            return false;
+        }
+
+        const blog: void | IDbBlog = await DbBlog.findOne({ id: blogId }).exec().catch((reason: any) => {
+            console.log(`[DatabaseAccess] Can't find any blog with id ${blogId} in database.`);
+        });
+
+        return !isNullOrUndefined(blog);
     }
 }
