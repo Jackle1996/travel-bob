@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { BlogService } from '../blog.service';
+import { BlogService } from '../services/blog.service';
 import { Blogpost } from '../../../../api/grpc-web-ts/blogposts_pb';
 
 @Component({
@@ -13,7 +13,7 @@ export class BlogviewComponent implements OnInit {
   private blogId: number;
   private blogPosts: Blogpost[];
 
-  constructor(private route: ActivatedRoute, public blogService: BlogService) {
+  constructor(private route: ActivatedRoute, private blogService: BlogService) {
     this.blogPosts = [];
     this.route.paramMap.subscribe(params => {
        this.blogId = Number(params.get('blogid'));

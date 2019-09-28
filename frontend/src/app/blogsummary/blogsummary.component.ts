@@ -1,5 +1,5 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import { BlogService } from '../blog.service';
+import { BlogService } from '../services/blog.service';
 import { Blog } from '../../../../api/grpc-web-ts/blogposts_pb';
 import { BlogdialogComponent } from '../blogdialog/blogdialog.component';
 import { MatDialog, MatDialogRef } from '@angular/material';
@@ -15,7 +15,7 @@ export class BlogsummaryComponent implements OnInit {
   private blogDialog: MatDialogRef<BlogdialogComponent>;
   private deleteDialog: MatDialogRef<DeletedialogComponent>;
 
-  constructor(private blogService: BlogService, public  dialog: MatDialog) {
+  constructor(private blogService: BlogService, private dialog: MatDialog) {
     this.updateBlogs();
   }
 

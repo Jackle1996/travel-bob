@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { BlogService } from '../blog.service';
+import { BlogpostService } from '../services/blogpost.service';
 import { Blogpost } from '../../../../api/grpc-web-ts/blogposts_pb';
 
 @Component({
@@ -12,13 +12,13 @@ export class BlogpostviewComponent implements OnInit {
   private blogPost: Blogpost;
   private postId: number;
 
-  constructor(private route: ActivatedRoute, public blogService: BlogService) {
+  constructor(private route: ActivatedRoute, private blogpostService: BlogpostService) {
     this.route.paramMap.subscribe(params => {
        this.postId = Number(params.get('postid'));
        console.log('postid=', this.postId);
     });
 
-    // TODO: this.blogService.getBlogPost(this.postId, (post: Blogpost) => this.assignBlogposts(posts));
+    // TODO: this.blogpostService.getBlogPost(this.postId, (post: Blogpost) => this.assignBlogposts(posts));
   }
 
   ngOnInit() {
