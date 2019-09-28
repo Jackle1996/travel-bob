@@ -2,4 +2,32 @@ syntax = "proto3";
 
 package travelbob.users;
 
-service UsersAPI {}
+service UsersAPI {
+    // Create user
+    rpc CreateNewUser(CreateNewUserRequest) returns (CreateNewUserReply);
+    // Log in
+    rpc LogIn(LogInRequest) returns (LogInReply);
+}
+
+message CreateNewUserRequest {
+    string user_name = 1;
+    string email = 2;
+    string password = 3;
+    Permissions permissions = 4;
+}
+
+message CreateNewUserReply {}
+
+message LogInRequest {
+    string user_name = 1;
+    string password = 2;
+}
+
+message LogInReply {
+    string jwt = 1;
+}
+
+message Permissions {
+    bool is_admin = 1;
+    bool is_author = 2;
+}
