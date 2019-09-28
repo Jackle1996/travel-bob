@@ -14,9 +14,9 @@ export class BlogdialogComponent implements OnInit {
   @ViewChild('startDate', null) startDate: ElementRef;
   @ViewChild('endDate', null) endDate: ElementRef;
   @ViewChild('description', null) description: ElementRef;
-
   private formtitle: string;
   private blogId: number;
+
   constructor(private dialogRef: MatDialogRef<BlogdialogComponent>) {
     this.blogId = -1;
   }
@@ -62,7 +62,6 @@ export class BlogdialogComponent implements OnInit {
     blog.setDescription(this.description.nativeElement.value);
     // TODO: determine author per login later
     blog.setAuthor('TODO determine per login later');
-    console.log(blog);
     this.dialogRef.close(blog);
   }
 }

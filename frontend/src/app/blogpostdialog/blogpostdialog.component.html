@@ -1,0 +1,29 @@
+<h1 mat-dialog-title>{{getFormTitle()}}</h1>
+<mat-dialog-content>
+    <form class="form">
+        <mat-form-field>
+            <input matInput placeholder="Title" #blogposttitle>
+        </mat-form-field>
+        
+        <mat-form-field>
+            <input matInput placeholder="Location" #location>
+        </mat-form-field>
+        <mat-form-field>
+            <input matInput placeholder="Summary" #summary>
+        </mat-form-field>
+        <mat-form-field>
+            <input matInput [matDatepicker]="travelDate" placeholder="Travel Date" #travelDate>
+            <mat-datepicker-toggle matSuffix [for]="travelDate"></mat-datepicker-toggle>
+            <mat-datepicker #travelDate></mat-datepicker>
+        </mat-form-field>
+
+        <input type="file" placeholder="Blog Post Image">
+        <mat-form-field>
+            <textarea wrap="soft" matInput placeholder="Text" #text></textarea>
+        </mat-form-field>
+    </form>
+</mat-dialog-content>
+<mat-dialog-actions>
+    <button mat-button (click)="saveClicked()">Save</button>
+    <button mat-dialog-close mat-button>Cancel</button>
+</mat-dialog-actions>
