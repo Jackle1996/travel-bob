@@ -10,6 +10,7 @@ import {
     LogInRequest, LogInReply,
     VerifyTokenRequest, VerifyTokenReply
 } from "../../api/grpc-ts/users_pb";
+import { isNull } from "util";
 
 class UsersAPI implements IUsersAPIServer {
 
@@ -25,7 +26,7 @@ class UsersAPI implements IUsersAPIServer {
      */
     public async createNewUser(call: ServerUnaryCall<CreateNewUserRequest>, callback: sendUnaryData<CreateNewUserReply>) {
 
-        console.log('[GrpcServer] CommentsAPI.createNewUser()');
+        console.log('[GrpcServer] UsersAPI.createNewUser()');
 
         const dbUser: IDbUser = this.dbToGrpcMapper.Convert(call.request.getUser());
         const ok: boolean = await this.databaseAccess.CreateNewUser(dbUser);
@@ -39,10 +40,27 @@ class UsersAPI implements IUsersAPIServer {
      */
     public async logIn(call: ServerUnaryCall<LogInRequest>, callback: sendUnaryData<LogInReply>) {
 
-        const username: string = call.request.getUserName();
-        const password: string = call.request.getPassword();
+        console.log('[GrpcServer] UsersAPI.logIn()');
 
-        callback(new Error('NOT IMPLEMENTED'), null);
+        const email: string = call.request.getEmail();
+        const password: string = call.request.getPassword();
+        const user: IDbUser = await this.databaseAccess.GetUserByEmail(email);
+
+        if (isNull(user)) {
+            console.log(`[GrpcServer] Log in failed. Can't find user with email '${email}'`);
+            callback(new Error('Log in failed: User does not exist.'), null);
+            return;
+        }
+        const isMatch: boolean = await user.comparePassword(password);
+        console.log(`[GrpcServer] Passowrds match: ${isMatch}`);
+        const err: Error = isMatch ? null : new Error('Log in failed: Wrong password.');
+        const reply: LogInReply = new LogInReply();
+
+        if (isMatch) {
+            reply.setJwt('fake.jwt.token');
+        }
+
+        callback(err, reply);
     }
 
     /**

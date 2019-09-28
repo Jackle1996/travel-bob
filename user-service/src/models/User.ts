@@ -1,5 +1,6 @@
 import { Document, Schema, model, HookNextFunction } from "mongoose";
 import { hash, compare } from "bcrypt";
+import { isNullOrUndefined } from "util";
 
 /*
  * The interface defines the document type. Used in the code.
@@ -9,6 +10,7 @@ export interface IDbUser extends Document {
     email: string,
     password_hash: string,
     is_blogger: boolean,
+    comparePassword(providedPassword: String): Promise<boolean>,
 }
 
 /*
@@ -40,14 +42,17 @@ UserSchema.pre<IDbUser>('save', function(next) {
     });
 });
 
-/*
+/**
  * Check if a password if valid.
+ * Can't use arrow function because otherwise
+ *  'this' won't work.
  */
-UserSchema.methods.comparePassword = (candidatePassword: String, next: any): void => {
-    compare(candidatePassword, this.password_hash, function(err, isMatch) {
-        if(err) return next(err);
-        next(null, isMatch)
+UserSchema.methods.comparePassword = async function(providedPassword: String): Promise<boolean> {
+    let user: IDbUser = this;
+    const isMatch: boolean | void = await compare(providedPassword, user.password_hash).catch(reason => {
+        console.error(`[UserSchema] Error while comparing passowrd: `, reason);
     });
+    return isNullOrUndefined(isMatch) ? false : <boolean>isMatch;
 }
 
 /*

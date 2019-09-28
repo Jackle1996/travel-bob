@@ -74,6 +74,26 @@ export class DatabaseAccess {
     }
 
     /**
+     * Gets an user from the database by email.
+     * If there is no user with the specified email,
+     * the method returns 'null'.
+     */
+    public async GetUserByEmail(email: String): Promise<IDbUser> {
+
+        console.log(`[DatabaseAccess] Get user by email: "${email}".`);
+
+        const dbUser: void | IDbUser = await DbUser.findOne({ email: email })
+            .exec()
+            .catch((reason: any) => {
+                console.error(
+                    `[DatabaseAccess] Error while searching user with email '${email}': `,
+                    reason);
+        });
+
+        return isNullOrUndefined(dbUser) ? null : <IDbUser>dbUser;
+    }
+
+    /**
      * Check if there is already a user in the database with the same email.
      * Returns true if the email is unique, otherwise false.
      */
