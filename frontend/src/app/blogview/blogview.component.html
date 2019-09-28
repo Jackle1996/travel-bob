@@ -1,17 +1,26 @@
+<div>
+    <button class="createbutton" mat-raised-button color="accent" (click)="createBlogPost()">Create new BlogPost
+        <mat-icon mat-fab role="img"  aria-hidden="true" >add_box</mat-icon>
+    </button> 
+</div>
 <div *ngFor='let post of getAllBlogposts()' class="floatingDiv">
     <mat-card>
-        <mat-card-header>
+        <mat-card-header routerLink="./post/{{post.getId()}}">
             <mat-card-title>{{post.getTitle()}}'</mat-card-title>
             <mat-card-subtitle>{{post.getTraveldate().getSeconds() * 1000 | date}}, {{post.getLocation()}}</mat-card-subtitle>
         </mat-card-header>
-        <img mat-card-image src="{{post.getHeaderimageurl()}}" alt="post Header image">
+        <img mat-card-image src="{{post.getHeaderimageurl()}}" alt="post Header image" routerLink="./post/{{post.getId()}}">
         <mat-card-content>
             <p>{{post.getSummary()}}</p>
         </mat-card-content>
         <mat-card-actions>
-            <button mat-raised-button color="accent" routerLink="./post/{{post.getId()}}">
-                Read BlogPost
-                <mat-icon mat-fab role="img"  aria-hidden="true" >remove_red_eye</mat-icon>
+            <button mat-raised-button color="accent" (click)="editBlogPost(post)">
+                Edit BlogPost
+                <mat-icon mat-fab role="img"  aria-hidden="true" >edit</mat-icon>
+            </button>
+            <button mat-raised-button color="warn" (click)="deleteBlogPost(post.getId())">
+                Delete BlogPost
+                <mat-icon mat-fab role="img"  aria-hidden="true" >delete</mat-icon>
             </button>
         </mat-card-actions>
     </mat-card>
