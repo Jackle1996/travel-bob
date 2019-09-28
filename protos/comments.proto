@@ -3,9 +3,9 @@ syntax = "proto3";
 package travelbob.comments;
 
 service CommentsAPI {
-    // Add a new comment to a blog.
+    // Add a new comment to a blogpost.
     rpc AddComment(AddCommentRequest) returns (AddCommentReply);
-    // Get all comments for a blog.
+    // Get all comments for a blogpost.
     rpc GetComments(GetCommentsRequest) returns (GetCommentsReply);
     // Delete a comment.
     rpc DeleteComment(DeleteCommentRequest) returns (DeleteCommentReply);
