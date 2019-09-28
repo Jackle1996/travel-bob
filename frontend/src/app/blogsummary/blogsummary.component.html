@@ -22,6 +22,9 @@
                     View Blog
                     <mat-icon mat-fab role="img"  aria-hidden="true" >pageview</mat-icon>
                 </button>
+                <button mat-raised-button color="accent" (click)="editBlog(blog)" >
+                    <mat-icon mat-fab role="img" aria-hidden="true" >edit</mat-icon>
+                </button>
                 <button mat-raised-button color="warn" (click)="deleteBlog(blog.getId())" >
                     <mat-icon mat-fab role="img" aria-hidden="true" >delete</mat-icon>
                 </button>

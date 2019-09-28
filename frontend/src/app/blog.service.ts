@@ -33,30 +33,30 @@ export class BlogService  {
     }).on('data', data => { callback(data.getBlogpostsList()); });
   }
 
-  createBlog(blog: Blog) {
+  createBlog(blog: Blog, callback) {
     const request = new CreateBlogRequest();
     request.setBlog(blog);
     this.grpcClient.createBlog(request, {}, (err: Error | null, response: CreateBlogReply) => {
       if (err) { console.log('CreateBlogRequest Error:: ', err); }
       console.log('response', response);
-    });
+    }).on('data', data => { callback(); });
   }
 
-  editBlog(blog: Blog) {
+  editBlog(blog: Blog, callback) {
     const request = new UpdateBlogRequest();
     request.setBlog(blog);
     this.grpcClient.updateBlog(request, {}, (err: Error | null, response: UpdateBlogReply) => {
       if (err) { console.log('UpdateBlogRequest Error:: ', err); }
       console.log('response', response);
-    });
+    }).on('data', data => { callback(); });
   }
 
-  deleteBlog(blogId: number) {
+  deleteBlog(blogId: number, callback) {
     const request = new DeleteBlogRequest();
     request.setBlogid(blogId);
     this.grpcClient.deleteBlog(request, {}, (err: Error | null, response: DeleteBlogReply) => {
       if (err) { console.log('UpdateBlogRequest Error:: ', err); }
       console.log('response', response);
-    });
+    }).on('data', data => { callback(); });
   }
 }

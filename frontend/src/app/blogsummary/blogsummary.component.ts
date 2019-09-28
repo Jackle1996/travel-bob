@@ -16,10 +16,14 @@ export class BlogsummaryComponent implements OnInit {
   private deleteDialog: MatDialogRef<DeletedialogComponent>;
 
   constructor(private blogService: BlogService, public  dialog: MatDialog) {
-    this.blogService.getBlogs((posts: Blog[]) => this.assignBlogs(posts));
+    this.updateBlogs();
   }
 
   ngOnInit() {
+  }
+
+  updateBlogs() {
+    this.blogService.getBlogs((posts: Blog[]) => this.assignBlogs(posts));
   }
 
   getAllBlogs(): Blog[] {
@@ -27,7 +31,6 @@ export class BlogsummaryComponent implements OnInit {
   }
 
   private assignBlogs(blogs: Blog[]) {
-    console.log('blogs= ', blogs);
     this.blogs = blogs;
   }
 
@@ -44,16 +47,20 @@ export class BlogsummaryComponent implements OnInit {
     this.createDialog();
     this.blogDialog.componentInstance.setFormTitle('Create Blog');
     this.blogDialog.afterClosed().subscribe(result => {
-      this.blogService.createBlog(result);
+      if (result) {
+        this.blogService.createBlog(result, () => this.updateBlogs());
+      }
     });
   }
 
-  editBlog() {
+  editBlog(blog: Blog) {
     this.createDialog();
     this.blogDialog.componentInstance.setFormTitle('Edit Blog');
-    this.blogDialog.componentInstance.setEditValues(this.blogs[1]);
+    this.blogDialog.componentInstance.setEditValues(blog);
     this.blogDialog.afterClosed().subscribe(result => {
-      if (result) { this.blogService.editBlog(result); }
+      if (result) {
+        this.blogService.editBlog(result, () => this.updateBlogs());
+      }
     });
   }
 
@@ -63,7 +70,9 @@ export class BlogsummaryComponent implements OnInit {
     }
     this.deleteDialog = this.dialog.open(DeletedialogComponent, {});
     this.deleteDialog.afterClosed().subscribe(result => {
-      if (result) { this.blogService.deleteBlog(blogId); }
+      if (result) {
+        this.blogService.deleteBlog(blogId, () => this.updateBlogs());
+      }
     });
   }
 }

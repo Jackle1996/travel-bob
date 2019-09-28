@@ -16,7 +16,10 @@ export class BlogdialogComponent implements OnInit {
   @ViewChild('description', null) description: ElementRef;
 
   private formtitle: string;
-  constructor(private dialogRef: MatDialogRef<BlogdialogComponent>) {}
+  private blogId: number;
+  constructor(private dialogRef: MatDialogRef<BlogdialogComponent>) {
+    this.blogId = -1;
+  }
 
   ngOnInit() {
   }
@@ -30,6 +33,7 @@ export class BlogdialogComponent implements OnInit {
   }
 
   setEditValues(blog: Blog) {
+    this.blogId = blog.getId();
     this.blogtitle.nativeElement.value = blog.getTitle();
     this.destination.nativeElement.value = blog.getDestination();
     const startDateFormat = new Date(blog.getStartdate().getSeconds() * 1000);
@@ -41,6 +45,7 @@ export class BlogdialogComponent implements OnInit {
 
   saveClicked() {
     const blog: Blog = new Blog();
+    blog.setId(this.blogId);
     blog.setTitle(this.blogtitle.nativeElement.value);
     blog.setDestination(this.destination.nativeElement.value);
 

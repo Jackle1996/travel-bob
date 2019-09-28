@@ -8,14 +8,6 @@ mat-card-title {
     font-size: 25pt;
 }
 
-button.mat-raised-button.mat-button-base.mat-primary {
-    width: 55%; 
-}
-
-button.mat-raised-button.mat-button-base.mat-warn {
-    width: 5%;
-}
-
 .floatingDiv {
     max-width: 400px;
     float: left;
