@@ -14,6 +14,7 @@
 
 
 <div class="commentDiv">
+    <h2>Comments</h2>
     <mat-list *ngFor='let comment of getAllComments()'>
         <mat-list-item>
             <span class="commentHeader">{{comment.getUnixTimestamp() * 1000 | date}}, {{comment.getAuthor()}}</span>
