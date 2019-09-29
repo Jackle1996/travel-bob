@@ -25,6 +25,8 @@ import { AppRoutingModule } from './app-routing/app-routing.module';
 import { BlogdialogComponent } from './blogdialog/blogdialog.component';
 import { DeletedialogComponent } from './deletedialog/deletedialog.component';
 import { BlogpostdialogComponent } from './blogpostdialog/blogpostdialog.component';
+import { LogindialogComponent } from './logindialog/logindialog.component';
+import { RegisterdialogComponent } from './registerdialog/registerdialog.component';
 
 
 @NgModule({
@@ -35,7 +37,9 @@ import { BlogpostdialogComponent } from './blogpostdialog/blogpostdialog.compone
     BlogpostviewComponent,
     BlogdialogComponent,
     DeletedialogComponent,
-    BlogpostdialogComponent
+    BlogpostdialogComponent,
+    LogindialogComponent,
+    RegisterdialogComponent
   ],
   imports: [
     BrowserModule,
@@ -62,7 +66,9 @@ import { BlogpostdialogComponent } from './blogpostdialog/blogpostdialog.compone
   entryComponents: [
     BlogdialogComponent,
     BlogpostdialogComponent,
-    DeletedialogComponent
+    DeletedialogComponent,
+    LogindialogComponent,
+    RegisterdialogComponent
   ]
 })
 export class AppModule { }
