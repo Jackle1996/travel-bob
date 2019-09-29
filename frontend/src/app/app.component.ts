@@ -23,6 +23,11 @@ export class AppComponent {
       this.loginDialog.close();
     }
     this.loginDialog = this.dialog.open(LogindialogComponent, { width: '50%' });
+    this.loginDialog.afterClosed().subscribe(result => {
+      if (result) {
+        // TODO: Login user here
+      }
+    });
   }
 
   createRegisterDialog() {
@@ -30,5 +35,10 @@ export class AppComponent {
       this.registerDialog.close();
     }
     this.registerDialog = this.dialog.open(RegisterdialogComponent, { width: '50%' });
+    this.loginDialog.afterClosed().subscribe(result => {
+      if (result) {
+        // TODO: Register user here
+      }
+    });
   }
 }

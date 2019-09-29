@@ -1,1 +1,15 @@
-<p>registerdialog works!</p>
+<h1 mat-dialog-title>Register</h1>
+<mat-dialog-content>
+    <form class="form">
+        <mat-form-field>
+            <input matInput placeholder="Username" #username>
+        </mat-form-field>
+        <mat-form-field>
+            <input matInput placeholder="Password" #password>
+        </mat-form-field>
+    </form>
+</mat-dialog-content>
+<mat-dialog-actions>
+    <button mat-button (click)="register()">Register</button>
+    <button mat-dialog-close mat-button>Cancel</button>
+</mat-dialog-actions> 

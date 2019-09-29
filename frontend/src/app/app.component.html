@@ -2,11 +2,11 @@
   <mat-toolbar-row>
     <span>Bob's Travel Blog</span>
     <span class="spacer"></span>
-    <button mat-raised-button color="accent">
+    <button mat-raised-button color="accent" (click)="createLoginDialog()">
         <span>Login</span>
         <mat-icon>person</mat-icon>
     </button>
-    <button mat-raised-button color="accent">
+    <button mat-raised-button color="accent" (click)="createRegisterDialog()">
         <span>Register</span>
         <mat-icon>person_add</mat-icon>
     </button>
