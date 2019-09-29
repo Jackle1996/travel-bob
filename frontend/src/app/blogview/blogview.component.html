@@ -6,6 +6,7 @@
 <div *ngFor='let post of getAllBlogposts()' class="floatingDiv">
     <mat-card>
         <mat-card-header routerLink="./post/{{post.getId()}}">
+            <div mat-card-avatar class="blog-header-image"></div>
             <mat-card-title>{{post.getTitle()}}'</mat-card-title>
             <mat-card-subtitle>{{post.getTraveldate().getSeconds() * 1000 | date}}, {{post.getLocation()}}</mat-card-subtitle>
         </mat-card-header>
