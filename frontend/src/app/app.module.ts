@@ -15,6 +15,8 @@ import { MatDialogModule, MatNativeDateModule, MAT_DATE_LOCALE } from '@angular/
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatListModule } from '@angular/material/list';
 
 // flex layout for responsive design
 import { FlexLayoutModule } from '@angular/flex-layout';
@@ -47,6 +49,8 @@ import { BlogpostdialogComponent } from './blogpostdialog/blogpostdialog.compone
     MatInputModule,
     MatDatepickerModule,
     MatNativeDateModule,
+    MatDividerModule,
+    MatListModule,
     FlexLayoutModule,
     AppRoutingModule
   ],

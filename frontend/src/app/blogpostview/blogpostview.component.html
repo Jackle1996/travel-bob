@@ -1,20 +1,35 @@
-<div class=postview>
-    <div *ngIf='post' class="floatingDiv">
-        <mat-card>
-            <mat-card-header>
-                <mat-card-title>{{post.getTitle()}}'</mat-card-title>
-                <mat-card-subtitle>{{post.getTraveldate().getSeconds() * 1000 | date}}, {{post.getLocation()}}</mat-card-subtitle>
-            </mat-card-header>
-            <img mat-card-image src="{{post.getHeaderimageurl()}}" alt="post Header image">
-            <mat-card-content>
-                <p>{{post.getSummary()}}asdas</p>
-            </mat-card-content>
-        </mat-card>
-    </div>
-
+<div *ngIf='post' class="postDiv">
+    <mat-card>
+        <mat-card-header >
+            <div mat-card-avatar class="blog-header-image"></div>
+            <mat-card-title>{{post.getTitle()}}'</mat-card-title>
+            <mat-card-subtitle>{{post.getTraveldate().getSeconds() * 1000 | date}}, {{post.getLocation()}}</mat-card-subtitle>
+        </mat-card-header>
+        <img mat-card-image src="{{post.getHeaderimageurl()}}" alt="post Header image" routerLink="./post/{{post.getId()}}">
+        <mat-card-content>
+            <p>{{post.getSummary()}}</p>
+        </mat-card-content>
+    </mat-card>
 </div>
-<div class="commentview">
-    <p>lame</p>
-    <p>nice</p>
-    <p>cool stuff</p>
+
+
+<div class="commentDiv">
+    <mat-list *ngFor='let comment of getAllComments()'>
+        <mat-list-item>
+            <span class="commentHeader">{{comment.getUnixTimestamp() * 1000 | date}}, {{comment.getAuthor()}}</span>
+            <span class="commentBody">said:  {{comment.getText()}}</span>
+            <button mat-raised-button color="warn" (click)="deleteComment(comment.getId())">Delete
+                <mat-icon mat-fab role="img"  aria-hidden="true" >delete</mat-icon>
+            </button>      
+        </mat-list-item>
+        <mat-divider></mat-divider>
+    </mat-list>
+    <form class="form">
+        <mat-form-field>
+            <input matInput placeholder="Write Comment" #newcomment>
+        </mat-form-field>
+    </form>
+    <button class="createbutton" mat-raised-button color="accent" (click)="addComment()">Add Comment
+        <mat-icon mat-fab role="img"  aria-hidden="true" >add_box</mat-icon>
+    </button>
 </div>

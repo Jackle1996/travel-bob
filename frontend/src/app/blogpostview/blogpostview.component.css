@@ -3,9 +3,53 @@
 }
 
 .commentview {
-    width: 20%;
+    width: auto;
 }
 
-div {
+.blog-header-image {
+    background-image: url('https://material.angular.io/assets/img/examples/shiba1.jpg');
+    background-size: cover;
+    max-width: 100%;
+}
+
+mat-card-title {
+    font-size: 25pt;
+}
+
+.createbutton {
+    width: 100%;
+}
+
+.postDiv {
+    max-width: 400px;
     float: left;
+    margin: 10px;
+}
+
+
+.postDiv * {
+    max-width: 400px;
+}
+
+.commentDiv {
+    max-width: 800px;
+    float: left;
+    margin: 10px;
+}
+
+form {
+    width: 100%;
+}
+
+mat-form-field {
+    width: 100%;
+}
+
+.commentHeader {
+    width: 30%;
+}
+
+
+.commentBody {
+    width: 60%;
 }
