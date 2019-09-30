@@ -2,7 +2,7 @@ import { DatabaseAccess } from "./DatabaseAccess";
 import { IDbUser } from "./models/User";
 
 import { DbGrpcMapper } from "./DbToGrpcMapper";
-import { EnvProvider } from "../../common/EnvProvider";
+import { EnvProvider } from "./helpers/EnvProvider";
 
 import { isNull, isNullOrUndefined } from "util";
 import { sign, verify, VerifyErrors } from "jsonwebtoken";

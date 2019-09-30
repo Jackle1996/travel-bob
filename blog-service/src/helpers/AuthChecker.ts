@@ -1,7 +1,7 @@
-import { UsersAPIClient } from "../api/grpc-ts/users_grpc_pb";
+import { UsersAPIClient } from "../../../api/grpc-ts/users_grpc_pb";
 import { isNullOrUndefined } from "util";
 import { Metadata, credentials, ServiceError } from "grpc";
-import { VerifyTokenRequest, VerifyTokenReply } from "../api/grpc-ts/users_pb";
+import { VerifyTokenRequest, VerifyTokenReply } from "../../../api/grpc-ts/users_pb";
 
 
 class AuthChecker {

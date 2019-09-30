@@ -2,7 +2,7 @@ import { DatabaseAccess } from "./DatabaseAccess";
 import { IDbComment } from "./models/Comment";
 
 import { DbGrpcMapper } from "./DbToGrpcMapper";
-import { AuthChecker } from "../../common/AuthChecker";
+import { AuthChecker } from "./helpers/AuthChecker";
 
 import { ServerUnaryCall, sendUnaryData } from "grpc";
 import { ICommentsAPIServer, CommentsAPIService } from "../../api/grpc-ts/comments_grpc_pb";
@@ -68,6 +68,13 @@ class CommentsAPI implements ICommentsAPIServer {
     public async deleteComment(call: ServerUnaryCall<DeleteCommentRequest>, callback: sendUnaryData<DeleteCommentReply>): Promise<void> {
 
         console.log('[GrpcServer] CommentsAPI.deleteComment()');
+
+        const reply: AddCommentReply = new AddCommentReply();
+        const checkResponse: boolean | Error = await new AuthChecker().CheckMetadataForJWT(call.metadata);
+        if (checkResponse instanceof Error) {
+            callback(checkResponse, reply);
+            return;
+        }
 
         const commentId: number = call.request.getCommentId();
         const ok: boolean = await this.databaseAccess.DeleteComment(commentId);

@@ -3,4 +3,3 @@ export class EnvProvider {
     static DbPassword: string = process.env['DB_PASS'];
     static JWTSecret: string = process.env['JWT_SECRET'];
 }
-
