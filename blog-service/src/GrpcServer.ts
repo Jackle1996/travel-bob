@@ -3,6 +3,7 @@ import { IDbBlog } from "./models/Blog";
 import { IDbBlogpost } from "./models/Blogpost";
 
 import { DbGrpcMapper } from "./DbToGrpcMapper";
+import { AuthChecker } from "./helpers/AuthChecker";
 
 import { ServerUnaryCall, sendUnaryData } from "grpc";
 import { IBlogsAPIServer, BlogsAPIService } from "../../api/grpc-ts/blogposts_grpc_pb";
@@ -21,12 +22,15 @@ import { isNull } from "util";
 
 class BlogsAPI implements IBlogsAPIServer {
 
+    private readonly authorizationMetadataName: string = 'authorization';
+
     /*
      * Initializes a new instance of the BlogsAPI.
      */
     constructor(
         private databaseAccess: DatabaseAccess,
-        private dbToGrpcMapper: DbGrpcMapper) { }
+        private dbToGrpcMapper: DbGrpcMapper,
+        private authChecker: AuthChecker) { }
 
     /*
      * Returns a list of all blogs in the database.
@@ -108,11 +112,24 @@ class BlogsAPI implements IBlogsAPIServer {
 
         console.log('[GrpcServer] BlogsAPI.deleteBlog()');
 
+        const reply: DeleteBlogReply = new DeleteBlogReply();
+
+        const checkResponse: boolean | Error = await this.authChecker.CheckMetadataForJWT(call.metadata).catch();
+        if (checkResponse instanceof Error) {
+            callback(checkResponse, reply);
+            return;
+        }
+        if (!this.authChecker.IsUserBlogger(call.metadata.get(this.authorizationMetadataName)[0].toString())) {
+            console.log(`[GrpcServer] User is not allowed to manipulate with blogs and blogposts.`);
+            callback(new Error(`UNAUTHORIZED! User is not a blogger.`), reply);
+            return;
+        }
+
         const blogId: number = call.request.getBlogid()
         const ok: boolean = await this.databaseAccess.DeleteBlog(blogId);
         const err: Error = ok ? null : new Error(`Could not delete blog with id ${blogId}.`);
 
-        callback(err, new DeleteBlogReply());
+        callback(err, reply);
     }
 
     /**

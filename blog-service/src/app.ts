@@ -2,6 +2,7 @@ import { ServerCredentials, Server } from "grpc";
 import { BlogsAPI, BlogsAPIService } from './GrpcServer';
 import { DatabaseAccess } from "./DatabaseAccess";
 import { DbGrpcMapper } from "./DbToGrpcMapper";
+import { AuthChecker } from "./helpers/AuthChecker";
 
 const DBA = new DatabaseAccess();
 
@@ -16,7 +17,9 @@ class App {
         }
 
         const server: Server = new Server();
-        server.addService(BlogsAPIService, new BlogsAPI(DBA, new DbGrpcMapper()));
+        server.addService(
+            BlogsAPIService,
+            new BlogsAPI(DBA, new DbGrpcMapper(), new AuthChecker()));
 
         const serverPort = '0.0.0.0:9090';
         server.bind(serverPort, ServerCredentials.createInsecure());

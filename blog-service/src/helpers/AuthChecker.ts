@@ -12,6 +12,24 @@ class AuthChecker {
         this.usersAPIClient = new UsersAPIClient('0.0.0.0:9092', credentials.createInsecure(), null);
     }
 
+    /**
+     * Get the information if the user has the right to
+     *  manipulate blogs from the JWT.
+     * @param jwt the jason web token.
+     */
+    public IsUserBlogger(jwt: string): boolean {
+        const json: string = Buffer.from(jwt.split('.')[1], 'base64').toString();
+        console.log(json);
+        const payload: any = JSON.parse(json);
+        console.log(payload);
+        console.log(`[AuthChecker] Payload: ${payload}`);
+        return payload.isBlogger;
+    }
+
+    /**
+     * Check if the jason web token is in the metadata and if it is valid.
+     * @param metadata the metadata from the client's request.
+     */
     public async CheckMetadataForJWT(metadata: Metadata): Promise<boolean | Error> {
 
         const success: boolean | void | Error = await this.CheckUserPrivileges(metadata).catch(reason => {
