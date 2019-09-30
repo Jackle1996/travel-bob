@@ -15,7 +15,7 @@ class AuthChecker {
     public async CheckMetadataForJWT(metadata: Metadata): Promise<boolean | Error> {
 
         const success: boolean | void | Error = await this.CheckUserPrivileges(metadata).catch(reason => {
-            console.error(`[GrpcServer] Error while calling UserAPIClinet.verifyToken(): `, reason);
+            console.error(`[AuthChecker] Error while calling UserAPIClinet.verifyToken(): `, reason);
             return new Error('Error while verifying user credentials.');
         });
         if (isNullOrUndefined(success) || !success) {
@@ -38,13 +38,13 @@ class AuthChecker {
             this.usersAPIClient.verifyToken(request, metadata, (error: ServiceError, response: VerifyTokenReply) => {
 
                 if (error || isNullOrUndefined(response)) {
-                    console.error(`[GrpcServer] Checking user privileges not successful. Response: ${response}`, error);
+                    console.error(`[AuthChecker] Checking user privileges not successful. Response: ${response}`, error);
                     reject(error);
                     return;
                 }
                 resolve(response.getValid());
             });
-        }).catch(reason => console.error(`[GrpcServer] Error from usersAPIClient.verifyToken() call: `, reason));
+        }).catch(reason => console.error(`[AuthChecker] Error from usersAPIClient.verifyToken() call: `, reason));
     }
 }
 
