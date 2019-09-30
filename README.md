@@ -10,17 +10,19 @@ Bob is a traveler of time and space who uses this travel blog to tell the world 
 
 **1. Set mongoDB credentials as environment variables**:
 
-For security reasons the database credentials have to be provided via environment variables.
+For security reasons the database credentials and the secret used to sign the json web tokens have to be provided via environment variables.
 
 ```sh
 # PowerShell:
 $env:DB_USER="username"
 $env:DB_PASS="password"
+$env:JWT_SECRET="random_string" # you can set anything you wnat here.
 ```
 ```sh
 # Bash:
 export DB_USER=user
 export DB_PASS=password
+export JWT_SECRET=random_string # you can set anything you wnat here.
 ```
 
 **2. Run the app**:
@@ -76,10 +78,10 @@ docker run -d -p 9091:9091 -e DB_USER=$DB_USER -e DB_PASS=$DB_PASS travelbob/com
 docker build -t travelbob/user-service -f .\docker\user.Dockerfile --no-cache .
 
 # Run usig PowerShell:
-docker run -d -p 9092:9092 -e DB_USER=$env:DB_USER -e DB_PASS=$env:DB_PASS travelbob/user-service
+docker run -d -p 9092:9092 -e DB_USER=$env:DB_USER -e DB_PASS=$env:DB_PASS -e JWT_SECRET=$env:JWT_SECRET travelbob/user-service
 
 # Run using Bash
-docker run -d -p 9092:9092 -e DB_USER=$DB_USER -e DB_PASS=$DB_PASS travelbob/user-service
+docker run -d -p 9092:9092 -e DB_USER=$DB_USER -e DB_PASS=$DB_PASS -e JWT_SECRET=$JWT_SECRET travelbob/user-service
 ```
 
 
@@ -106,7 +108,9 @@ Exposes [comment API](https://github.com/Jackle1996/travel-bob/blob/master/proto
 
 ## user-service
 
-TODO :triangular_flag_on_post:
+Exposes [users API](https://github.com/Jackle1996/travel-bob/blob/master/protos/users.proto) on port `9092`.
+
+This service requires the environment veriable `JWT_SECRET`. This variable is used to sign the jason web tokens. It can be anything but should be set to a secure string.
 
 
 # Development
