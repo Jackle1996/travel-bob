@@ -1,11 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { BlogpostService } from '../services/blogpost.service';
-import { Blogpost } from '../../../../api/grpc-web-ts/blogposts_pb';
+import { Blogpost, Blog } from '../../../../api/grpc-web-ts/blogposts_pb';
 import { MatDialog, MatDialogRef } from '@angular/material';
 import { DeletedialogComponent } from '../deletedialog/deletedialog.component';
 import { BlogpostdialogComponent } from '../blogpostdialog/blogpostdialog.component';
 import { BlogposttransferService } from '../services/blogposttransfer.service';
+import { BlogService } from '../services/blog.service';
+import { JwtService } from '../services/jwt.service';
 
 @Component({
   selector: 'app-blogview',
@@ -18,16 +20,21 @@ export class BlogviewComponent implements OnInit {
   private blogPosts: Blogpost[];
   private blogpostDialog: MatDialogRef<BlogpostdialogComponent>;
   private deleteDialog: MatDialogRef<DeletedialogComponent>;
+  private blogs: Blog[];
 
   constructor(private route: ActivatedRoute,
               private blogpostService: BlogpostService,
+              private blogService: BlogService,
               private dialog: MatDialog,
-              private transfer: BlogposttransferService) {
+              private transfer: BlogposttransferService,
+              private jwtService: JwtService) {
     this.blogPosts = [];
+    this.blogs = [];
     this.route.paramMap.subscribe(params => {
        this.blogId = Number(params.get('blogid'));
        console.log('blogid=', this.blogId);
     });
+    this.updateBlogs();
     this.updateBlogposts();
   }
 
@@ -90,4 +97,26 @@ export class BlogviewComponent implements OnInit {
       }
     });
   }
+
+  updateBlogs() {
+    this.blogService.getBlogs((posts: Blog[]) => this.assignBlogs(posts));
+  }
+
+  private assignBlogs(blogs: Blog[]) {
+    this.blogs = blogs;
+  }
+
+  checkIfYourBlog() {
+    if (this.jwtService.isUserLoggedIn()) {
+      const blog = this.blogs.find((x) => x.getId() === this.blogId);
+      if (blog) {
+        return blog.getAuthor() === this.jwtService.getUsernameFromJWT();
+      } else {
+        return false;
+      }
+    } else {
+      return false;
+    }
+  }
+
 }

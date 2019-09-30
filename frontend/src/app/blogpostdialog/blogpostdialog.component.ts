@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { MatDialogRef } from '@angular/material';
 import { Blogpost, Timestamp } from '../../../../api/grpc-web-ts/blogposts_pb';
+import { JwtService } from '../services/jwt.service';
 
 @Component({
   selector: 'app-blogpostdialog',
@@ -18,7 +19,7 @@ export class BlogpostdialogComponent implements OnInit {
   private blogId: number;
   private formtitle: string;
 
-  constructor(private dialogRef: MatDialogRef<BlogpostdialogComponent>) {
+  constructor(private dialogRef: MatDialogRef<BlogpostdialogComponent>, private jwtService: JwtService) {
     this.blogpostId = -1;
     this.blogId = -1;
    }
@@ -63,6 +64,7 @@ export class BlogpostdialogComponent implements OnInit {
     blogpost.setTraveldate(travelStamp);
     blogpost.setText(this.text.nativeElement.value);
     blogpost.setHeaderimageurl(this.imagelink.nativeElement.value);
+    blogpost.setAuthor(this.jwtService.getUsernameFromJWT());
     this.dialogRef.close(blogpost);
   }
 }
