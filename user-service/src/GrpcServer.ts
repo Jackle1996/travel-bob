@@ -6,7 +6,7 @@ import { EnvProvider } from "./EnvProvider";
 
 import { isNull, isNullOrUndefined } from "util";
 import { sign, verify, VerifyErrors } from "jsonwebtoken";
-import { ServerUnaryCall, sendUnaryData } from "grpc";
+import { ServerUnaryCall, sendUnaryData, MetadataValue } from "grpc";
 import { IUsersAPIServer, UsersAPIService } from "../../api/grpc-ts/users_grpc_pb";
 import {
     CreateNewUserRequest, CreateNewUserReply,
@@ -65,6 +65,7 @@ class UsersAPI implements IUsersAPIServer {
         if (isMatch) {
             const jwtPayload = {
                 user: user._id,
+                name: user.user_name,
                 isBlogger: user.is_blogger
             };
             const token = sign(jwtPayload, EnvProvider.JWTSecret);
@@ -80,7 +81,21 @@ class UsersAPI implements IUsersAPIServer {
      */
     public async verifyToken(call: ServerUnaryCall<VerifyTokenRequest>, callback: sendUnaryData<VerifyTokenReply>) {
 
-        const token: string = call.request.getJwt();
+        console.log('[GrpcServer] UsersAPI.verifyToken()');
+
+        const authMetadata: MetadataValue[] = call.metadata.get('authorization');
+        if (isNullOrUndefined(authMetadata)) {
+            console.log(`[GrpcServer] Expected metadata.authorization to exist, but it doesn't.`);
+            callback(new Error(`Expected metadata 'authorization' but it doesn't exist.`), null);
+            return;
+        }
+        if (authMetadata.values.length != 1) {
+            console.log(`[GrpcServer] Expected authMetadata.values to have 1 entry but it has ${authMetadata.values.length}.`);
+            callback(new Error(`Expected metadata 'authorization' to have exactly one value but got ${authMetadata.values.length}.`), null);
+            return;
+        }
+        const token: string = authMetadata.values[0];
+        console.log(`[GrpcServer] Received token: ${token}`);
         verify(token, EnvProvider.JWTSecret, (err: VerifyErrors, decoded: string | object) => {
 
             const reply: VerifyTokenReply = new VerifyTokenReply();
