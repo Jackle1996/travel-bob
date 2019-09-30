@@ -53,8 +53,7 @@ export class BlogpostviewComponent implements OnInit {
     const addComment = new Comment();
     addComment.setId(-1);
     addComment.setText(this.newcomment.nativeElement.value);
-    // TODO: determine by loged in user later on
-    addComment.setAuthor('Dummy');
+    addComment.setAuthor(this.getUsernameFromJWT());
     addComment.setBlogpostId(this.postId);
     addComment.setUnixTimestamp(Math.floor(Date.now() / 1000));
     this.commentService.addComment(addComment, () => this.updateComments());
@@ -62,5 +61,11 @@ export class BlogpostviewComponent implements OnInit {
 
   deleteComment(commentId: number) {
     this.commentService.deleteComment(commentId, () => this.updateComments());
+  }
+
+  getUsernameFromJWT(): string {
+    const token = localStorage.getItem('jwt').split('.');
+    const json = JSON.parse(atob(token[1]));
+    return json.name;
   }
 }

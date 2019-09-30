@@ -17,8 +17,8 @@
     <h2>Comments</h2>
     <mat-list *ngFor='let comment of getAllComments()'>
         <mat-list-item>
-            <span class="commentHeader">{{comment.getUnixTimestamp() * 1000 | date}}, {{comment.getAuthor()}}</span>
-            <span class="commentBody">said:  {{comment.getText()}}</span>
+            <span class="commentHeader"><b>{{comment.getUnixTimestamp() * 1000 | date}} </b> </span>
+            <span class="commentBody"><b>{{comment.getAuthor()}}</b> said:  {{comment.getText()}}</span>
             <button mat-raised-button color="warn" (click)="deleteComment(comment.getId())">Delete
                 <mat-icon mat-fab role="img"  aria-hidden="true" >delete</mat-icon>
             </button>      

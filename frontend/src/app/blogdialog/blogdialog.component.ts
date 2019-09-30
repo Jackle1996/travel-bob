@@ -61,7 +61,13 @@ export class BlogdialogComponent implements OnInit {
 
     blog.setDescription(this.description.nativeElement.value);
     // TODO: determine author per login later
-    blog.setAuthor('TODO determine per login later');
+    blog.setAuthor(this.getUsernameFromJWT());
     this.dialogRef.close(blog);
+  }
+
+  getUsernameFromJWT(): string {
+    const token = localStorage.getItem('jwt').split('.');
+    const json = JSON.parse(atob(token[1]));
+    return json.name;
   }
 }
