@@ -2,7 +2,10 @@ import { DatabaseAccess } from "./DatabaseAccess";
 import { IDbUser } from "./models/User";
 
 import { DbGrpcMapper } from "./DbToGrpcMapper";
+import { EnvProvider } from "./EnvProvider";
 
+import { isNull, isNullOrUndefined } from "util";
+import { sign, verify, VerifyErrors } from "jsonwebtoken";
 import { ServerUnaryCall, sendUnaryData } from "grpc";
 import { IUsersAPIServer, UsersAPIService } from "../../api/grpc-ts/users_grpc_pb";
 import {
@@ -10,7 +13,6 @@ import {
     LogInRequest, LogInReply,
     VerifyTokenRequest, VerifyTokenReply
 } from "../../api/grpc-ts/users_pb";
-import { isNull } from "util";
 
 class UsersAPI implements IUsersAPIServer {
 
@@ -19,7 +21,11 @@ class UsersAPI implements IUsersAPIServer {
      */
     constructor(
         private databaseAccess: DatabaseAccess,
-        private dbToGrpcMapper: DbGrpcMapper) { }
+        private dbToGrpcMapper: DbGrpcMapper) {
+            if (isNullOrUndefined(EnvProvider.JWTSecret)) {
+                throw new Error(`Environment variable 'JWT_SECRET' required!.`);
+            }
+         }
 
     /**
      * Create a new user.
@@ -57,7 +63,13 @@ class UsersAPI implements IUsersAPIServer {
         const reply: LogInReply = new LogInReply();
 
         if (isMatch) {
-            reply.setJwt('fake.jwt.token');
+            const jwtPayload = {
+                user: user._id,
+                isBlogger: user.is_blogger
+            };
+            const token = sign(jwtPayload, EnvProvider.JWTSecret);
+            console.log(`[GrpcServer] JWT: ${token}`);
+            reply.setJwt(token);
         }
 
         callback(err, reply);
@@ -68,9 +80,18 @@ class UsersAPI implements IUsersAPIServer {
      */
     public async verifyToken(call: ServerUnaryCall<VerifyTokenRequest>, callback: sendUnaryData<VerifyTokenReply>) {
 
-        const jwt: string = call.request.getJwt();
+        const token: string = call.request.getJwt();
+        verify(token, EnvProvider.JWTSecret, (err: VerifyErrors, decoded: string | object) => {
 
-        callback(new Error('NOT IMPLEMENTED'), null);
+            const reply: VerifyTokenReply = new VerifyTokenReply();
+            if (err) {
+                console.error(`[GrpcServer] Validation error while validating token: ${token}.\n Reason: ${err.message}`);
+                reply.setValid(false);
+            } else {
+                reply.setValid(true);
+            }
+            callback(null, reply);
+        });
     }
 }
 
