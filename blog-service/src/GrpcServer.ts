@@ -3,6 +3,7 @@ import { IDbBlog } from "./models/Blog";
 import { IDbBlogpost } from "./models/Blogpost";
 
 import { DbGrpcMapper } from "./DbToGrpcMapper";
+import { AuthChecker } from "./helpers/AuthChecker";
 
 import { ServerUnaryCall, sendUnaryData } from "grpc";
 import { IBlogsAPIServer, BlogsAPIService } from "../../api/grpc-ts/blogposts_grpc_pb";
@@ -21,12 +22,15 @@ import { isNull } from "util";
 
 class BlogsAPI implements IBlogsAPIServer {
 
+    private readonly authorizationMetadataName: string = 'authorization';
+
     /*
      * Initializes a new instance of the BlogsAPI.
      */
     constructor(
         private databaseAccess: DatabaseAccess,
-        private dbToGrpcMapper: DbGrpcMapper) { }
+        private dbToGrpcMapper: DbGrpcMapper,
+        private authChecker: AuthChecker) { }
 
     /*
      * Returns a list of all blogs in the database.
@@ -72,10 +76,22 @@ class BlogsAPI implements IBlogsAPIServer {
 
         console.log('[GrpcServer] BlogsAPI.createBlog()');
 
+        const reply: CreateBlogReply = new CreateBlogReply();
+
+        const checkResponse: boolean | Error = await this.authChecker.CheckMetadataForJWT(call.metadata).catch();
+        if (checkResponse instanceof Error) {
+            callback(checkResponse, reply);
+            return;
+        }
+        if (!this.authChecker.IsUserBlogger(call.metadata.get(this.authorizationMetadataName)[0].toString())) {
+            console.log(`[GrpcServer] User is not allowed to manipulate blogs and blogposts.`);
+            callback(new Error(`UNAUTHORIZED! User is not a blogger.`), reply);
+            return;
+        }
+
         const dbBlog: IDbBlog = this.dbToGrpcMapper.Convert(call.request.getBlog());
         const blogId: number = await this.databaseAccess.CreateNewBlog(dbBlog);
 
-        const reply: CreateBlogReply = new CreateBlogReply();
         reply.setBlogid(blogId);
         const err = isNull(blogId)
             ? new Error('Error: Could not create blog. Probably some data missing in the request.')
@@ -90,10 +106,22 @@ class BlogsAPI implements IBlogsAPIServer {
 
         console.log('[GrpcServer] BlogsAPI.createBlogpost()');
 
+        const reply: CreateBlogpostReply = new CreateBlogpostReply();
+
+        const checkResponse: boolean | Error = await this.authChecker.CheckMetadataForJWT(call.metadata).catch();
+        if (checkResponse instanceof Error) {
+            callback(checkResponse, reply);
+            return;
+        }
+        if (!this.authChecker.IsUserBlogger(call.metadata.get(this.authorizationMetadataName)[0].toString())) {
+            console.log(`[GrpcServer] User is not allowed to manipulate blogs and blogposts.`);
+            callback(new Error(`UNAUTHORIZED! User is not a blogger.`), reply);
+            return;
+        }
+
         const dbBlogpost: IDbBlogpost = this.dbToGrpcMapper.Convert(call.request.getBlogpost());
         const postId: number = await this.databaseAccess.CreateNewBlogpost(dbBlogpost);
 
-        const reply: CreateBlogpostReply = new CreateBlogpostReply();
         reply.setBlogpostid(postId);
         const err = isNull(postId)
             ? new Error('Error: Could not create blogpost. Probably some data missing in the request or invalid blog id.')
@@ -108,11 +136,24 @@ class BlogsAPI implements IBlogsAPIServer {
 
         console.log('[GrpcServer] BlogsAPI.deleteBlog()');
 
+        const reply: DeleteBlogReply = new DeleteBlogReply();
+
+        const checkResponse: boolean | Error = await this.authChecker.CheckMetadataForJWT(call.metadata).catch();
+        if (checkResponse instanceof Error) {
+            callback(checkResponse, reply);
+            return;
+        }
+        if (!this.authChecker.IsUserBlogger(call.metadata.get(this.authorizationMetadataName)[0].toString())) {
+            console.log(`[GrpcServer] User is not allowed to manipulate blogs and blogposts.`);
+            callback(new Error(`UNAUTHORIZED! User is not a blogger.`), reply);
+            return;
+        }
+
         const blogId: number = call.request.getBlogid()
         const ok: boolean = await this.databaseAccess.DeleteBlog(blogId);
         const err: Error = ok ? null : new Error(`Could not delete blog with id ${blogId}.`);
 
-        callback(err, new DeleteBlogReply());
+        callback(err, reply);
     }
 
     /**
@@ -122,35 +163,74 @@ class BlogsAPI implements IBlogsAPIServer {
 
         console.log('[GrpcServer] BlogsAPI.deleteBlogpost()');
 
+        const reply: DeleteBlogpostReply = new DeleteBlogpostReply();
+
+        const checkResponse: boolean | Error = await this.authChecker.CheckMetadataForJWT(call.metadata).catch();
+        if (checkResponse instanceof Error) {
+            callback(checkResponse, reply);
+            return;
+        }
+        if (!this.authChecker.IsUserBlogger(call.metadata.get(this.authorizationMetadataName)[0].toString())) {
+            console.log(`[GrpcServer] User is not allowed to manipulate blogs and blogposts.`);
+            callback(new Error(`UNAUTHORIZED! User is not a blogger.`), reply);
+            return;
+        }
+
         const blogpostId: number = call.request.getBlogpostid()
         const ok: boolean = await this.databaseAccess.DeleteBlogpost(blogpostId);
         const err: Error = ok ? null : new Error(`Could not delete blogpost with id ${blogpostId}.`);
 
-        callback(err, new DeleteBlogpostReply());
+        callback(err, reply);
     }
 
     public async updateBlog(call: ServerUnaryCall<UpdateBlogRequest>, callback: sendUnaryData<UpdateBlogReply>) {
 
         console.log('[GrpcServer] BlogsAPI.updateBlog()');
 
+        const reply: UpdateBlogReply = new UpdateBlogReply();
+
+        const checkResponse: boolean | Error = await this.authChecker.CheckMetadataForJWT(call.metadata).catch();
+        if (checkResponse instanceof Error) {
+            callback(checkResponse, reply);
+            return;
+        }
+        if (!this.authChecker.IsUserBlogger(call.metadata.get(this.authorizationMetadataName)[0].toString())) {
+            console.log(`[GrpcServer] User is not allowed to manipulate blogs and blogposts.`);
+            callback(new Error(`UNAUTHORIZED! User is not a blogger.`), reply);
+            return;
+        }
+
         const blog: Blog = call.request.getBlog();
         const dbBlog = this.dbToGrpcMapper.Convert(blog);
         const ok: boolean = await this.databaseAccess.UpdateBlog(dbBlog);
         const err: Error = ok ? null : new Error(`Could not update blog with id ${dbBlog.id}.`);
 
-        callback(err, new UpdateBlogReply());
+        callback(err, reply);
     }
 
     public async updateBlogpost(call: ServerUnaryCall<UpdateBlogpostRequest>, callback: sendUnaryData<UpdateBlogpostReply>) {
 
         console.log('[GrpcServer] BlogsAPI.updateBlogpost()');
 
+        const reply: UpdateBlogpostReply = new UpdateBlogpostReply();
+
+        const checkResponse: boolean | Error = await this.authChecker.CheckMetadataForJWT(call.metadata).catch();
+        if (checkResponse instanceof Error) {
+            callback(checkResponse, reply);
+            return;
+        }
+        if (!this.authChecker.IsUserBlogger(call.metadata.get(this.authorizationMetadataName)[0].toString())) {
+            console.log(`[GrpcServer] User is not allowed to manipulate blogs and blogposts.`);
+            callback(new Error(`UNAUTHORIZED! User is not a blogger.`), reply);
+            return;
+        }
+
         const blogpost: Blogpost = call.request.getBlogpost();
         const dbBlogpost = this.dbToGrpcMapper.Convert(blogpost);
         const ok: boolean = await this.databaseAccess.UpdateBlogpost(dbBlogpost);
         const err: Error = ok ? null : new Error(`Could not update blogpost with id ${dbBlogpost.id}.`);
 
-        callback(err, new UpdateBlogpostReply());
+        callback(err, reply);
     }
 
 

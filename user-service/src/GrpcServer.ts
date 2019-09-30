@@ -104,6 +104,7 @@ class UsersAPI implements IUsersAPIServer {
                 console.error(`[GrpcServer] Validation error while validating token: ${token}.\n Reason: ${err.message}`);
                 reply.setValid(false);
             } else {
+                console.error(`[GrpcServer] Validation successful.`);
                 reply.setValid(true);
             }
             callback(null, reply);
