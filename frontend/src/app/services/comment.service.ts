@@ -4,6 +4,7 @@ import { DeleteCommentReply, DeleteCommentRequest } from '../../../../api/grpc-w
 import { AddCommentRequest, AddCommentReply } from '../../../../api/grpc-web-ts/comments_pb';
 import { CommentsAPIClient } from '../../../../api/grpc-web-ts/CommentsServiceClientPb';
 import { Error } from 'grpc-web';
+import { JwtService } from './jwt.service';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +12,7 @@ import { Error } from 'grpc-web';
 export class CommentService {
   private grpcClient: CommentsAPIClient;
 
-  constructor() {
+  constructor(private jwtService: JwtService) {
     this.grpcClient = new CommentsAPIClient('http://localhost:8080', null, null);
    }
 
@@ -27,7 +28,7 @@ export class CommentService {
   addComment(comment: Comment, callback) {
     const request = new AddCommentRequest();
     request.setComment(comment);
-    this.grpcClient.addComment(request, {}, (err: Error | null, response: AddCommentReply) => {
+    this.grpcClient.addComment(request, {authorization: this.jwtService.getJwtToken()}, (err: Error | null, response: AddCommentReply) => {
       if (err) { console.log('AddCommentRequest Error:: ', err); }
       console.log('response', response);
     }).on('data', data => { callback(); });
@@ -36,7 +37,7 @@ export class CommentService {
   deleteComment(commentId: number, callback) {
     const request = new DeleteCommentRequest();
     request.setCommentId(commentId);
-    this.grpcClient.deleteComment(request, {}, (err: Error | null, response: DeleteCommentReply) => {
+    this.grpcClient.deleteComment(request, {authorization: this.jwtService.getJwtToken()}, (err: Error | null, response: DeleteCommentReply) => {
       if (err) { console.log('DeleteCommentRequest Error:: ', err); }
       console.log('response', response);
     }).on('data', data => { callback(); });

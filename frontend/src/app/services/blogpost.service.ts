@@ -5,6 +5,7 @@ import { UpdateBlogpostRequest, UpdateBlogpostReply } from '../../../../api/grpc
 import { DeleteBlogpostRequest, DeleteBlogpostReply } from '../../../../api/grpc-web-ts/blogposts_pb';
 import { BlogsAPIClient } from '../../../../api/grpc-web-ts/BlogpostsServiceClientPb';
 import { Error } from 'grpc-web';
+import { JwtService } from './jwt.service';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +13,7 @@ import { Error } from 'grpc-web';
 export class BlogpostService {
   private grpcClient: BlogsAPIClient;
 
-  constructor() {
+  constructor(private jwtService: JwtService) {
     this.grpcClient = new BlogsAPIClient('http://localhost:8080', null, null);
   }
 
@@ -28,7 +29,7 @@ export class BlogpostService {
   createBlogPost(blogpost: Blogpost, callback) {
     const request = new CreateBlogpostRequest();
     request.setBlogpost(blogpost);
-    this.grpcClient.createBlogpost(request, {}, (err: Error | null, response: CreateBlogpostReply) => {
+    this.grpcClient.createBlogpost(request, {authorization: this.jwtService.getJwtToken()}, (err: Error | null, response: CreateBlogpostReply) => {
       if (err) { console.log('CreateBlogpostRequest Error:: ', err); }
       console.log('response', response);
     }).on('data', data => { callback(); });
@@ -37,7 +38,7 @@ export class BlogpostService {
   editBlogPost(blogpost: Blogpost, callback) {
     const request = new UpdateBlogpostRequest();
     request.setBlogpost(blogpost);
-    this.grpcClient.updateBlogpost(request, {}, (err: Error | null, response: UpdateBlogpostReply) => {
+    this.grpcClient.updateBlogpost(request, {authorization: this.jwtService.getJwtToken()}, (err: Error | null, response: UpdateBlogpostReply) => {
       if (err) { console.log('UpdateBlogpostRequest Error:: ', err); }
       console.log('response', response);
     }).on('data', data => { callback(); });
@@ -46,7 +47,7 @@ export class BlogpostService {
   deleteBlogPost(blogpostId: number, callback) {
     const request = new DeleteBlogpostRequest();
     request.setBlogpostid(blogpostId);
-    this.grpcClient.deleteBlogpost(request, {}, (err: Error | null, response: DeleteBlogpostReply) => {
+    this.grpcClient.deleteBlogpost(request, {authorization: this.jwtService.getJwtToken()}, (err: Error | null, response: DeleteBlogpostReply) => {
       if (err) { console.log('DeleteBlogpostRequest Error:: ', err); }
       console.log('response', response);
     }).on('data', data => { callback(); });

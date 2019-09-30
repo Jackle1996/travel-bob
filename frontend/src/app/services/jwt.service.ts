@@ -27,4 +27,13 @@ export class JwtService {
       return null;
     }
   }
+
+  getJwtToken() {
+    const jwt = localStorage.getItem(this.jwtKey);
+    if (jwt) {
+      return jwt;
+    } else {
+      return null;
+    }
+  }
 }

@@ -5,6 +5,7 @@ import { UpdateBlogRequest, UpdateBlogReply } from '../../../../api/grpc-web-ts/
 import { DeleteBlogRequest, DeleteBlogReply } from '../../../../api/grpc-web-ts/blogposts_pb';
 import { BlogsAPIClient } from '../../../../api/grpc-web-ts/BlogpostsServiceClientPb';
 import { Error } from 'grpc-web';
+import { JwtService } from './jwt.service';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +13,7 @@ import { Error } from 'grpc-web';
 export class BlogService  {
   private grpcClient: BlogsAPIClient;
 
-  constructor() {
+  constructor(private jwtService: JwtService) {
     this.grpcClient = new BlogsAPIClient('http://localhost:8080', null, null);
   }
 
@@ -26,7 +27,7 @@ export class BlogService  {
   createBlog(blog: Blog, callback) {
     const request = new CreateBlogRequest();
     request.setBlog(blog);
-    this.grpcClient.createBlog(request, {}, (err: Error | null, response: CreateBlogReply) => {
+    this.grpcClient.createBlog(request, {authorization: this.jwtService.getJwtToken()}, (err: Error | null, response: CreateBlogReply) => {
       if (err) { console.log('CreateBlogRequest Error:: ', err); }
       console.log('response', response);
     }).on('data', data => { callback(); });
@@ -35,7 +36,7 @@ export class BlogService  {
   editBlog(blog: Blog, callback) {
     const request = new UpdateBlogRequest();
     request.setBlog(blog);
-    this.grpcClient.updateBlog(request, {}, (err: Error | null, response: UpdateBlogReply) => {
+    this.grpcClient.updateBlog(request, {authorization: this.jwtService.getJwtToken()}, (err: Error | null, response: UpdateBlogReply) => {
       if (err) { console.log('UpdateBlogRequest Error:: ', err); }
       console.log('response', response);
     }).on('data', data => { callback(); });
@@ -44,7 +45,7 @@ export class BlogService  {
   deleteBlog(blogId: number, callback) {
     const request = new DeleteBlogRequest();
     request.setBlogid(blogId);
-    this.grpcClient.deleteBlog(request, {}, (err: Error | null, response: DeleteBlogReply) => {
+    this.grpcClient.deleteBlog(request, {authorization: this.jwtService.getJwtToken()}, (err: Error | null, response: DeleteBlogReply) => {
       if (err) { console.log('UpdateBlogRequest Error:: ', err); }
       console.log('response', response);
     }).on('data', data => { callback(); });
