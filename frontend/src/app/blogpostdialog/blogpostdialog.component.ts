@@ -13,6 +13,7 @@ export class BlogpostdialogComponent implements OnInit {
   @ViewChild('summary', null) summary: ElementRef;
   @ViewChild('travelDate', null) travelDate: ElementRef;
   @ViewChild('text', null) text: ElementRef;
+  @ViewChild('imagelink', null) imagelink: ElementRef;
   private blogpostId: number;
   private blogId: number;
   private formtitle: string;
@@ -40,6 +41,7 @@ export class BlogpostdialogComponent implements OnInit {
   setEditValues(blogpost: Blogpost) {
     this.blogpostId = blogpost.getId();
     this.blogId = blogpost.getBlogid();
+    this.imagelink.nativeElement.value = blogpost.getHeaderimageurl();
     this.blogposttitle.nativeElement.value = blogpost.getTitle();
     this.location.nativeElement.value = blogpost.getLocation();
     this.summary.nativeElement.value = blogpost.getSummary();
@@ -60,6 +62,7 @@ export class BlogpostdialogComponent implements OnInit {
     travelStamp.setSeconds(new Date(travelDateSplit[2], travelDateSplit[1], travelDateSplit[0]).getTime() / 1000);
     blogpost.setTraveldate(travelStamp);
     blogpost.setText(this.text.nativeElement.value);
+    blogpost.setHeaderimageurl(this.imagelink.nativeElement.value);
     this.dialogRef.close(blogpost);
   }
 }

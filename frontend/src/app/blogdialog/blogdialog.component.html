@@ -4,7 +4,6 @@
         <mat-form-field>
             <input matInput placeholder="Title" #blogtitle>
         </mat-form-field>
-        
         <mat-form-field>
             <input matInput placeholder="destination" #destination>
         </mat-form-field>
@@ -18,7 +17,9 @@
             <mat-datepicker-toggle matSuffix [for]="endDate"></mat-datepicker-toggle>
             <mat-datepicker #endDate></mat-datepicker>
         </mat-form-field>
-        <input type="file" placeholder="Image">
+        <mat-form-field>
+            <input matInput placeholder="Http image link" #imagelink>
+        </mat-form-field>        
         <mat-form-field>
             <textarea matInput wrap="soft" matInput placeholder="Description" #description></textarea>
         </mat-form-field>
