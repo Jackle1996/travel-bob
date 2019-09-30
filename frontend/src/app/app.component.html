@@ -10,6 +10,7 @@
         <span>Register</span>
         <mat-icon>person_add</mat-icon>
     </button>
+    <span *ngIf="this.isLoggedIn">Logged in as User: {{getUsernameFromJWT()}}</span>
     <button mat-raised-button color="accent" (click)="logout()" *ngIf="this.isLoggedIn">
       <span>Logout</span>
       <mat-icon>person</mat-icon>

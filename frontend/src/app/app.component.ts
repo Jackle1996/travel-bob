@@ -12,13 +12,13 @@ import { User } from '../../../api/grpc-web-ts/users_pb';
 })
 
 export class AppComponent {
-  title = 'frontend';
+  private readonly jwtKey: string = 'jwt';
   private loginDialog: MatDialogRef<LogindialogComponent>;
   private registerDialog: MatDialogRef<RegisterdialogComponent>;
-  public isLoggedIn: boolean = true;
+  public isLoggedIn = true;
 
   constructor(private dialog: MatDialog, private userService: UserService) {
-    if (localStorage.getItem('jwt')) {
+    if (localStorage.getItem(this.jwtKey)) {
       this.isLoggedIn = true;
     } else {
       this.isLoggedIn = false;
@@ -38,7 +38,7 @@ export class AppComponent {
   }
 
   saveJWT(jwt: string) {
-    localStorage.setItem('jwt', jwt);
+    localStorage.setItem(this.jwtKey, jwt);
     this.isLoggedIn = true;
   }
 
@@ -60,6 +60,12 @@ export class AppComponent {
 
   logout() {
     this.isLoggedIn = false;
-    localStorage.removeItem('jwt');
+    localStorage.removeItem(this.jwtKey);
+  }
+
+  getUsernameFromJWT(): string {
+    const token = localStorage.getItem(this.jwtKey).split('.');
+    const json = JSON.parse(atob(token[1]));
+    return json.name;
   }
 }
