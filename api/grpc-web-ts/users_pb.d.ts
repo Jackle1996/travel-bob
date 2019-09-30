@@ -75,9 +75,6 @@ export namespace LogInReply {
 }
 
 export class VerifyTokenRequest extends jspb.Message {
-  getJwt(): string;
-  setJwt(value: string): void;
-
   serializeBinary(): Uint8Array;
   toObject(includeInstance?: boolean): VerifyTokenRequest.AsObject;
   static toObject(includeInstance: boolean, msg: VerifyTokenRequest): VerifyTokenRequest.AsObject;
@@ -88,7 +85,6 @@ export class VerifyTokenRequest extends jspb.Message {
 
 export namespace VerifyTokenRequest {
   export type AsObject = {
-    jwt: string,
   }
 }
 

@@ -7,7 +7,7 @@ service UsersAPI {
     rpc CreateNewUser(CreateNewUserRequest) returns (CreateNewUserReply);
     // Log in.
     rpc LogIn(LogInRequest) returns (LogInReply);
-    // Verify that the provided JWT is valid.
+    // Verify that the JWT in the metadata of the call is valid.
     rpc VerifyToken(VerifyTokenRequest) returns (VerifyTokenReply);
 }
 
@@ -26,9 +26,7 @@ message LogInReply {
     string jwt = 1;
 }
 
-message VerifyTokenRequest {
-    string jwt = 1;
-}
+message VerifyTokenRequest {}
 
 message VerifyTokenReply {
     bool valid = 1;

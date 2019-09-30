@@ -651,7 +651,7 @@ proto.travelbob.users.VerifyTokenRequest.prototype.toObject = function(opt_inclu
  */
 proto.travelbob.users.VerifyTokenRequest.toObject = function(includeInstance, msg) {
   var f, obj = {
-    jwt: jspb.Message.getFieldWithDefault(msg, 1, "")
+
   };
 
   if (includeInstance) {
@@ -688,10 +688,6 @@ proto.travelbob.users.VerifyTokenRequest.deserializeBinaryFromReader = function(
     }
     var field = reader.getFieldNumber();
     switch (field) {
-    case 1:
-      var value = /** @type {string} */ (reader.readString());
-      msg.setJwt(value);
-      break;
     default:
       reader.skipField();
       break;
@@ -721,28 +717,6 @@ proto.travelbob.users.VerifyTokenRequest.prototype.serializeBinary = function() 
  */
 proto.travelbob.users.VerifyTokenRequest.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
-  f = message.getJwt();
-  if (f.length > 0) {
-    writer.writeString(
-      1,
-      f
-    );
-  }
-};
-
-
-/**
- * optional string jwt = 1;
- * @return {string}
- */
-proto.travelbob.users.VerifyTokenRequest.prototype.getJwt = function() {
-  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 1, ""));
-};
-
-
-/** @param {string} value */
-proto.travelbob.users.VerifyTokenRequest.prototype.setJwt = function(value) {
-  jspb.Message.setProto3StringField(this, 1, value);
 };
 
 

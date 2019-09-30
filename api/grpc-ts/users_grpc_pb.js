@@ -96,7 +96,7 @@ var UsersAPIService = exports.UsersAPIService = {
     responseSerialize: serialize_travelbob_users_LogInReply,
     responseDeserialize: deserialize_travelbob_users_LogInReply,
   },
-  // Verify that the provided JWT is valid.
+  // Verify that the JWT in the metadata of the call is valid.
   verifyToken: {
     path: '/travelbob.users.UsersAPI/VerifyToken',
     requestStream: false,
