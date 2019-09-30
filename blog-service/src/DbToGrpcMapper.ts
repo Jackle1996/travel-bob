@@ -133,6 +133,7 @@ export class DbGrpcMapper {
                 travelDate.setSeconds(postFromDb.travelDateUnixTimestamp);
                 post.setTraveldate(travelDate);
                 post.setSummary(postFromDb.summary);
+                post.setAuthor(postFromDb.author);
 
                 postsForResponse.push(post);
             });
@@ -155,6 +156,7 @@ export class DbGrpcMapper {
         post.travelDateUnixTimestamp = grpcBlogpost.getTraveldate().getSeconds();
         post.location = grpcBlogpost.getLocation();
         post.summary = grpcBlogpost.getSummary();
+        post.author = grpcBlogpost.getAuthor();
 
         return post;
     }

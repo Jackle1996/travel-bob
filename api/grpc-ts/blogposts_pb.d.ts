@@ -420,6 +420,9 @@ export class Blogpost extends jspb.Message {
     getSummary(): string;
     setSummary(value: string): void;
 
+    getAuthor(): string;
+    setAuthor(value: string): void;
+
 
     serializeBinary(): Uint8Array;
     toObject(includeInstance?: boolean): Blogpost.AsObject;
@@ -441,6 +444,7 @@ export namespace Blogpost {
         traveldate?: Timestamp.AsObject,
         location: string,
         summary: string,
+        author: string,
     }
 }
 

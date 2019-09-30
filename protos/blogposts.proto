@@ -100,6 +100,7 @@ message Blogpost {
   Timestamp travelDate = 6;
   string location = 7;
   string summary = 8;
+  string author = 9;
 }
 
 message Timestamp {
