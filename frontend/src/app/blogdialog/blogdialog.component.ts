@@ -14,6 +14,7 @@ export class BlogdialogComponent implements OnInit {
   @ViewChild('startDate', null) startDate: ElementRef;
   @ViewChild('endDate', null) endDate: ElementRef;
   @ViewChild('description', null) description: ElementRef;
+  @ViewChild('imagelink', null) imagelink: ElementRef;
   private formtitle: string;
   private blogId: number;
 
@@ -41,6 +42,7 @@ export class BlogdialogComponent implements OnInit {
     const endDateFormat = new Date(blog.getEnddate().getSeconds() * 1000);
     this.endDate.nativeElement.value = `${endDateFormat.getDate()}.${endDateFormat.getMonth()}.${endDateFormat.getFullYear()}`;
     this.description.nativeElement.value = blog.getDescription();
+    this.imagelink.nativeElement.value = blog.getBlogimageurl();
   }
 
   saveClicked() {
@@ -60,8 +62,14 @@ export class BlogdialogComponent implements OnInit {
     blog.setEnddate(endStamp);
 
     blog.setDescription(this.description.nativeElement.value);
-    // TODO: determine author per login later
-    blog.setAuthor('TODO determine per login later');
+    blog.setBlogimageurl(this.imagelink.nativeElement.value);
+    blog.setAuthor(this.getUsernameFromJWT());
     this.dialogRef.close(blog);
+  }
+
+  getUsernameFromJWT(): string {
+    const token = localStorage.getItem('jwt').split('.');
+    const json = JSON.parse(atob(token[1]));
+    return json.name;
   }
 }

@@ -16,8 +16,9 @@
             <mat-datepicker-toggle matSuffix [for]="travelDate"></mat-datepicker-toggle>
             <mat-datepicker #travelDate></mat-datepicker>
         </mat-form-field>
-
-        <input type="file" placeholder="Blog Post Image">
+        <mat-form-field>
+            <input matInput placeholder="Http image link" #imagelink>
+        </mat-form-field>            
         <mat-form-field>
             <textarea matInput wrap="soft" matInput placeholder="Text" #text></textarea>
         </mat-form-field>
