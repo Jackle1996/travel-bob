@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { MatDialogRef } from '@angular/material';
 import { BlogpostdialogComponent } from '../blogpostdialog/blogpostdialog.component';
+import { User } from '../../../../api/grpc-web-ts/users_pb';
 
 @Component({
   selector: 'app-registerdialog',
@@ -8,6 +9,7 @@ import { BlogpostdialogComponent } from '../blogpostdialog/blogpostdialog.compon
   styleUrls: ['./registerdialog.component.css']
 })
 export class RegisterdialogComponent implements OnInit {
+  @ViewChild('email', null) email: ElementRef;
   @ViewChild('username', null) username: ElementRef;
   @ViewChild('password', null) password: ElementRef;
 
@@ -17,9 +19,10 @@ export class RegisterdialogComponent implements OnInit {
   }
 
   register() {
-    let user;
-    user.username = this.username.nativeElement.value;
-    user.pass = this.password.nativeElement.value;
+    const user = new User();
+    user.setUserName(this.username.nativeElement.value);
+    user.setEmail(this.email.nativeElement.value);
+    user.setPassword(this.password.nativeElement.value);
     this.dialogRef.close(user);
   }
 }

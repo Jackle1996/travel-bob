@@ -3,6 +3,7 @@ import { MatDialog, MatDialogRef } from '@angular/material';
 import { LogindialogComponent } from './logindialog/logindialog.component';
 import { RegisterdialogComponent } from './registerdialog/registerdialog.component';
 import { UserService } from './services/user.service';
+import { User } from '../../../api/grpc-web-ts/users_pb';
 
 @Component({
   selector: 'app-root',
@@ -39,10 +40,14 @@ export class AppComponent {
       this.registerDialog.close();
     }
     this.registerDialog = this.dialog.open(RegisterdialogComponent, { width: '50%' });
-    this.loginDialog.afterClosed().subscribe(result => {
+    this.registerDialog.afterClosed().subscribe(result => {
       if (result) {
-        // TODO: Register user here
+        this.userService.createUser(result, () => this.isUserCreated(result));
       }
     });
+  }
+
+  isUserCreated(user: User) {
+    this.userService.login(user, (jwt) => this.saveJWT(jwt));
   }
 }
