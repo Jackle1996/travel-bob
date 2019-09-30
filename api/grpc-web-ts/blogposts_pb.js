@@ -2865,7 +2865,8 @@ proto.travelbob.blogs.Blogpost.toObject = function(includeInstance, msg) {
     blogid: jspb.Message.getFieldWithDefault(msg, 5, 0),
     traveldate: (f = msg.getTraveldate()) && proto.travelbob.blogs.Timestamp.toObject(includeInstance, f),
     location: jspb.Message.getFieldWithDefault(msg, 7, ""),
-    summary: jspb.Message.getFieldWithDefault(msg, 8, "")
+    summary: jspb.Message.getFieldWithDefault(msg, 8, ""),
+    author: jspb.Message.getFieldWithDefault(msg, 9, "")
   };
 
   if (includeInstance) {
@@ -2934,6 +2935,10 @@ proto.travelbob.blogs.Blogpost.deserializeBinaryFromReader = function(msg, reade
     case 8:
       var value = /** @type {string} */ (reader.readString());
       msg.setSummary(value);
+      break;
+    case 9:
+      var value = /** @type {string} */ (reader.readString());
+      msg.setAuthor(value);
       break;
     default:
       reader.skipField();
@@ -3018,6 +3023,13 @@ proto.travelbob.blogs.Blogpost.serializeBinaryToWriter = function(message, write
   if (f.length > 0) {
     writer.writeString(
       8,
+      f
+    );
+  }
+  f = message.getAuthor();
+  if (f.length > 0) {
+    writer.writeString(
+      9,
       f
     );
   }
@@ -3159,6 +3171,21 @@ proto.travelbob.blogs.Blogpost.prototype.getSummary = function() {
 /** @param {string} value */
 proto.travelbob.blogs.Blogpost.prototype.setSummary = function(value) {
   jspb.Message.setProto3StringField(this, 8, value);
+};
+
+
+/**
+ * optional string author = 9;
+ * @return {string}
+ */
+proto.travelbob.blogs.Blogpost.prototype.getAuthor = function() {
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 9, ""));
+};
+
+
+/** @param {string} value */
+proto.travelbob.blogs.Blogpost.prototype.setAuthor = function(value) {
+  jspb.Message.setProto3StringField(this, 9, value);
 };
 
 

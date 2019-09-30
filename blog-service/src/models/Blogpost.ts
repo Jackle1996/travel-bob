@@ -11,7 +11,8 @@ export interface IDbBlogpost extends Document {
     headerImageUrl?: string,
     travelDateUnixTimestamp: number,
     location: string,
-    summary: string
+    summary: string,
+    author: string
 }
 
 /*
@@ -28,6 +29,7 @@ export const BlogpostSchema = new Schema({
     travelDateUnixTimestamp: { type: Number, required: true },
     location: { type: String, required: true },
     summary: { type: String, required: true },
+    author: { type: String, required: true },
 });
 
 /*
