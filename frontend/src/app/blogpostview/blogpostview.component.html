@@ -19,7 +19,7 @@
         <mat-list-item>
             <span class="commentHeader"><b>{{comment.getUnixTimestamp() * 1000 | date}} </b> </span>
             <span class="commentBody"><b>{{comment.getAuthor()}}</b> said:  {{comment.getText()}}</span>
-            <button mat-raised-button color="warn" (click)="deleteComment(comment.getId())">Delete
+            <button mat-raised-button color="warn" (click)="deleteComment(comment.getId())" *ngIf="checkIfYourComment(comment)" >Delete
                 <mat-icon mat-fab role="img"  aria-hidden="true" >delete</mat-icon>
             </button>      
         </mat-list-item>

@@ -71,4 +71,12 @@ export class BlogpostviewComponent implements OnInit {
   checkIfLoggedIn() {
     return this.jwtService.isUserLoggedIn();
   }
+
+  checkIfYourComment(comment: Comment) {
+    if (this.jwtService.isUserLoggedIn()) {
+      return this.jwtService.getUsernameFromJWT() === comment.getAuthor();
+    } else {
+      return false;
+    }
+  }
 }
