@@ -23,10 +23,10 @@ export class UserService {
     }).on('data', data => { callback(); });
   }
 
-  login(email: string, pass: string, callback) {
+  login(user: User, callback) {
     const request = new LogInRequest();
-    request.setEmail(email);
-    request.setPassword(pass);
+    request.setEmail(user.getEmail());
+    request.setPassword(user.getPassword());
     this.grpcClient.logIn(request, {}, (err: Error | null, response: LogInReply) => {
       if (err) { console.log('LogInRequest Error:: ', err); }
       console.log('response', response);

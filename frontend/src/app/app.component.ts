@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material';
 import { LogindialogComponent } from './logindialog/logindialog.component';
 import { RegisterdialogComponent } from './registerdialog/registerdialog.component';
+import { UserService } from './services/user.service';
 
 @Component({
   selector: 'app-root',
@@ -14,8 +15,7 @@ export class AppComponent {
   private loginDialog: MatDialogRef<LogindialogComponent>;
   private registerDialog: MatDialogRef<RegisterdialogComponent>;
 
-  constructor(private dialog: MatDialog) {
-
+  constructor(private dialog: MatDialog, private userService: UserService) {
   }
 
   createLoginDialog() {
@@ -25,9 +25,13 @@ export class AppComponent {
     this.loginDialog = this.dialog.open(LogindialogComponent, { width: '50%' });
     this.loginDialog.afterClosed().subscribe(result => {
       if (result) {
-        // TODO: Login user here
+        this.userService.login(result, (jwt) => this.saveJWT(jwt));
       }
     });
+  }
+
+  saveJWT(jwt: string) {
+    localStorage.setItem('jwt', jwt);
   }
 
   createRegisterDialog() {
