@@ -2,6 +2,7 @@ import { DatabaseAccess } from "./DatabaseAccess";
 import { IDbComment } from "./models/Comment";
 
 import { DbGrpcMapper } from "./DbToGrpcMapper";
+import { AuthChecker } from "./helpers/AuthChecker";
 
 import { ServerUnaryCall, sendUnaryData } from "grpc";
 import { ICommentsAPIServer, CommentsAPIService } from "../../api/grpc-ts/comments_grpc_pb";
@@ -14,7 +15,7 @@ import {
 
 class CommentsAPI implements ICommentsAPIServer {
 
-    /*
+    /**
      * Initializes a new instance of the CommentsAPI.
      */
     constructor(
@@ -28,11 +29,18 @@ class CommentsAPI implements ICommentsAPIServer {
 
         console.log('[GrpcServer] CommentsAPI.addComment()');
 
+        const reply: AddCommentReply = new AddCommentReply();
+        const checkResponse: boolean | Error = await new AuthChecker().CheckMetadataForJWT(call.metadata);
+        if (checkResponse instanceof Error) {
+            callback(checkResponse, reply);
+            return;
+        }
+
         const dbComment: IDbComment = this.dbToGrpcMapper.Convert(call.request.getComment());
         const ok: boolean = await this.databaseAccess.CreateNewComment(dbComment);
 
         const err = ok ? null : new Error('Error: Could not save new comment. Probably some data missing in the request.')
-        callback(err, new AddCommentReply());
+        callback(err, reply);
     }
 
     /*
@@ -60,6 +68,13 @@ class CommentsAPI implements ICommentsAPIServer {
     public async deleteComment(call: ServerUnaryCall<DeleteCommentRequest>, callback: sendUnaryData<DeleteCommentReply>): Promise<void> {
 
         console.log('[GrpcServer] CommentsAPI.deleteComment()');
+
+        const reply: AddCommentReply = new AddCommentReply();
+        const checkResponse: boolean | Error = await new AuthChecker().CheckMetadataForJWT(call.metadata);
+        if (checkResponse instanceof Error) {
+            callback(checkResponse, reply);
+            return;
+        }
 
         const commentId: number = call.request.getCommentId();
         const ok: boolean = await this.databaseAccess.DeleteComment(commentId);
