@@ -1,5 +1,5 @@
 import * as mongoose from 'mongoose';
-import { EnvProvider } from './EnvProvider';
+import { EnvProvider } from '../../common/EnvProvider';
 import { IDbUser, DbUser } from './models/User';
 import { isNullOrUndefined } from 'util';
 
