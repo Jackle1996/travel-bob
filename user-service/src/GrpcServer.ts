@@ -83,23 +83,23 @@ class UsersAPI implements IUsersAPIServer {
 
         console.log('[GrpcServer] UsersAPI.verifyToken()');
 
+        const reply: VerifyTokenReply = new VerifyTokenReply();
         const authMetadata: MetadataValue[] = call.metadata.get('authorization');
         console.log(`[GrpcServer] Received 'authorization' metadata: ${authMetadata}`);
         if (isNullOrUndefined(authMetadata)) {
             console.log(`[GrpcServer] Expected metadata.authorization to exist, but it doesn't.`);
-            callback(new Error(`Expected metadata 'authorization' but it doesn't exist.`), null);
+            callback(new Error(`Expected metadata 'authorization' but it doesn't exist.`), reply);
             return;
         }
         if (authMetadata.length != 1) {
             console.log(`[GrpcServer] Expected authMetadata.values to have 1 entry but it has ${authMetadata.length}.`);
-            callback(new Error(`Expected metadata 'authorization' to have exactly one value but got ${authMetadata.length}.`), null);
+            callback(new Error(`Expected metadata 'authorization' to have exactly one value but got ${authMetadata.length}.`), reply);
             return;
         }
         const token: string = <string>authMetadata[0];
         console.log(`[GrpcServer] Received token: ${token}`);
         verify(token, EnvProvider.JWTSecret, (err: VerifyErrors, decoded: string | object) => {
 
-            const reply: VerifyTokenReply = new VerifyTokenReply();
             if (err) {
                 console.error(`[GrpcServer] Validation error while validating token: ${token}.\n Reason: ${err.message}`);
                 reply.setValid(false);
