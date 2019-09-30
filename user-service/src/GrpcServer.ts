@@ -84,17 +84,18 @@ class UsersAPI implements IUsersAPIServer {
         console.log('[GrpcServer] UsersAPI.verifyToken()');
 
         const authMetadata: MetadataValue[] = call.metadata.get('authorization');
+        console.log(`[GrpcServer] Received 'authorization' metadata: ${authMetadata}`);
         if (isNullOrUndefined(authMetadata)) {
             console.log(`[GrpcServer] Expected metadata.authorization to exist, but it doesn't.`);
             callback(new Error(`Expected metadata 'authorization' but it doesn't exist.`), null);
             return;
         }
-        if (authMetadata.values.length != 1) {
-            console.log(`[GrpcServer] Expected authMetadata.values to have 1 entry but it has ${authMetadata.values.length}.`);
-            callback(new Error(`Expected metadata 'authorization' to have exactly one value but got ${authMetadata.values.length}.`), null);
+        if (authMetadata.length != 1) {
+            console.log(`[GrpcServer] Expected authMetadata.values to have 1 entry but it has ${authMetadata.length}.`);
+            callback(new Error(`Expected metadata 'authorization' to have exactly one value but got ${authMetadata.length}.`), null);
             return;
         }
-        const token: string = authMetadata.values[0];
+        const token: string = <string>authMetadata[0];
         console.log(`[GrpcServer] Received token: ${token}`);
         verify(token, EnvProvider.JWTSecret, (err: VerifyErrors, decoded: string | object) => {
 
