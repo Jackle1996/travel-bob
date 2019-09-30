@@ -35,7 +35,6 @@ export class UserService {
 
   verifyToken(jwt: string, callback) {
     const request = new VerifyTokenRequest();
-    request.setJwt(jwt);
     this.grpcClient.verifyToken(request, {}, (err: Error | null, response: VerifyTokenReply) => {
       if (err) { console.log('VerifyTokenRequest Error:: ', err); }
       console.log('response', response);

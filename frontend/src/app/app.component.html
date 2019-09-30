@@ -2,14 +2,18 @@
   <mat-toolbar-row>
     <span>Bob's Travel Blog</span>
     <span class="spacer"></span>
-    <button mat-raised-button color="accent" (click)="createLoginDialog()">
+    <button mat-raised-button color="accent" (click)="createLoginDialog()" *ngIf="!this.isLoggedIn">
         <span>Login</span>
         <mat-icon>person</mat-icon>
     </button>
-    <button mat-raised-button color="accent" (click)="createRegisterDialog()">
+    <button mat-raised-button color="accent" (click)="createRegisterDialog()" *ngIf="!this.isLoggedIn">
         <span>Register</span>
         <mat-icon>person_add</mat-icon>
     </button>
+    <button mat-raised-button color="accent" (click)="logout()" *ngIf="this.isLoggedIn">
+      <span>Logout</span>
+      <mat-icon>person</mat-icon>
+  </button>
   </mat-toolbar-row>
 </mat-toolbar>
 <router-outlet></router-outlet>

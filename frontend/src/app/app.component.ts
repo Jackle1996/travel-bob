@@ -15,8 +15,14 @@ export class AppComponent {
   title = 'frontend';
   private loginDialog: MatDialogRef<LogindialogComponent>;
   private registerDialog: MatDialogRef<RegisterdialogComponent>;
+  public isLoggedIn: boolean = true;
 
   constructor(private dialog: MatDialog, private userService: UserService) {
+    if (localStorage.getItem('jwt')) {
+      this.isLoggedIn = true;
+    } else {
+      this.isLoggedIn = false;
+    }
   }
 
   createLoginDialog() {
@@ -33,6 +39,7 @@ export class AppComponent {
 
   saveJWT(jwt: string) {
     localStorage.setItem('jwt', jwt);
+    this.isLoggedIn = true;
   }
 
   createRegisterDialog() {
@@ -49,5 +56,10 @@ export class AppComponent {
 
   isUserCreated(user: User) {
     this.userService.login(user, (jwt) => this.saveJWT(jwt));
+  }
+
+  logout() {
+    this.isLoggedIn = false;
+    localStorage.removeItem('jwt');
   }
 }
