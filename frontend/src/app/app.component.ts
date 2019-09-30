@@ -4,6 +4,7 @@ import { LogindialogComponent } from './logindialog/logindialog.component';
 import { RegisterdialogComponent } from './registerdialog/registerdialog.component';
 import { UserService } from './services/user.service';
 import { User } from '../../../api/grpc-web-ts/users_pb';
+import { JwtService } from './services/jwt.service';
 
 @Component({
   selector: 'app-root',
@@ -17,8 +18,8 @@ export class AppComponent {
   private registerDialog: MatDialogRef<RegisterdialogComponent>;
   public isLoggedIn = true;
 
-  constructor(private dialog: MatDialog, private userService: UserService) {
-    if (localStorage.getItem(this.jwtKey)) {
+  constructor(private dialog: MatDialog, private userService: UserService, private jwtService: JwtService) {
+    if (this.jwtService.isUserLoggedIn()) {
       this.isLoggedIn = true;
     } else {
       this.isLoggedIn = false;
@@ -63,9 +64,7 @@ export class AppComponent {
     localStorage.removeItem(this.jwtKey);
   }
 
-  getUsernameFromJWT(): string {
-    const token = localStorage.getItem(this.jwtKey).split('.');
-    const json = JSON.parse(atob(token[1]));
-    return json.name;
+  getUsername(): string {
+    return this.jwtService.getUsernameFromJWT();
   }
 }

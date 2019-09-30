@@ -4,6 +4,7 @@ import { Blog } from '../../../../api/grpc-web-ts/blogposts_pb';
 import { BlogdialogComponent } from '../blogdialog/blogdialog.component';
 import { MatDialog, MatDialogRef } from '@angular/material';
 import { DeletedialogComponent } from '../deletedialog/deletedialog.component';
+import { JwtService } from '../services/jwt.service';
 
 @Component({
   selector: 'app-blogsummary',
@@ -15,7 +16,7 @@ export class BlogsummaryComponent implements OnInit {
   private blogDialog: MatDialogRef<BlogdialogComponent>;
   private deleteDialog: MatDialogRef<DeletedialogComponent>;
 
-  constructor(private blogService: BlogService, private dialog: MatDialog) {
+  constructor(private blogService: BlogService, private dialog: MatDialog, private jwtService: JwtService) {
     this.updateBlogs();
   }
 
@@ -74,5 +75,17 @@ export class BlogsummaryComponent implements OnInit {
         this.blogService.deleteBlog(blogId, () => this.updateBlogs());
       }
     });
+  }
+
+  checkIfYourBlog(blog: Blog) {
+    if (this.jwtService.isUserLoggedIn()) {
+      return blog.getAuthor() === this.jwtService.getUsernameFromJWT();
+    } else {
+      return false;
+    }
+  }
+
+  checkIfLoggedIn() {
+    return this.jwtService.isUserLoggedIn();
   }
 }

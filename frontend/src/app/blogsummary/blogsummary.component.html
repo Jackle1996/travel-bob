@@ -1,6 +1,6 @@
 <div>
     <div>
-        <button class="createbutton" mat-raised-button color="accent" (click)="createBlog()">Create new Blog
+        <button class="createbutton" mat-raised-button color="accent" (click)="createBlog()" *ngIf="checkIfLoggedIn()">Create new Blog
             <mat-icon mat-fab role="img"  aria-hidden="true" >add_box</mat-icon>
         </button> 
     </div>
@@ -17,7 +17,7 @@
                     {{blog.getDestination()}}</mat-card-subtitle>
                 <p>{{blog.getDescription()}}</p>
             </mat-card-content>
-            <mat-card-actions>
+            <mat-card-actions *ngIf="checkIfYourBlog(blog)">
                 <button mat-raised-button color="accent" (click)="editBlog(blog)" >
                     Edit
                     <mat-icon mat-fab role="img" aria-hidden="true" >edit</mat-icon>

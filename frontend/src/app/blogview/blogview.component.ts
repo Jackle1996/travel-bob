@@ -26,7 +26,7 @@ export class BlogviewComponent implements OnInit {
     this.blogPosts = [];
     this.route.paramMap.subscribe(params => {
        this.blogId = Number(params.get('blogid'));
-       console.log('blogid=', this.blogId)
+       console.log('blogid=', this.blogId);
     });
     this.updateBlogposts();
   }

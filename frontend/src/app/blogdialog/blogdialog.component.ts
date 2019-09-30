@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { MatDialogRef } from '@angular/material';
 import { Blog, Timestamp } from '../../../../api/grpc-web-ts/blogposts_pb';
+import { JwtService } from '../services/jwt.service';
 
 @Component({
   selector: 'app-blogdialog',
@@ -18,7 +19,7 @@ export class BlogdialogComponent implements OnInit {
   private formtitle: string;
   private blogId: number;
 
-  constructor(private dialogRef: MatDialogRef<BlogdialogComponent>) {
+  constructor(private dialogRef: MatDialogRef<BlogdialogComponent>, private jwtService: JwtService) {
     this.blogId = -1;
   }
 
@@ -63,13 +64,7 @@ export class BlogdialogComponent implements OnInit {
 
     blog.setDescription(this.description.nativeElement.value);
     blog.setBlogimageurl(this.imagelink.nativeElement.value);
-    blog.setAuthor(this.getUsernameFromJWT());
+    blog.setAuthor(this.jwtService.getUsernameFromJWT());
     this.dialogRef.close(blog);
-  }
-
-  getUsernameFromJWT(): string {
-    const token = localStorage.getItem('jwt').split('.');
-    const json = JSON.parse(atob(token[1]));
-    return json.name;
   }
 }
