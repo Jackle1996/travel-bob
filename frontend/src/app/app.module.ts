@@ -60,7 +60,7 @@ import { RegisterdialogComponent } from './registerdialog/registerdialog.compone
   ],
   providers: [
     MatDatepickerModule,
-    { provide: MAT_DATE_LOCALE, useValue: 'ch' },
+    { provide: MAT_DATE_LOCALE, useValue: 'en' },
 ],
   bootstrap: [AppComponent],
   entryComponents: [

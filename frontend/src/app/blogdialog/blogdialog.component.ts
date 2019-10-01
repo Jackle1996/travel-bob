@@ -39,9 +39,9 @@ export class BlogdialogComponent implements OnInit {
     this.blogtitle.nativeElement.value = blog.getTitle();
     this.destination.nativeElement.value = blog.getDestination();
     const startDateFormat = new Date(blog.getStartdate().getSeconds() * 1000);
-    this.startDate.nativeElement.value = `${startDateFormat.getDate()}.${startDateFormat.getMonth()}.${startDateFormat.getFullYear()}`;
+    this.startDate.nativeElement.value = `${startDateFormat.getDate()}/${startDateFormat.getMonth() + 1}/${startDateFormat.getFullYear()}`;
     const endDateFormat = new Date(blog.getEnddate().getSeconds() * 1000);
-    this.endDate.nativeElement.value = `${endDateFormat.getDate()}.${endDateFormat.getMonth()}.${endDateFormat.getFullYear()}`;
+    this.endDate.nativeElement.value = `${endDateFormat.getDate()}/${endDateFormat.getMonth() + 1}/${endDateFormat.getFullYear()}`;
     this.description.nativeElement.value = blog.getDescription();
     this.imagelink.nativeElement.value = blog.getBlogimageurl();
   }
@@ -52,14 +52,14 @@ export class BlogdialogComponent implements OnInit {
     blog.setTitle(this.blogtitle.nativeElement.value);
     blog.setDestination(this.destination.nativeElement.value);
 
-    const startDateSplit = this.startDate.nativeElement.value.split('.');
+    const startDateSplit = this.startDate.nativeElement.value.split('/');
     const startStamp = new Timestamp();
-    startStamp.setSeconds(new Date(startDateSplit[2], startDateSplit[1], startDateSplit[0]).getTime() / 1000);
+    startStamp.setSeconds(new Date(startDateSplit[2], startDateSplit[1] - 1, startDateSplit[0]).getTime() / 1000);
     blog.setStartdate(startStamp);
 
-    const endDateSplit = this.endDate.nativeElement.value.split('.');
+    const endDateSplit = this.endDate.nativeElement.value.split('/');
     const endStamp = new Timestamp();
-    endStamp.setSeconds(new Date(endDateSplit[2], endDateSplit[1], endDateSplit[0]).getTime() / 1000);
+    endStamp.setSeconds(new Date(endDateSplit[2], endDateSplit[1] - 1, endDateSplit[0]).getTime() / 1000);
     blog.setEnddate(endStamp);
 
     blog.setDescription(this.description.nativeElement.value);

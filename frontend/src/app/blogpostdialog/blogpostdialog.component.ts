@@ -47,7 +47,7 @@ export class BlogpostdialogComponent implements OnInit {
     this.location.nativeElement.value = blogpost.getLocation();
     this.summary.nativeElement.value = blogpost.getSummary();
     const travelDateFormat = new Date(blogpost.getTraveldate().getSeconds() * 1000);
-    this.travelDate.nativeElement.value = `${travelDateFormat.getDate()}.${travelDateFormat.getMonth()}.${travelDateFormat.getFullYear()}`;
+    this.travelDate.nativeElement.value = `${travelDateFormat.getDate()}/${travelDateFormat.getMonth() + 1}/${travelDateFormat.getFullYear()}`;
     this.text.nativeElement.value = blogpost.getText();
   }
 
@@ -58,9 +58,9 @@ export class BlogpostdialogComponent implements OnInit {
     blogpost.setTitle(this.blogposttitle.nativeElement.value);
     blogpost.setLocation(this.location.nativeElement.value);
     blogpost.setSummary(this.summary.nativeElement.value);
-    const travelDateSplit = this.travelDate.nativeElement.value.split('.');
+    const travelDateSplit = this.travelDate.nativeElement.value.split('/');
     const travelStamp = new Timestamp();
-    travelStamp.setSeconds(new Date(travelDateSplit[2], travelDateSplit[1], travelDateSplit[0]).getTime() / 1000);
+    travelStamp.setSeconds(new Date(travelDateSplit[2], travelDateSplit[1] - 1, travelDateSplit[0]).getTime() / 1000);
     blogpost.setTraveldate(travelStamp);
     blogpost.setText(this.text.nativeElement.value);
     blogpost.setHeaderimageurl(this.imagelink.nativeElement.value);
