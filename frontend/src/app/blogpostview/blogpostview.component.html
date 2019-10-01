@@ -25,11 +25,9 @@
         </mat-list-item>
         <mat-divider></mat-divider>
     </mat-list>
-    <form class="form">
-        <mat-form-field>
-            <input matInput placeholder="Write Comment" #newcomment>
-        </mat-form-field>
-    </form>
+    <mat-form-field>
+        <input matInput placeholder="Write Comment" #newcomment >
+    </mat-form-field>
     <button class="createbutton" mat-raised-button color="accent" (click)="addComment()" *ngIf="checkIfLoggedIn()">Add Comment
         <mat-icon mat-fab role="img"  aria-hidden="true" >add_box</mat-icon>
     </button>
