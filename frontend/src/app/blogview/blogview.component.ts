@@ -5,7 +5,6 @@ import { Blogpost, Blog } from '../../../../api/grpc-web-ts/blogposts_pb';
 import { MatDialog, MatDialogRef } from '@angular/material';
 import { DeletedialogComponent } from '../deletedialog/deletedialog.component';
 import { BlogpostdialogComponent } from '../blogpostdialog/blogpostdialog.component';
-import { BlogposttransferService } from '../services/blogposttransfer.service';
 import { BlogService } from '../services/blog.service';
 import { JwtService } from '../services/jwt.service';
 
@@ -26,7 +25,6 @@ export class BlogviewComponent implements OnInit {
               private blogpostService: BlogpostService,
               private blogService: BlogService,
               private dialog: MatDialog,
-              private transfer: BlogposttransferService,
               private jwtService: JwtService) {
     this.blogPosts = [];
     this.blogs = [];
@@ -51,7 +49,6 @@ export class BlogviewComponent implements OnInit {
 
   private assignBlogposts(blogPosts: Blogpost[]) {
     this.blogPosts = blogPosts;
-    this.transfer.setBlogposts(this.blogPosts);
   }
 
   createDialog() {

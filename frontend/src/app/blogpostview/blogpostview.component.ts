@@ -1,10 +1,10 @@
 import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Blogpost } from '../../../../api/grpc-web-ts/blogposts_pb';
-import { BlogposttransferService } from '../services/blogposttransfer.service';
 import { Comment } from '../../../../api/grpc-web-ts/comments_pb';
 import { CommentService } from '../services/comment.service';
 import { JwtService } from '../services/jwt.service';
+import { BlogpostService } from '../services/blogpost.service';
 
 @Component({
   selector: 'app-blogpostview',
@@ -16,19 +16,19 @@ export class BlogpostviewComponent implements OnInit {
 
   private blogposts: Blogpost[];
   private postId: number;
+  private blogId: number;
   private post: Blogpost;
   private comments: Comment[];
 
-  constructor(private route: ActivatedRoute, private commentService: CommentService, private transfer: BlogposttransferService, private jwtService: JwtService) {
+  constructor(private route: ActivatedRoute, private commentService: CommentService, 
+              private jwtService: JwtService, private blogpostService: BlogpostService) {
     this.blogposts = [];
     this.route.paramMap.subscribe(params => {
       this.postId = Number(params.get('postid'));
+      this.blogId = Number(params.get('blogid'));
       console.log('postid=', this.postId);
     });
-    this.blogposts = this.transfer.getBlogposts();
-    const val = this.blogposts.find(x => x.getId() === this.postId);
-    this.post = val;
-    this.updateComments();
+    this.blogpostService.getBlogPosts(this.blogId, (posts) => this.assignBlogposts(posts));
   }
 
   ngOnInit() {
@@ -48,6 +48,12 @@ export class BlogpostviewComponent implements OnInit {
 
   private assignComments(comments: Comment[]) {
     this.comments = comments;
+  }
+
+  private assignBlogposts(blogposts: Blogpost[]) {
+    this.blogposts = blogposts;
+    this.post = this.blogposts.find(x => x.getId() === this.postId);
+    this.updateComments();
   }
 
   addComment() {
