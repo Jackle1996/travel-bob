@@ -17,7 +17,7 @@
     <h2>Comments</h2>
     <mat-list *ngFor='let comment of getAllComments()'>
         <mat-list-item>
-            <span class="commentHeader"><b>{{comment.getUnixTimestamp() * 1000 | date : 'dd.MMM.yyyy'}} </b> </span>
+            <span class="commentHeader"><b>{{comment.getUnixTimestamp() * 1000 | date : 'dd.MMM.yyyy'}} &nbsp;&nbsp;</b></span>
             <span class="commentBody"><b>{{comment.getAuthor()}}</b> said:  {{comment.getText()}}</span>
             <button mat-raised-button color="warn" (click)="deleteComment(comment.getId())" *ngIf="checkIfYourComment(comment)" >Delete
                 <mat-icon mat-fab role="img"  aria-hidden="true" >delete</mat-icon>
@@ -25,8 +25,8 @@
         </mat-list-item>
         <mat-divider></mat-divider>
     </mat-list>
-    <mat-form-field>
-        <input matInput placeholder="Write Comment" #newcomment >
+    <mat-form-field *ngIf="checkIfLoggedIn()">
+        <input matInput placeholder="Write Comment" #newcomment *ngIf="checkIfLoggedIn()">
     </mat-form-field>
     <button class="createbutton" mat-raised-button color="accent" (click)="addComment()" *ngIf="checkIfLoggedIn()">Add Comment
         <mat-icon mat-fab role="img"  aria-hidden="true" >add_box</mat-icon>
