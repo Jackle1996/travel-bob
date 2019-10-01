@@ -2,6 +2,7 @@ import { UsersAPIClient } from "../../../api/grpc-ts/users_grpc_pb";
 import { isNullOrUndefined } from "util";
 import { Metadata, credentials, ServiceError } from "grpc";
 import { VerifyTokenRequest, VerifyTokenReply } from "../../../api/grpc-ts/users_pb";
+import { EnvProvider } from "./EnvProvider";
 
 
 class AuthChecker {
@@ -9,7 +10,7 @@ class AuthChecker {
     private usersAPIClient: UsersAPIClient;
 
     constructor() {
-        this.usersAPIClient = new UsersAPIClient('0.0.0.0:9092', credentials.createInsecure(), null);
+        this.usersAPIClient = new UsersAPIClient(`${EnvProvider.USER_SERVICE_ADDRESS}:9092`, credentials.createInsecure(), null);
     }
 
     public async CheckMetadataForJWT(metadata: Metadata): Promise<boolean | Error> {

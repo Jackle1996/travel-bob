@@ -1,9 +1,10 @@
 import { DatabaseAccess } from "./DatabaseAccess";
 import { IDbBlog } from "./models/Blog";
-import { IDbBlogpost } from "./models/Blogpost";
+import { IDbBlogpost, DbBlogpost } from "./models/Blogpost";
 
 import { DbGrpcMapper } from "./DbToGrpcMapper";
 import { AuthChecker } from "./helpers/AuthChecker";
+import { CommentDeleter } from "./helpers/CommentDeleter";
 
 import { ServerUnaryCall, sendUnaryData } from "grpc";
 import { IBlogsAPIServer, BlogsAPIService } from "../../api/grpc-ts/blogposts_grpc_pb";
@@ -30,7 +31,8 @@ class BlogsAPI implements IBlogsAPIServer {
     constructor(
         private databaseAccess: DatabaseAccess,
         private dbToGrpcMapper: DbGrpcMapper,
-        private authChecker: AuthChecker) { }
+        private authChecker: AuthChecker,
+        private commentDeleter: CommentDeleter) { }
 
     /*
      * Returns a list of all blogs in the database.
@@ -149,7 +151,11 @@ class BlogsAPI implements IBlogsAPIServer {
             return;
         }
 
-        const blogId: number = call.request.getBlogid()
+        const blogId: number = call.request.getBlogid();
+        const posts: IDbBlogpost[] = await DbBlogpost.find({ blogId: blogId}).exec().catch();
+        for (let i = 0; i < posts.length; i++) {
+            this.commentDeleter.DeleteCommentsOfBlogpost(posts[i].id, call.metadata);
+        }
         const ok: boolean = await this.databaseAccess.DeleteBlog(blogId);
         const err: Error = ok ? null : new Error(`Could not delete blog with id ${blogId}.`);
 
@@ -176,7 +182,8 @@ class BlogsAPI implements IBlogsAPIServer {
             return;
         }
 
-        const blogpostId: number = call.request.getBlogpostid()
+        const blogpostId: number = call.request.getBlogpostid();
+        this.commentDeleter.DeleteCommentsOfBlogpost(blogpostId, call.metadata);
         const ok: boolean = await this.databaseAccess.DeleteBlogpost(blogpostId);
         const err: Error = ok ? null : new Error(`Could not delete blogpost with id ${blogpostId}.`);
 

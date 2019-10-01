@@ -78,7 +78,7 @@ class CommentsAPI implements ICommentsAPIServer {
 
         const commentId: number = call.request.getCommentId();
         const ok: boolean = await this.databaseAccess.DeleteComment(commentId);
-        const err: Error = ok ? null : new Error(`Could not delete blog with id ${commentId}.`);
+        const err: Error = ok ? null : new Error(`Could not delete comment with id ${commentId}.`);
 
         callback(err, new DeleteCommentReply());
     }
