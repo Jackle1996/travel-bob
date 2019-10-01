@@ -36,4 +36,16 @@ export class JwtService {
       return null;
     }
   }
+
+  isUserBlogger(): boolean {
+    const jwt = localStorage.getItem(this.jwtKey);
+    if (jwt) {
+      const token = jwt.split('.');
+      const json = JSON.parse(atob(token[1]));
+      return json.isBlogger;
+    } else {
+      return null;
+    }
+  }
+
 }

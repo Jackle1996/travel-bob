@@ -87,7 +87,7 @@ export class BlogsummaryComponent implements OnInit {
     }
   }
 
-  checkIfLoggedIn() {
-    return this.jwtService.isUserLoggedIn();
+  checkIfBlogger() {
+    return this.jwtService.isUserBlogger();
   }
 }

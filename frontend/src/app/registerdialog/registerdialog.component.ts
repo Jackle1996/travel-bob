@@ -8,10 +8,12 @@ import { User } from '../../../../api/grpc-web-ts/users_pb';
   templateUrl: './registerdialog.component.html',
   styleUrls: ['./registerdialog.component.css']
 })
+
 export class RegisterdialogComponent implements OnInit {
   @ViewChild('email', null) email: ElementRef;
   @ViewChild('username', null) username: ElementRef;
   @ViewChild('password', null) password: ElementRef;
+  userType: string;
 
   constructor(private dialogRef: MatDialogRef<BlogpostdialogComponent>) { }
 
@@ -23,7 +25,11 @@ export class RegisterdialogComponent implements OnInit {
     user.setUserName(this.username.nativeElement.value);
     user.setEmail(this.email.nativeElement.value);
     user.setPassword(this.password.nativeElement.value);
-    user.setIsBlogger(true);
+    if (this.userType === 'blogger') {
+      user.setIsBlogger(true);
+    } else {
+      user.setIsBlogger(false);
+    }
     this.dialogRef.close(user);
   }
 }

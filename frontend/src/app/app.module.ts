@@ -17,6 +17,8 @@ import { MatInputModule } from '@angular/material/input';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatListModule } from '@angular/material/list';
+import { MatRadioModule } from '@angular/material/radio';
+import { FormsModule } from '@angular/forms';
 
 // flex layout for responsive design
 import { FlexLayoutModule } from '@angular/flex-layout';
@@ -56,7 +58,9 @@ import { RegisterdialogComponent } from './registerdialog/registerdialog.compone
     MatDividerModule,
     MatListModule,
     FlexLayoutModule,
-    AppRoutingModule
+    AppRoutingModule,
+    MatRadioModule,
+    FormsModule
   ],
   providers: [
     MatDatepickerModule,

@@ -4,6 +4,11 @@
         <mat-form-field>
             <input matInput placeholder="EMail" #email>
         </mat-form-field>
+        <mat-radio-group aria-label="Select an option" [(ngModel)]="userType" name="radiogroup">
+            <mat-radio-button value="blogger" >Blogger</mat-radio-button>
+            <label>&nbsp;&nbsp;</label>
+            <mat-radio-button value="user" >User</mat-radio-button>
+          </mat-radio-group>
         <mat-form-field>
             <input matInput placeholder="Username" #username>
         </mat-form-field>
