@@ -13,7 +13,7 @@
 </div>
 
 
-<div class="commentDiv">
+<div class="commentDiv" *ngIf="checkIfPostExists()">
     <h2>Comments</h2>
     <mat-list *ngFor='let comment of getAllComments()'>
         <mat-list-item>

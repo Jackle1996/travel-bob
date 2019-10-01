@@ -87,4 +87,12 @@ export class BlogpostviewComponent implements OnInit {
       return false;
     }
   }
+
+  checkIfPostExists() {
+    if (this.post) {
+      return true;
+    } else {
+      return false;
+    }
+  }
 }
