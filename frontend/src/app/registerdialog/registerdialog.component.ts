@@ -23,6 +23,7 @@ export class RegisterdialogComponent implements OnInit {
     user.setUserName(this.username.nativeElement.value);
     user.setEmail(this.email.nativeElement.value);
     user.setPassword(this.password.nativeElement.value);
+    user.setIsBlogger(true);
     this.dialogRef.close(user);
   }
 }
