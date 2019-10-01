@@ -32,7 +32,9 @@ export class BlogsummaryComponent implements OnInit {
   }
 
   private assignBlogs(blogs: Blog[]) {
-    this.blogs = blogs;
+    this.blogs = blogs.sort((a: Blog, b: Blog) => {
+      return a.getStartdate().getSeconds() - b.getStartdate().getSeconds();
+    });
   }
 
   createDialog() {

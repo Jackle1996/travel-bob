@@ -47,7 +47,9 @@ export class BlogpostviewComponent implements OnInit {
   }
 
   private assignComments(comments: Comment[]) {
-    this.comments = comments;
+    this.comments = comments.sort((a: Comment, b: Comment) => {
+      return a.getUnixTimestamp() - b.getUnixTimestamp();
+    });
   }
 
   private assignBlogposts(blogposts: Blogpost[]) {

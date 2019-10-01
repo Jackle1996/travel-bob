@@ -48,7 +48,9 @@ export class BlogviewComponent implements OnInit {
   }
 
   private assignBlogposts(blogPosts: Blogpost[]) {
-    this.blogPosts = blogPosts;
+    this.blogPosts = blogPosts.sort((a: Blogpost, b: Blogpost) => {
+      return a.getTraveldate().getSeconds() - b.getTraveldate().getSeconds();
+    });
   }
 
   createDialog() {
