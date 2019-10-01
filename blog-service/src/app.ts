@@ -3,6 +3,7 @@ import { BlogsAPI, BlogsAPIService } from './GrpcServer';
 import { DatabaseAccess } from "./DatabaseAccess";
 import { DbGrpcMapper } from "./DbToGrpcMapper";
 import { AuthChecker } from "./helpers/AuthChecker";
+import { CommentDeleter } from "./helpers/CommentDeleter";
 
 const DBA = new DatabaseAccess();
 
@@ -19,7 +20,7 @@ class App {
         const server: Server = new Server();
         server.addService(
             BlogsAPIService,
-            new BlogsAPI(DBA, new DbGrpcMapper(), new AuthChecker()));
+            new BlogsAPI(DBA, new DbGrpcMapper(), new AuthChecker(), new CommentDeleter()));
 
         const serverPort = '0.0.0.0:9090';
         server.bind(serverPort, ServerCredentials.createInsecure());

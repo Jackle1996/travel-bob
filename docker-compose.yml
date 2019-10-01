@@ -1,18 +1,25 @@
 version: '3'
+
 services:
+
   frontend:
+    container_name: frontend
     build:
       context: .
       dockerfile: ./docker/frontend.Dockerfile
     ports:
     - 4200:4200
+
   envoy-proxy:
+    container_name: envoy-proxy
     build:
       context: .
       dockerfile: ./docker/envoy.Dockerfile
     ports:
     - 8080:8080
+
   blog-service:
+    container_name: blog-service
     build:
       context: .
       dockerfile: ./docker/blog.Dockerfile
@@ -21,7 +28,11 @@ services:
     environment:
     - DB_USER=${DB_USER}
     - DB_PASS=${DB_PASS}
+    - USER_SERVICE=user-service
+    - COMMENT_SERVICE=comment-service
+
   comment-service:
+    container_name: comment-service
     build:
       context: .
       dockerfile: ./docker/comment.Dockerfile
@@ -30,7 +41,10 @@ services:
     environment:
     - DB_USER=${DB_USER}
     - DB_PASS=${DB_PASS}
+    - USER_SERVICE=user-service
+
   user-service:
+    container_name: user-service
     build:
       context: .
       dockerfile: ./docker/user.Dockerfile
