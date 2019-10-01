@@ -13,8 +13,8 @@
             </mat-card-header>
             <img mat-card-image src="{{blog.getBlogimageurl()}}" alt="Blog main image"  routerLink="./blog/{{blog.getId()}}">
             <mat-card-content  routerLink="./blog/{{blog.getId()}}">
-                <mat-card-subtitle>{{blog.getStartdate().getSeconds() * 1000 | date}} - {{blog.getEnddate().getSeconds() * 1000 | date}}, 
-                    {{blog.getDestination()}}</mat-card-subtitle>
+                <mat-card-subtitle>{{blog.getStartdate().getSeconds() * 1000 | date : 'dd.MMM.yyyy'}} - {{blog.getEnddate().getSeconds() * 1000 | date : 'dd.MMM.yyyy'}}</mat-card-subtitle> 
+                <mat-card-subtitle>{{blog.getDestination()}}</mat-card-subtitle>
                 <p>{{blog.getDescription()}}</p>
             </mat-card-content>
             <mat-card-actions *ngIf="checkIfYourBlog(blog)">
