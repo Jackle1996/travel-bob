@@ -2,9 +2,18 @@
 
 Bob is a traveler of time and space who uses this travel blog to tell the world about his epic quests and journeys to foreign planets, galaxies and dimensions.
 
-## features
-- todo :triangular_flag_on_post:
+![](travelbob.png)
 
+## features
+- normal visitor
+    - read blogs, blogposts and comments
+    - register as user or blogger
+- users
+    - write comments on blogposts
+    - delete own comments
+- bloggers
+    - create, edit and delete own blogs
+    - create, edit and delete own blogposts
 
 # Quick start: start the app with docker-compose
 
@@ -27,13 +36,22 @@ export JWT_SECRET=random_string # you can set anything you wnat here.
 
 **2. Run the app**:
 ```sh
-# Build docker images:
-docker-compose build --no-cache
-
 # Start microservices, envoy proxy and frontend:
 docker-compose up
 ```
-Build the image with the `--no-cache` option to make sure the latest changes are included in the images.
+
+**Troubleshooting**
+
+Build with the `--no-cache` option to make sure the latest changes are included in the images.
+```sh
+docker-compose build --no-cache
+```
+If it still doesn't work, just delete everything.
+```sh
+docker rm -f (docker ps -aq)
+docker rmi (docker images -q)
+docker-compose up
+```
 
 ## Alternative: run services locally (dev)
 
