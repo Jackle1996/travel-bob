@@ -34,7 +34,6 @@ mat-card-title {
 .commentDiv {
     max-width: 800px;
     float: left;
-    margin: 10px;
 }
 
 form {
@@ -46,10 +45,11 @@ mat-form-field {
 }
 
 .commentHeader {
-    width: 30%;
+    width: 110px;
 }
 
 
 .commentBody {
     width: 60%;
+    min-width: 300px;
 }

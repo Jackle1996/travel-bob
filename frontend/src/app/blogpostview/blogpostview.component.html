@@ -2,7 +2,7 @@
     <mat-card>
         <mat-card-header >
             <div mat-card-avatar class="blog-header-image"></div>
-            <mat-card-title>{{post.getTitle()}}'</mat-card-title>
+            <mat-card-title>{{post.getTitle()}}</mat-card-title>
             <mat-card-subtitle>{{post.getTraveldate().getSeconds() * 1000 | date : 'dd.MMM.yyyy'}}, {{post.getLocation()}}</mat-card-subtitle>
         </mat-card-header>
         <img mat-card-image src="{{post.getHeaderimageurl()}}" alt="post Header image">
@@ -18,6 +18,7 @@
     <mat-list *ngFor='let comment of getAllComments()'>
         <mat-list-item>
             <span class="commentHeader"><b>{{comment.getUnixTimestamp() * 1000 | date : 'dd.MMM.yyyy'}} &nbsp;&nbsp;</b></span>
+            <label>&nbsp;&nbsp;</label>
             <span class="commentBody"><b>{{comment.getAuthor()}}</b> said:  {{comment.getText()}}</span>
             <button mat-raised-button color="warn" (click)="deleteComment(comment.getId())" *ngIf="checkIfYourComment(comment)" >Delete
                 <mat-icon mat-fab role="img"  aria-hidden="true" >delete</mat-icon>

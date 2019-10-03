@@ -21,3 +21,14 @@ mat-card-title {
 .floatingDiv * {
     max-width: 400px;
 }
+
+mat-card {
+    height: 500px;
+}
+
+label {
+    word-wrap: break-word;
+    height: 65px;
+    width: 100%;
+
+}

@@ -21,3 +21,16 @@ mat-card-title {
 .createbutton {
     width: 100%;
 }
+
+mat-card {
+    height: 500px;
+}
+
+label {
+    word-wrap: break-word;
+    height: 65px;
+    width: 100%;
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
