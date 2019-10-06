@@ -75,7 +75,9 @@ Importand: On Linux change `host.docker.internal` in `./envoy/envoy.yaml` to `lo
 
 # Technical information
 
-The DB credentials are passed to the services via environment variables for security reasons.
+## architecture
+
+![](architecture.png)
 
 ## envoy proxy
 
