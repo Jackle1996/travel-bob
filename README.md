@@ -90,15 +90,19 @@ This project uses a free instance of an [Atlas mongoDB cluster](https://www.mong
 
 ## blog-service
 
-Exposes [blog API](https://github.com/Jackle1996/travel-bob/blob/master/protos/blogposts.proto) on port `9090`.
+- Exposes [blog API](https://github.com/Jackle1996/travel-bob/blob/master/protos/blogposts.proto) on port `9090`.
+- It uses the comment-service to delete comments when a blogpost or a full blog is deleted. It also uses the user-service to check if users are allowed to do certain operations like removing a blog etc.
 
 ## comment-service
 
-Exposes [comment API](https://github.com/Jackle1996/travel-bob/blob/master/protos/comments.proto) on port `9091`.
+- Exposes [comment API](https://github.com/Jackle1996/travel-bob/blob/master/protos/comments.proto) on port `9091`.
+- Makes use of the user-service to check if the current user is allowed to delete or write a comment.
 
 ## user-service
 
-Exposes [users API](https://github.com/Jackle1996/travel-bob/blob/master/protos/users.proto) on port `9092`.
+- Exposes [users API](https://github.com/Jackle1996/travel-bob/blob/master/protos/users.proto) on port `9092`.
+- Passwords are saved in the database as hashes.
+- It uses jason web tokens to authenticate users. Other services can send a JWT to this service and the service checks if the token is valid.
 
 This service requires the environment veriable `JWT_SECRET`. This variable is used to sign the jason web tokens. It can be anything but should be set to a secure string.
 
